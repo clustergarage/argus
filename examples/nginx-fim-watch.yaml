@@ -1,0 +1,13 @@
+apiVersion: fimcontroller.clustergarage.io/v1alpha1
+kind: FimWatcher
+metadata:
+  name: nginx-fim-watcher
+spec:
+  selector:
+    matchLabels:
+      run: nginx
+  subjects:
+  - paths:
+    - /var/log/nginx
+    events:
+    - modify

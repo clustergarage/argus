@@ -1,0 +1,14 @@
+apiVersion: fimcontroller.clustergarage.io/v1alpha1
+kind: FimWatcher
+metadata:
+  name: djangoex-fim-watcher
+spec:
+  selector:
+    matchLabels:
+      app: django-ex
+  subjects:
+  - paths:
+    - /opt/app-root
+    events:
+    - create
+    - modify

@@ -1,0 +1,14 @@
+apiVersion: fimcontroller.clustergarage.io/v1alpha1
+kind: FimWatcher
+metadata:
+  name: sidecar-fim-watcher
+spec:
+  selector:
+    matchLabels:
+      app: jenkins
+  subjects:
+  - paths:
+    - /var/lib/jenkins/logs
+    - /var/log/nginx
+    events:
+    - modify

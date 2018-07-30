@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fimcontroller.clustergarage.io
+  namespace: kube-system
+  labels:
+    controller: fimcontroller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      controller: fimcontroller
+  template:
+    metadata:
+      labels:
+        controller: fimcontroller
+    spec:
+      containers:
+      - name: fimcontroller
+        image: clustergarage/fimcontroller:latest
+      serviceAccountName: fim-admin
