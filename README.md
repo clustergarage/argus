@@ -11,7 +11,11 @@ kubectl apply -f configs/
 #### OpenShift
 
 ```
+# add scc to run fimcontroller deployment
+oc adm policy add-scc-to-user anyuid -n kube-system -z fim-admin
+# add scc to run fimd daemonset
 oc adm policy add-scc-to-user privileged -n kube-system -z fim-admin
+
 oc apply -R -f configs/
 ```
 
