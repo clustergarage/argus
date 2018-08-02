@@ -57,6 +57,26 @@ oc new-app python:3.5~https://github.com/openshift/django-ex
 oc apply -f examples/djangoex-fim-watch.yaml
 ```
 
+##### Testing/Debugging
+
+```
+# tail logs of controller/daemon
+oc logs -f -n kube-system fimcontroller.clustergarage.io-[...]
+oc logs -f -n kube-system fimd.clustergarage.io-[...]
+
+# scale deployment up/down to see watchers get started/stopped
+oc edit dc django-ex
+
+# generate create/modify message
+oc rsh django-ex-[...]
+echo "test" >> /opt/app-root/test.log
+
+# example output:
+Starting inotify watcher...
+IN_CREATE: /proc/12345/root/opt/app-root/test.log [file]
+IN_MODIFY: /proc/12345/root/opt/app-root/test.log [file]
+```
+
 #### Sidecar example (OpenShift)
 
 ```
