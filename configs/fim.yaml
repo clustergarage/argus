@@ -1,0 +1,118 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: fim
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fim-admin
+  namespace: fim
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: fim-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: fim-admin
+  namespace: fim
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: fimwatchers.fimcontroller.clustergarage.io
+spec:
+  group: fimcontroller.clustergarage.io
+  version: v1alpha1
+  names:
+    kind: FimWatcher
+    singular: fimwatcher
+    plural: fimwatchers
+    shortNames:
+    - fw
+  scope: Namespaced
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fimcontroller.clustergarage.io
+  namespace: fim
+  labels:
+    controller: fimcontroller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      controller: fimcontroller
+  template:
+    metadata:
+      labels:
+        controller: fimcontroller
+    spec:
+      containers:
+      - name: fimcontroller
+        image: clustergarage/fimcontroller:latest
+      serviceAccountName: fim-admin
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fimd.clustergarage.io
+  namespace: fim
+  labels:
+    daemon: fimd
+spec:
+  selector:
+    matchLabels:
+      daemon: fimd
+  template:
+    metadata:
+      labels:
+        daemon: fimd
+    spec:
+      containers:
+      - name: fimd
+        image: clustergarage/fimd:latest
+        ports:
+        - containerPort: 50051
+        volumeMounts:
+        - name: dockerpid
+          mountPath: /var/run/docker.pid
+        - name: dockersock
+          mountPath: /var/run/docker.sock
+        - name: sysfscgroup
+          mountPath: /sys/fs/cgroup
+        securityContext:
+          privileged: true
+      hostPID: true
+      serviceAccountName: fim-admin
+      volumes:
+      - name: dockerpid
+        hostPath:
+          path: /var/run/docker.pid
+      - name: dockersock
+        hostPath:
+          path: /var/run/docker.sock
+      - name: sysfscgroup
+        hostPath:
+          path: /sys/fs/cgroup
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fimd-svc
+  namespace: fim
+spec:
+  type: NodePort
+  selector:
+    daemon: fimd
+  ports:
+  - name: grpc
+    protocol: TCP
+    port: 50051
+    targetPort: 50051

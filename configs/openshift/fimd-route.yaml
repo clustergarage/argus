@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Route
-metadata:
-  name: fimd-route
-  namespace: kube-system
-spec:
-  to:
-    kind: Service
-    name: fimd-svc

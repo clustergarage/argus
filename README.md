@@ -5,18 +5,18 @@
 #### Kubernetes
 
 ```
-kubectl apply -f configs/
+kubectl apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-sa.yaml
 ```
 
 #### OpenShift
 
 ```
 # add scc to run fimcontroller deployment
-oc adm policy add-scc-to-user anyuid -n kube-system -z fim-admin
+oc adm policy add-scc-to-user anyuid -n fim -z fim-admin
 # add scc to run fimd daemonset
-oc adm policy add-scc-to-user privileged -n kube-system -z fim-admin
+oc adm policy add-scc-to-user privileged -n fim -z fim-admin
 
-oc apply -R -f configs/
+oc apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim.yaml
 ```
 
 ## Defining a FimWatcher component
@@ -61,8 +61,8 @@ oc apply -f examples/djangoex-fim-watch.yaml
 
 ```
 # tail logs of controller/daemon
-oc logs -f -n kube-system fimcontroller.clustergarage.io-[...]
-oc logs -f -n kube-system fimd.clustergarage.io-[...]
+oc logs -f -n fim fimcontroller.clustergarage.io-[...]
+oc logs -f -n fim fimd.clustergarage.io-[...]
 
 # scale deployment up/down to see watchers get started/stopped
 oc edit dc django-ex
