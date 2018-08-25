@@ -92,6 +92,7 @@ spec:
   selector:
     app: jenkins
     deploymentconfig: jenkins
+---
 apiVersion: v1
 kind: Route
 metadata:
