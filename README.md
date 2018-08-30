@@ -35,10 +35,12 @@ spec:
     events:
     - open
     - modify
+    recursive: false
   - paths:
     - /var/log/financialdata
     events:
     - all
+    recursive: true
 ```
 
 ## Examples
