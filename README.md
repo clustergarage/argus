@@ -35,12 +35,16 @@ spec:
     events:
     - open
     - modify
-    recursive: false
+    ignore:
+    - .git
+    - .cache
   - paths:
     - /var/log/financialdata
     events:
     - all
+    onlyDir: true
     recursive: true
+    maxDepth: 2
 ```
 
 ## Examples
