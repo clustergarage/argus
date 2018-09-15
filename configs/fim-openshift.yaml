@@ -1,0 +1,241 @@
+---
+apiVersion: project.openshift.io/v1
+kind: Project
+metadata:
+  annotations:
+    openshift.io/display-name: "FIM"
+    openshift.io/description: "File Integrity Monitoring for Kubernetes"
+  name: fim
+spec:
+  finalizers:
+  - openshift.io/origin
+  - kubernetes
+---
+apiVersion: v1
+kind: RoleBinding
+metadata:
+  name: admins
+  namespace: fim
+roleRef:
+  name: admin
+subjects:
+- kind: User
+  name: fim-admin
+userNames:
+- fim-admin
+---
+apiVersion: v1
+kind: RoleBinding
+metadata:
+  name: system:image-pullers
+  namespace: fim
+groupNames:
+- system:serviceaccounts:fim
+roleRef:
+  name: system:image-puller
+subjects:
+- kind: SystemGroup
+  name: system:serviceaccounts:fim
+---
+apiVersion: v1
+kind: RoleBinding
+metadata:
+  name: system:image-builders
+  namespace: fim
+roleRef:
+  name: system:image-builder
+subjects:
+- kind: ServiceAccount
+  name: builder
+userNames:
+- system:serviceaccount:fim:builder
+---
+apiVersion: v1
+kind: RoleBinding
+metadata:
+  name: system:deployers
+  namespace: fim
+roleRef:
+  name: system:deployer
+subjects:
+- kind: ServiceAccount
+  name: deployer
+userNames:
+- system:serviceaccount:fim:deployer
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fim-admin
+  namespace: fim
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: fim-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: fim-admin
+  namespace: fim
+---
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: fimwatchers.fimcontroller.clustergarage.io
+spec:
+  group: fimcontroller.clustergarage.io
+  version: v1alpha1
+  names:
+    kind: FimWatcher
+    singular: fimwatcher
+    plural: fimwatchers
+    shortNames:
+    - fw
+  scope: Namespaced
+---
+apiVersion: security.openshift.io/v1
+kind: SecurityContextConstraints
+metadata:
+  name: fim
+allowHostDirVolumePlugin: true
+allowHostIPC: true
+allowHostNetwork: true
+allowHostPID: true
+allowHostPorts: true
+allowPrivilegedContainer: true
+allowedCapabilities:
+- '*'
+fsGroup:
+  type: RunAsAny
+readOnlyRootFilesystem: false
+requiredDropCapabilities: null
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: RunAsAny
+seccompProfiles:
+- '*'
+supplementalGroups:
+  type: RunAsAny
+users:
+- system:serviceaccount:fim:fim-admin
+volumes:
+- '*'
+---
+apiVersion: v1
+kind: ImageStream
+metadata:
+  labels:
+    controller: fimcontroller
+  name: fimcontroller
+  namespace: fim
+spec:
+  tags:
+  - name: latest
+    from:
+      kind: DockerImage
+      name: clustergarage/fimcontroller:latest
+---
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: fimcontroller
+  namespace: fim
+  labels:
+    controller: fimcontroller
+spec:
+  replicas: 1
+  selector:
+    controller: fimcontroller
+  template:
+    metadata:
+      labels:
+        controller: fimcontroller
+    spec:
+      containers:
+      - name: fimcontroller
+        image: clustergarage/fimcontroller:latest
+        imagePullPolicy: Always
+        securityContext:
+          runAsUser: 0
+      serviceAccountName: fim-admin
+  triggers:
+  - type: ConfigChange
+  - type: ImageChange
+    imageChangeParams:
+      automatic: true
+      containerNames:
+      - fimcontroller
+      from:
+        kind: ImageStreamTag
+        name: fimcontroller:latest
+  strategy:
+    type: Rolling
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fimd
+  namespace: fim
+  labels:
+    daemon: fimd
+spec:
+  selector:
+    matchLabels:
+      daemon: fimd
+  template:
+    metadata:
+      labels:
+        daemon: fimd
+    spec:
+      containers:
+      - name: fimd
+        image: clustergarage/fimd:latest
+        ports:
+        - containerPort: 50051
+        volumeMounts:
+        - name: dockerpid
+          mountPath: /var/run/docker.pid
+        - name: dockersock
+          mountPath: /var/run/docker.sock
+        - name: sysfscgroup
+          mountPath: /sys/fs/cgroup
+        securityContext:
+          privileged: true
+      hostPID: true
+      serviceAccountName: fim-admin
+      volumes:
+      - name: dockerpid
+        hostPath:
+          path: /var/run/docker.pid
+      - name: dockersock
+        hostPath:
+          path: /var/run/docker.sock
+      - name: sysfscgroup
+        hostPath:
+          path: /sys/fs/cgroup
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fimd-svc
+  namespace: fim
+spec:
+  type: NodePort
+  selector:
+    daemon: fimd
+  ports:
+  - name: grpc
+    protocol: TCP
+    port: 50051
+    targetPort: 50051

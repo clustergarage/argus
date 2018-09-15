@@ -5,7 +5,7 @@
 #### Kubernetes
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-sa.yaml
+kubectl apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim.yaml
 ```
 
 #### OpenShift

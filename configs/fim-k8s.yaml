@@ -40,7 +40,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fimcontroller.clustergarage.io
+  name: fimcontroller
   namespace: fim
   labels:
     controller: fimcontroller
@@ -62,7 +62,7 @@ spec:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: fimd.clustergarage.io
+  name: fimd
   namespace: fim
   labels:
     daemon: fimd
