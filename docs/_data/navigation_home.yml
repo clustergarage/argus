@@ -1,0 +1,13 @@
+---
+- title: Getting Started
+  desc: Lorem ipsum dolor sit amet
+  icon: play-circle
+  doc: quickstart
+- title: Technical Guide
+  desc: Lorem ipsum dolor sit amet
+  icon: info
+  doc: quickstart
+- title: Troubleshooting
+  desc: Lorem ipsum dolor sit amet
+  icon: cog
+  doc: quickstart

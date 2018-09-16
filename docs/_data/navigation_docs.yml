@@ -1,0 +1,9 @@
+---
+- title: Getting Started
+  docs:
+  - quickstart
+  - fimwatcher
+  - monitoring
+  - examples
+- title: Technical Guide
+- title: Troubleshooting

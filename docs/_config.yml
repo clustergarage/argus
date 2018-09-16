@@ -1,0 +1,41 @@
+title: fim-k8s
+description: File Integrity Monitoring for Kubernetes
+#baseurl: ""
+#url: "https://clustergarage.io/fim-k8s"
+permalink: /:title/
+brand:
+  #image: logo.svg # upload logo to /assets/img/ folder
+  text: ClusterGarage
+collections:
+  docs:
+    output: true
+authors:
+  adam:
+    name: Adam Kentosh
+    github: akentosh
+  brett:
+    name: Brett Fowle
+    github: bfowle
+  mike:
+    name: Mike Sandman
+    github: n8behavior
+  team:
+    name: ClusterGarage
+    github: clustergarage
+footer:
+  copyright: Lorem ipsum dolor <a href="">sit amet</a> consectetur adipiscing elit
+#google_analytics:
+markdown: kramdown
+highlighter: rouge
+sass:
+  style: compressed
+remote_theme: clustergarage/jekyll-theme
+plugins:
+- jekyll-avatar
+- jekyll-feed
+- jekyll-remote-theme
+- jekyll-seo-tag
+exclude:
+- Gemfile
+- Gemfile.lock
+- node_modules
