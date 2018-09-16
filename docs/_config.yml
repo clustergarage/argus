@@ -1,6 +1,6 @@
 title: fim-k8s
 description: File Integrity Monitoring for Kubernetes
-#baseurl: ""
+baseurl: /fim-k8s
 #url: "https://clustergarage.io/fim-k8s"
 permalink: /:title/
 brand:
