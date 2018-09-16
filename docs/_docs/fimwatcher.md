@@ -9,7 +9,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 Vestibulum quis nibh et nibh facilisis imperdiet. Aliquam faucibus vulputate lorem eu tincidunt.
 
-#### Sections
+#### Topics
 {:.no_toc}
 * TOC
 {:toc}
