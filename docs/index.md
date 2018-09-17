@@ -1,25 +1,29 @@
 ---
 layout: home
 hero:
-  title: FIM for Kubernetes
+  title: fim-k8s
   subtitle: File Integrity Monitoring for Kubernetes
   search: false
 categories:
   columns: 3
   title: Browse Topics
-  subtitle: Get your answers fast, jump to most popular documentation content
+  subtitle: Let's not complicate things, just start reading...
 section:
-  title: Lorem ipsum
-  subtitle: >
-    Nulla a bibendum dui, et consequat odio. Duis ac dui at felis cursus
-    viverra. Nam viverra mauris ac ipsum sollicitudin, vitae fermentum purus
-    placerat. Pellentesque habitant morbi tristique senectus et netus et
-    malesuada fames ac turpis egestas.
+  title: Why would I use fim-k8s?
+  subtitle: |
+    To pass your audits in a brave new world using a familiar, undefeatable
+    solution.
 cta:
   title: Didn't find an answer to your question?
-  subtitle: Lorem ipsum dolor sit amet
+  subtitle: (Words are hard.) We'd like to hear your input.
   button_text: Contact Us
   button_url: /contact/
 ---
 
-Etiam nisi neque, consequat a cursus sit amet, blandit sit amet sem. Donec mattis, nisi fermentum facilisis eleifend, nisi velit cursus ex, euismod feugiat mi lectus vel urna.
+## In more words...
+
+At the time of creating this product, there weren't any other solutions out
+there. We designed the architecture around common Linux kernel functionality to
+ensure well-known practices around inode monitoring. The rest of which was
+making sure it performed well in a clustered environment, and had features that
+security folks and auditors could healthily engage.

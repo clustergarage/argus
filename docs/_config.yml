@@ -5,7 +5,7 @@ baseurl: /fim-k8s
 permalink: /:title/
 brand:
   #image: logo.svg # upload logo to /assets/img/ folder
-  text: ClusterGarage
+  text: fim-k8s
 collections:
   docs:
     output: true

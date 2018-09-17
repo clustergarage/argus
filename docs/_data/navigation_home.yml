@@ -1,13 +1,13 @@
 ---
 - title: Getting Started
-  desc: Lorem ipsum dolor sit amet
+  desc: Jump right in and start using the product with minimal requirements.
   icon: play-circle
   doc: quickstart
 - title: Technical Guide
-  desc: Lorem ipsum dolor sit amet
+  desc: Deep dive of the architecture and how it works in a clustered environment.
   icon: info
   doc: quickstart
 - title: Troubleshooting
-  desc: Lorem ipsum dolor sit amet
+  desc: Get help with frequent issues and where to look when all else fails.
   icon: cog
   doc: quickstart
