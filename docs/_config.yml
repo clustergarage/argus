@@ -29,7 +29,7 @@ markdown: kramdown
 highlighter: rouge
 sass:
   style: compressed
-remote_theme: clustergarage/jekyll-theme
+remote_theme: clustergarage/docs-theme
 plugins:
 - jekyll-avatar
 - jekyll-feed
