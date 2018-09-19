@@ -32,6 +32,7 @@ sass:
 remote_theme: clustergarage/docs-theme
 plugins:
 - jekyll-avatar
+- jekyll-code-tabs
 - jekyll-feed
 - jekyll-remote-theme
 - jekyll-seo-tag
