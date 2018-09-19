@@ -124,13 +124,12 @@
                     <p class="subtitle uk-text-lead uk-text-muted">File Integrity Monitoring for Kubernetes</p>
 
                     <div class="article-content">
-                        <p>Depending on your environment where you wish to run <code class="highlighter-rouge">fim-k8s</code>, there may be
+                        <p>Depending on the environment where you wish to run <code class="highlighter-rouge">fim-k8s</code>, there may be
 additional requirements to run the daemon as a privileged container, and the
-controller to see certain events happening on your cluster.</p>
+controller to see certain events happening on the cluster.</p>
 
 <p>We provide two main paths of configuration for both vanilla Kubernetes and
-OpenShift, which has additional security measures in place. Under each section the
-components that will be deployed will be outlined.</p>
+OpenShift, which has additional security measures in place. Components that will be deployed are outlined under each section. </p>
 
 <ul uk-tab="">
 
@@ -156,7 +155,7 @@ housed. The two main components you will be monitoring and logging are the
 </li>
 
 	<li>
-<p>OpenShift is much more security-minded by default. We assume a normal OpenShift
+<p>OpenShift has a more opinionated security model by default. We assume a normal OpenShift
 install, which requires a few more components to be created. This can be
 done with the following command:</p>
 
