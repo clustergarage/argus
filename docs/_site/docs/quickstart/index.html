@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Quickstart | fim-k8s</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="Quickstart" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Depending on your environment where you wish to run fim-k8s, there may be additional requirements to run the daemon as a privileged container, and the controller to see certain events happening on your cluster." />
+<meta property="og:description" content="Depending on your environment where you wish to run fim-k8s, there may be additional requirements to run the daemon as a privileged container, and the controller to see certain events happening on your cluster." />
+<link rel="canonical" href="http://localhost:4000/fim-k8s/docs/quickstart/" />
+<meta property="og:url" content="http://localhost:4000/fim-k8s/docs/quickstart/" />
+<meta property="og:site_name" content="fim-k8s" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-09-18T22:50:34-04:00" />
+<script type="application/ld+json">
+{"description":"Depending on your environment where you wish to run fim-k8s, there may be additional requirements to run the daemon as a privileged container, and the controller to see certain events happening on your cluster.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/fim-k8s/docs/quickstart/"},"@type":"BlogPosting","url":"http://localhost:4000/fim-k8s/docs/quickstart/","headline":"Quickstart","datePublished":"2018-09-18T22:50:34-04:00","dateModified":"2018-09-18T22:50:34-04:00","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <meta property="og:image" content=""/>
+  <link rel="stylesheet" href="/fim-k8s/assets/css/main.css">
+  <link rel="shortcut icon" type="image/png" href="/fim-k8s/assets/img/favicon.png" >
+  <link rel="alternate" type="application/rss+xml" title="fim-k8s" href="/fim-k8s/feed.xml">
+  <script src="/fim-k8s/assets/js/main.js"></script>
+  
+</head>
+
+    <body>
+
+    <header class="uk-background-secondary">
+    <div data-uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 1904px;">
+        <nav class="uk-navbar-container">
+            <div class="uk-container">
+    <div data-uk-navbar>
+        <div class="uk-navbar-left">
+
+            <a class="uk-navbar-item uk-logo" href="/fim-k8s/">fim-k8s</a>
+
+        </div>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav uk-visible@m">
+                
+                    
+                    
+                        <li><a href="/fim-k8s/docs" >Documentation</a></li>
+                    
+                
+                    
+                    
+                        <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+                    
+                
+                    
+                    
+                        <li><a href="/fim-k8s/contact" >Contact</a></li>
+                    
+                
+            </ul>
+
+            
+
+            <a class="uk-navbar-toggle uk-hidden@m" href="#offcanvas" data-uk-navbar-toggle-icon data-uk-toggle></a>
+
+        </div>
+    </div>
+</div>
+
+        </nav>
+    </div>
+</header>
+
+
+    
+
+    <div class="uk-section">
+    <div class="uk-container">
+        <div class="uk-grid-large" data-uk-grid>
+
+            <div class="sidebar-fixed-width uk-visible@m">
+                <div class="sidebar-docs uk-position-fixed">
+                    
+                    <h5>Getting Started</h5>
+                    <ul class="uk-nav uk-nav-default doc-nav">
+                    
+                      
+                      
+                      <li class="uk-active"><a href="/fim-k8s/docs/quickstart/">Quickstart</a></li>
+                    
+                      
+                      
+                      <li class=""><a href="/fim-k8s/docs/fimwatcher/">Defining a FimWatcher</a></li>
+                    
+                      
+                      
+                      <li class=""><a href="/fim-k8s/docs/monitoring/">Monitoring Watches</a></li>
+                    
+                      
+                      
+                      <li class=""><a href="/fim-k8s/docs/examples/">Examples and Best Practices</a></li>
+                    
+                    </ul>
+                    
+                    <h5>Technical Guide</h5>
+                    <ul class="uk-nav uk-nav-default doc-nav">
+                    
+                    </ul>
+                    
+                    <h5>Troubleshooting</h5>
+                    <ul class="uk-nav uk-nav-default doc-nav">
+                    
+                    </ul>
+                    
+                </div>
+            </div>
+
+            <div class="uk-width-1-1 uk-width-expand@m">
+
+                <article class="uk-article">
+
+                    <h1 class="uk-article-title">Quickstart</h1>
+
+                    <p class="subtitle uk-text-lead uk-text-muted">File Integrity Monitoring for Kubernetes</p>
+
+                    <div class="article-content">
+                        <p>Depending on your environment where you wish to run <code class="highlighter-rouge">fim-k8s</code>, there may be
+additional requirements to run the daemon as a privileged container, and the
+controller to see certain events happening on your cluster.</p>
+
+<p>We provide two main paths of configuration for both vanilla Kubernetes and
+OpenShift, which has additional security measures in place. Under each section the
+components that will be deployed will be outlined.</p>
+
+<ul uk-tab="">
+
+	<li class="uk-active"><a href="#">Kubernetes</a></li>
+
+	<li><a href="#">OpenShift</a></li>
+
+</ul>
+
+<ul class="uk-switcher uk-margin">
+
+	<li>
+<p>To deploy <code class="highlighter-rouge">fim-k8s</code> on a vanilla Kubernetes environment, simply run an <code class="highlighter-rouge">apply</code>
+on the following:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl apply <span class="nt">-f</span>
+https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-k8s.yaml
+</code></pre></div></div>
+
+<p>This will create a <strong>Namespace</strong> <code class="highlighter-rouge">fim</code> under which all the components will be
+housed. The two main components you will be monitoring and logging are the
+<code class="highlighter-rouge">fimcontroller</code> Deployment and <code class="highlighter-rouge">fimd</code> DaemonSet.</p>
+</li>
+
+	<li>
+<p>OpenShift is much more security-minded by default. We assume a normal OpenShift
+install, which requires a few more components to be created. This can be
+done with the following command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc apply <span class="nt">-f</span>
+https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift.yaml
+</code></pre></div></div>
+
+<p>This will create an OpenShift <strong>Project</strong> <code class="highlighter-rouge">fim</code> under which all components will be
+housed. The two main components you will be monitoring and logging are the
+<code class="highlighter-rouge">fimcontroller</code> DeploymentConfig and <code class="highlighter-rouge">fimd</code> DaemonSet.</p>
+</li>
+
+</ul>
+
+<hr />
+
+<h2 id="need-help">Need Help?</h2>
+
+<p>Vestibulum eu tristique dui. Morbi convallis fringilla sapien non congue.
+Suspendisse a gravida ex.</p>
+
+
+                    </div>
+
+                    <hr class="uk-margin-medium">
+
+                    
+
+
+  
+  
+    <ul class="uk-pagination uk-margin-top">
+          
+
+          
+          
+            
+            
+            <li class="uk-margin-auto-left"><a class="hvr-forward" href="/fim-k8s/docs/fimwatcher/">Next &rarr;</a></li>
+          
+    </ul>
+    
+
+
+                    <div class="uk-margin-large-top">
+    <h3>What's Next</h3>
+
+    
+    
+    
+
+    <ul class="uk-list">
+    
+
+    
+    
+
+    
+
+    
+        <li><a href="/fim-k8s/docs/examples/">Examples and Best Practices</a></li>
+        
+        
+    
+
+    
+
+    
+    
+
+    
+
+    
+        <li><a href="/fim-k8s/docs/fimwatcher/">Defining a FimWatcher</a></li>
+        
+        
+    
+
+    
+
+    
+    
+
+    
+
+    
+        <li><a href="/fim-k8s/docs/monitoring/">Monitoring Watches</a></li>
+        
+        
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+    </ul>
+</div>
+
+                </article>
+
+                <script>
+                    // Table of contents scroll to
+                    UIkit.scroll('#markdown-toc a', {
+                        duration: 400,
+                        offset: 120
+                    });
+                </script>
+
+            </div>
+
+    </div>
+</div>
+
+
+    <div id="offcanvas" data-uk-offcanvas="flip: true; overlay: true">
+    <div class="uk-offcanvas-bar">
+
+        <button class="uk-offcanvas-close" type="button" data-uk-close></button>
+
+        <ul class="uk-nav uk-nav-default">
+            <li><a class="uk-logo uk-margin-small-bottom" href="/fim-k8s/">fim-k8s</a></li>
+            
+            <li><a href="/fim-k8s/docs" >Documentation</a></li>
+            
+            <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+            
+            <li><a href="/fim-k8s/contact" >Contact</a></li>
+            
+        </ul>
+    </div>
+</div>
+
+
+    
+
+    </body>
+
+</html>
