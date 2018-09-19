@@ -37,6 +37,7 @@ plugins:
 - jekyll-remote-theme
 - jekyll-seo-tag
 exclude:
+- README.md
 - Gemfile
 - Gemfile.lock
 - node_modules

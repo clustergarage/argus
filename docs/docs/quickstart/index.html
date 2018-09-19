@@ -6,19 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Examples and Best Practices | fim-k8s</title>
+<title>Quickstart | fim-k8s</title>
 <meta name="generator" content="Jekyll v3.7.4" />
-<meta property="og:title" content="Examples and Best Practices" />
+<meta property="og:title" content="Quickstart" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
-<meta property="og:description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit." />
-<link rel="canonical" href="http://localhost:4000/fim-k8s/docs/examples/" />
-<meta property="og:url" content="http://localhost:4000/fim-k8s/docs/examples/" />
+<meta name="description" content="Depending on your environment where you wish to run fim-k8s, there may be additional requirements to run the daemon as a privileged container, and the controller to see certain events happening on your cluster." />
+<meta property="og:description" content="Depending on your environment where you wish to run fim-k8s, there may be additional requirements to run the daemon as a privileged container, and the controller to see certain events happening on your cluster." />
 <meta property="og:site_name" content="fim-k8s" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-09-18T22:50:34-04:00" />
+<meta property="article:published_time" content="2018-09-18T23:25:14-04:00" />
 <script type="application/ld+json">
-{"description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit.","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/fim-k8s/docs/examples/"},"@type":"BlogPosting","url":"http://localhost:4000/fim-k8s/docs/examples/","headline":"Examples and Best Practices","datePublished":"2018-09-18T22:50:34-04:00","dateModified":"2018-09-18T22:50:34-04:00","@context":"http://schema.org"}</script>
+{"description":"Depending on your environment where you wish to run fim-k8s, there may be additional requirements to run the daemon as a privileged container, and the controller to see certain events happening on your cluster.","mainEntityOfPage":{"@type":"WebPage","@id":"/fim-k8s/docs/quickstart/"},"@type":"BlogPosting","url":"/fim-k8s/docs/quickstart/","headline":"Quickstart","datePublished":"2018-09-18T23:25:14-04:00","dateModified":"2018-09-18T23:25:14-04:00","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="og:image" content=""/>
@@ -88,7 +86,7 @@
                     
                       
                       
-                      <li class=""><a href="/fim-k8s/docs/quickstart/">Quickstart</a></li>
+                      <li class="uk-active"><a href="/fim-k8s/docs/quickstart/">Quickstart</a></li>
                     
                       
                       
@@ -100,7 +98,7 @@
                     
                       
                       
-                      <li class="uk-active"><a href="/fim-k8s/docs/examples/">Examples and Best Practices</a></li>
+                      <li class=""><a href="/fim-k8s/docs/examples/">Examples and Best Practices</a></li>
                     
                     </ul>
                     
@@ -121,48 +119,64 @@
 
                 <article class="uk-article">
 
-                    <h1 class="uk-article-title">Examples and Best Practices</h1>
+                    <h1 class="uk-article-title">Quickstart</h1>
 
                     <p class="subtitle uk-text-lead uk-text-muted">File Integrity Monitoring for Kubernetes</p>
 
                     <div class="article-content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <p>Depending on your environment where you wish to run <code class="highlighter-rouge">fim-k8s</code>, there may be
+additional requirements to run the daemon as a privileged container, and the
+controller to see certain events happening on your cluster.</p>
 
-<p>Vestibulum quis nibh et nibh facilisis imperdiet. Aliquam faucibus vulputate lorem eu tincidunt.</p>
+<p>We provide two main paths of configuration for both vanilla Kubernetes and
+OpenShift, which has additional security measures in place. Under each section the
+components that will be deployed will be outlined.</p>
 
-<h4 class="no_toc" id="topics">Topics</h4>
-<ul id="markdown-toc">
-  <li><a href="#kubernetes--nginx-example" id="markdown-toc-kubernetes--nginx-example">Kubernetes — NGiNX Example</a></li>
-  <li><a href="#openshift--django-example" id="markdown-toc-openshift--django-example">OpenShift — Django Example</a></li>
-  <li><a href="#openshift--jenkins-sidecar-example" id="markdown-toc-openshift--jenkins-sidecar-example">OpenShift — Jenkins Sidecar Example</a></li>
+<ul uk-tab="">
+
+	<li class="uk-active"><a href="#">Kubernetes</a></li>
+
+	<li><a href="#">OpenShift</a></li>
+
 </ul>
 
-<h2 id="kubernetes--nginx-example">Kubernetes — NGiNX Example</h2>
+<ul class="uk-switcher uk-margin">
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+	<li>
+<p>To deploy <code class="highlighter-rouge">fim-k8s</code> on a vanilla Kubernetes environment, simply run an <code class="highlighter-rouge">apply</code>
+on the following:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl run nginx <span class="nt">--image</span><span class="o">=</span>nginx
-kubectl apply <span class="nt">-f</span>
-https://raw.githubusercontent.com/clustergarage/fim-k8s/master/examples/nginx-fim-watch.yaml
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl apply <span class="nt">-f</span>
+https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-k8s.yaml
 </code></pre></div></div>
 
-<h2 id="openshift--django-example">OpenShift — Django Example</h2>
+<p>This will create a <strong>Namespace</strong> <code class="highlighter-rouge">fim</code> under which all the components will be
+housed. The two main components you will be monitoring and logging are the
+<code class="highlighter-rouge">fimcontroller</code> Deployment and <code class="highlighter-rouge">fimd</code> DaemonSet.</p>
+</li>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc new-app python:3.5~https://github.com/openshift/django-ex
-oc apply <span class="nt">-f</span> https://raw.githubusercontent.com/clustergarage/fim-k8s/master/examples/djangoex-fim-watch.yaml
-</code></pre></div></div>
-
-<h2 id="openshift--jenkins-sidecar-example">OpenShift — Jenkins Sidecar Example</h2>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+	<li>
+<p>OpenShift is much more security-minded by default. We assume a normal OpenShift
+install, which requires a few more components to be created. This can be
+done with the following command:</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc apply <span class="nt">-f</span>
-https://raw.githubusercontent.com/clustergarage/fim-k8s/master/examples/sidecar/jenkins-sidecar.yaml
-oc apply <span class="nt">-f</span>
-https://raw.githubusercontent.com/clustergarage/fim-k8s/master/examples/sidecar/sidecar-fim-watch.yaml
+https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift.yaml
 </code></pre></div></div>
+
+<p>This will create an OpenShift <strong>Project</strong> <code class="highlighter-rouge">fim</code> under which all components will be
+housed. The two main components you will be monitoring and logging are the
+<code class="highlighter-rouge">fimcontroller</code> DeploymentConfig and <code class="highlighter-rouge">fimd</code> DaemonSet.</p>
+</li>
+
+</ul>
+
+<hr />
+
+<h2 id="need-help">Need Help?</h2>
+
+<p>Vestibulum eu tristique dui. Morbi convallis fringilla sapien non congue.
+Suspendisse a gravida ex.</p>
 
 
                     </div>
@@ -174,23 +188,14 @@ https://raw.githubusercontent.com/clustergarage/fim-k8s/master/examples/sidecar/
 
   
   
-
-  
-  
-
-  
-  
-
-  
-  
     <ul class="uk-pagination uk-margin-top">
           
-            
-            
-            <li><a class="hvr-back" href="/fim-k8s/docs/monitoring/">&larr; Previous</a></li>
-          
-          
 
+          
+          
+            
+            
+            <li class="uk-margin-auto-left"><a class="hvr-forward" href="/fim-k8s/docs/fimwatcher/">Next &rarr;</a></li>
           
     </ul>
     
@@ -211,6 +216,10 @@ https://raw.githubusercontent.com/clustergarage/fim-k8s/master/examples/sidecar/
 
     
 
+    
+        <li><a href="/fim-k8s/docs/examples/">Examples and Best Practices</a></li>
+        
+        
     
 
     
@@ -246,10 +255,6 @@ https://raw.githubusercontent.com/clustergarage/fim-k8s/master/examples/sidecar/
 
     
 
-    
-        <li><a href="/fim-k8s/docs/quickstart/">Quickstart</a></li>
-        
-        
     
 
     
