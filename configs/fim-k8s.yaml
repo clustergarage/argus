@@ -56,7 +56,7 @@ spec:
     spec:
       containers:
       - name: fimcontroller
-        image: clustergarage/fimcontroller:latest
+        image: clustergarage/fim-controller:latest
       serviceAccountName: fim-admin
 ---
 apiVersion: apps/v1
