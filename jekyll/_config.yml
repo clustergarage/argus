@@ -1,7 +1,6 @@
 title: fim-k8s
 description: File Integrity Monitoring for Kubernetes
 baseurl: /fim-k8s
-#url: "https://clustergarage.io/fim-k8s"
 permalink: /:title/
 brand:
   #image: logo.svg # upload logo to /assets/img/ folder
@@ -30,10 +29,13 @@ highlighter: rouge
 sass:
   style: compressed
 remote_theme: clustergarage/docs-theme
+mermaid:
+  src: 'https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js'
 plugins:
 - jekyll-avatar
 - jekyll-code-tabs
 - jekyll-feed
+- jekyll-mermaid
 - jekyll-remote-theme
 - jekyll-seo-tag
 exclude:
