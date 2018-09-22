@@ -224,18 +224,3 @@ spec:
       - name: sysfscgroup
         hostPath:
           path: /sys/fs/cgroup
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: fimd-svc
-  namespace: fim
-spec:
-  type: NodePort
-  selector:
-    daemon: fimd
-  ports:
-  - name: grpc
-    protocol: TCP
-    port: 50051
-    targetPort: 50051
