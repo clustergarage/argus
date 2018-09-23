@@ -131,7 +131,7 @@ kind: ImageStream
 metadata:
   labels:
     controller: fimcontroller
-  name: fimcontroller
+  name: fim-controller
   namespace: fim
 spec:
   tags:
