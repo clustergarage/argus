@@ -3,11 +3,11 @@ entries:
   fim-k8s:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-09-26T20:16:49.642035668-04:00
+    created: 2018-09-26T22:42:09.595567532-04:00
     description: A Helm chart for Kubernetes
-    digest: 46231e52722cf935c8ee49513e09da5617996319b1a33023f9fd56a5567bb3af
+    digest: 234ed000e10d3488bb2bbb08088d32b2cb005d58b2f66d32308db6076f6afda0
     name: fim-k8s
     urls:
     - fim-k8s-0.1.0.tgz
     version: 0.1.0
-generated: 2018-09-26T20:16:49.641757312-04:00
+generated: 2018-09-26T22:42:09.595284361-04:00

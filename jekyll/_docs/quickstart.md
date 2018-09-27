@@ -5,42 +5,63 @@ subtitle: File Integrity Monitoring for Kubernetes
 tags: foo bar baz
 ---
 
-Depending on your environment where you wish to run `fim-k8s`, there may be
+Depending on the environment where you wish to run `fim-k8s`, there may be
 additional requirements to run the daemon as a privileged container, and the
-controller to see certain events happening on your cluster.
+controller to see certain events happening on the cluster.
 
-We provide two main paths of configuration for both vanilla Kubernetes and
-OpenShift, which has additional security measures in place. Under each section the
-components that will be deployed will be outlined.
+We provide multiple paths of configuration for both vanilla Kubernetes and
+OpenShift, which has additional security measures in place. Components that will
+be deployed are outlined under each section.
 
 {% codetabs %}
+
 {% codetab Kubernetes %}
 To deploy `fim-k8s` on a vanilla Kubernetes environment, simply run an `apply`
 on the following:
 
 ```shell
-kubectl apply -f
-https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-k8s.yaml
+kubectl apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-k8s.yaml
 ```
 
 This will create a **Namespace** `fim` under which all the components will be
 housed. The two main components you will be monitoring and logging are the
 `fimcontroller` Deployment and `fimd` DaemonSet.
 {% endcodetab %}
+
 {% codetab OpenShift %}
-OpenShift is much more security-minded by default. We assume a normal OpenShift
+OpenShift has a more opinionated security model by default. We assume a normal OpenShift
 install, which requires a few more components to be created. This can be
 done with the following command:
 
 ```shell
-oc apply -f
-https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift.yaml
+oc apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift.yaml
 ```
 
 This will create an OpenShift **Project** `fim` under which all components will be
 housed. The two main components you will be monitoring and logging are the
 `fimcontroller` DeploymentConfig and `fimd` DaemonSet.
 {% endcodetab %}
+
+{% codetab Helm %}
+To install using a Helm chart, we provide a couple ways to do this. The simplest
+being an archive file included in each release:
+
+```shell
+helm install https://github.com/clustergarage/fim-k8s/releases/download/v0.1.0/fim-k8s-0.1.0.tgz
+```
+
+The other way is to add a Helm repository to your cluster and
+update/install using these mechanisms:
+
+```shell
+helm repo add clustergarage https://raw.githubusercontent.com/clustergarage/fim-k8s/master/helm/
+helm repo update
+helm install clustergarage/fim-k8s
+```
+
+Lorem ipsum dolor sit amet.
+{% endcodetab %}
+
 {% endcodetabs %}
 
 ---

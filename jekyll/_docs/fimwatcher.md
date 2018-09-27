@@ -105,5 +105,42 @@ Quisque et leo leo. Duis eleifend elit dolor, in malesuada mi eleifend vitae.
     onlyDir: true
 ```
 
-Nulla quis magna erat. Etiam mollis sapien at erat tincidunt cursus. Pellentesque nisl urna, eleifend ut rutrum eu, tincidunt eget ex. Cras congue urna pulvinar risus blandit auctor. Nullam in feugiat odio.  Pellentesque lobortis justo id odio imperdiet vehicula. Proin ut purus at ex tempor auctor. Etiam vitae diam purus. Quisque ac orci metus. Vestibulum rhoncus felis vel fermentum tincidunt.
+## Custom Log Format
+
+Vestibulum quis nibh et nibh facilisis imperdiet. Aliquam faucibus vulputate lorem eu tincidunt.
+
+```yaml
+apiVersion: fimcontroller.clustergarage.io/v1alpha1
+kind: FimWatcher
+metadata:
+  name: mywatcher
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  logFormat: "event = {event}; path = {path}; file = {file}"
+  subjects:
+  - events:
+    - modify
+    paths:
+    - /path/to/watch
+```
+
+Default log format is `{event} {ftype} '{path}{sep}{file}' ({pod}:{node})`
+
+List of possible `logFormat` components:
+- `pod` - name of the pod
+- `node` - name of the node
+- `event` - inotify event that was observed
+- `path` - name of the directory path
+- `file` - name of the file
+- `ftype` - evaluates to "file" or "directory"
+- `sep` - placeholder for a "/" character to include between the `path` and `file`
+
+Nulla quis magna erat. Etiam mollis sapien at erat tincidunt cursus.
+Pellentesque nisl urna, eleifend ut rutrum eu, tincidunt eget ex. Cras congue
+urna pulvinar risus blandit auctor. Nullam in feugiat odio.  Pellentesque
+lobortis justo id odio imperdiet vehicula. Proin ut purus at ex tempor auctor.
+Etiam vitae diam purus. Quisque ac orci metus. Vestibulum rhoncus felis vel
+fermentum tincidunt.
 
