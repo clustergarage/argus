@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{.Values.controller.name}}
+  namespace: {{.Values.namespace}}
+  labels:
+    controller: {{.Values.controller.name}}
+spec:
+  replicas: {{.Values.controller.replicas}}
+  selector:
+    matchLabels:
+      controller: {{.Values.controller.name}}
+  template:
+    metadata:
+      labels:
+        controller: {{.Values.controller.name}}
+    spec:
+      containers:
+      - name: {{.Values.controller.name}}
+        image: {{.Values.controller.image | quote}}
+      serviceAccountName: {{.Values.serviceAccount}}

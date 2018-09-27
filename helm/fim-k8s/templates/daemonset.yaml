@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: {{.Values.daemon.name}}
+  namespace: {{.Values.namespace}}
+  labels:
+    daemon: {{.Values.daemon.name}}
+spec:
+  selector:
+    matchLabels:
+      daemon: {{.Values.daemon.name}}
+  template:
+    metadata:
+      labels:
+        daemon: {{.Values.daemon.name}}
+    spec:
+      containers:
+      - name: {{.Values.daemon.name}}
+        image: {{.Values.daemon.image | quote}}
+        ports:
+        - containerPort: 50051
+        volumeMounts:
+        - name: dockerpid
+          mountPath: /var/run/docker.pid
+        - name: dockersock
+          mountPath: /var/run/docker.sock
+        - name: sysfscgroup
+          mountPath: /sys/fs/cgroup
+        securityContext:
+          privileged: true
+      hostNetwork: true
+      hostPID: true
+      serviceAccountName: {{.Values.serviceAccount}}
+      volumes:
+      - name: dockerpid
+        hostPath:
+          path: /var/run/docker.pid
+      - name: dockersock
+        hostPath:
+          path: /var/run/docker.sock
+      - name: sysfscgroup
+        hostPath:
+          path: /sys/fs/cgroup
