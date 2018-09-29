@@ -11,10 +11,8 @@ kubectl apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/
 #### OpenShift
 
 ```
-# add scc to run fimcontroller deployment
-oc adm policy add-scc-to-user anyuid -n fim -z fim-admin
-# add scc to run fimd daemonset
-oc adm policy add-scc-to-user privileged -n fim -z fim-admin
+# fimcontroller deployment requires scc: anyuid
+# fimd daemonset requires scc: privileged
 
 oc apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim.yaml
 ```
@@ -76,11 +74,6 @@ oc edit dc django-ex
 # generate create/modify message
 oc rsh django-ex-[...]
 echo "test" >> /opt/app-root/test.log
-
-# example output:
-Starting inotify watcher...
-IN_CREATE: /proc/12345/root/opt/app-root/test.log [file]
-IN_MODIFY: /proc/12345/root/opt/app-root/test.log [file]
 ```
 
 #### Sidecar example (OpenShift)

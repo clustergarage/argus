@@ -135,6 +135,10 @@ metadata:
   namespace: fim
 spec:
   tags:
+  - name: v0.1.0
+    from:
+      kind: DockerImage
+      name: clustergarage/fim-controller:v0.1.0
   - name: latest
     from:
       kind: DockerImage
@@ -158,8 +162,7 @@ spec:
     spec:
       containers:
       - name: fimcontroller
-        image: clustergarage/fim-controller:latest
-        imagePullPolicy: Always
+        image: clustergarage/fim-controller
         securityContext:
           runAsUser: 0
       serviceAccountName: fim-admin
@@ -172,7 +175,7 @@ spec:
       - fimcontroller
       from:
         kind: ImageStreamTag
-        name: fim-controller:latest
+        name: fim-controller:v0.1.0
   strategy:
     type: Rolling
     rollingParams:
@@ -200,7 +203,7 @@ spec:
     spec:
       containers:
       - name: fimd
-        image: clustergarage/fimd:latest
+        image: clustergarage/fimd:v0.1.0
         ports:
         - containerPort: 50051
         volumeMounts:
