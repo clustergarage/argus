@@ -5,7 +5,7 @@
 #### Kubernetes
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim.yaml
+kubectl apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-k8s.yaml
 ```
 
 #### OpenShift
@@ -14,7 +14,20 @@ kubectl apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/
 # fimcontroller deployment requires scc: anyuid
 # fimd daemonset requires scc: privileged
 
-oc apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim.yaml
+oc apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift.yaml
+```
+
+#### Helm
+
+```
+# install from tgz archive
+helm install https://github.com/clustergarage/fim-k8s/releases/download/v0.1.0/fim-k8s-0.1.0.tgz
+
+# add to repo and install
+helm repo add clustergarage
+https://raw.githubusercontent.com/clustergarage/fim-k8s/master/helm/
+helm repo update
+helm install clustergarage/fim-k8s
 ```
 
 ## Defining a FimWatcher component
