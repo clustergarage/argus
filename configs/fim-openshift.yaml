@@ -205,7 +205,8 @@ spec:
       - name: fimd
         image: clustergarage/fimd:v0.1.0
         ports:
-        - containerPort: 50051
+        - name: grpc
+          containerPort: 50051
         volumeMounts:
         - name: dockerpid
           mountPath: /var/run/docker.pid
@@ -215,7 +216,6 @@ spec:
           mountPath: /sys/fs/cgroup
         securityContext:
           privileged: true
-      hostNetwork: true
       hostPID: true
       serviceAccountName: fim-admin
       volumes:
@@ -228,3 +228,18 @@ spec:
       - name: sysfscgroup
         hostPath:
           path: /sys/fs/cgroup
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fimd-svc
+  namespace: fim
+spec:
+  selector:
+    daemon: fimd
+  clusterIP: None
+  ports:
+  - name: grpc
+    protocol: TCP
+    port: 50051
+    targetPort: grpc
