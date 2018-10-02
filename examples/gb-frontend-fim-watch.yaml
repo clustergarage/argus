@@ -1,0 +1,14 @@
+apiVersion: fimcontroller.clustergarage.io/v1alpha1
+kind: FimWatcher
+metadata:
+  name: gb-frontend-fim-watcher
+spec:
+  selector:
+    matchLabels:
+      app: guestbook
+      tier: frontend
+  subjects:
+  - paths:
+    - /var/www/html
+    events:
+    - modify

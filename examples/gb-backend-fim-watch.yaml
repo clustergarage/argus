@@ -1,0 +1,15 @@
+apiVersion: fimcontroller.clustergarage.io/v1alpha1
+kind: FimWatcher
+metadata:
+  name: gb-backend-fim-watcher
+spec:
+  selector:
+    matchLabels:
+      app: redis
+      tier: backend
+  subjects:
+  - paths:
+    - /data
+    events:
+    - create
+    - modify
