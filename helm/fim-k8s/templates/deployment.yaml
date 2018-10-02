@@ -18,4 +18,12 @@ spec:
       containers:
       - name: {{.Values.controller.name}}
         image: {{.Values.controller.image | quote}}
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr", ":{{.Values.controller.probePort}}"]
+          initialDelaySeconds: 10
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr", ":{{.Values.controller.probePort}}"]
+          initialDelaySeconds: 5
       serviceAccountName: {{.Values.serviceAccount}}

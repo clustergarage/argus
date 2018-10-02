@@ -163,6 +163,14 @@ spec:
       containers:
       - name: fimcontroller
         image: clustergarage/fim-controller
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr", ":5000"]
+          initialDelaySeconds: 10
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr", ":5000"]
+          initialDelaySeconds: 5
         securityContext:
           runAsUser: 0
       serviceAccountName: fim-admin
@@ -207,6 +215,14 @@ spec:
         ports:
         - name: grpc
           containerPort: 50051
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr", ":50051"]
+          initialDelaySeconds: 10
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr", ":50051"]
+          initialDelaySeconds: 5
         volumeMounts:
         - name: dockerpid
           mountPath: /var/run/docker.pid

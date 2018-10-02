@@ -18,7 +18,16 @@ spec:
       - name: {{.Values.daemon.name}}
         image: {{.Values.daemon.image | quote}}
         ports:
-        - containerPort: 50051
+        - name: {{.Values.daemon.container.portName}}
+          containerPort: {{.Values.daemon.container.port}}
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr", ":{{.Values.daemon.probePort}}"]
+          initialDelaySeconds: 10
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr", ":{{.Values.daemon.probePort}}"]
+          initialDelaySeconds: 5
         volumeMounts:
         - name: dockerpid
           mountPath: /var/run/docker.pid
@@ -28,7 +37,6 @@ spec:
           mountPath: /sys/fs/cgroup
         securityContext:
           privileged: true
-      hostNetwork: true
       hostPID: true
       serviceAccountName: {{.Values.serviceAccount}}
       volumes:
@@ -41,3 +49,19 @@ spec:
       - name: sysfscgroup
         hostPath:
           path: /sys/fs/cgroup
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.daemon.svc.name}}
+  namespace: {{.Values.namespace}}
+  labels:
+    daemon: {{.Values.daemon.name}}
+spec:
+  selector:
+    daemon: {{.Values.daemon.name}}
+  clusterIP: None
+  ports:
+  - name: {{.Values.daemon.svc.portName}}
+    port: {{.Values.daemon.container.port}}
+    targetPort: {{.Values.daemon.container.portName}}
