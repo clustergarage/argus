@@ -1,0 +1,31 @@
+---
+apiVersion: fimcontroller.clustergarage.io/v1alpha1
+kind: FimWatcher
+metadata:
+  name: guestbook-ftnd-fim-watcher
+spec:
+  selector:
+    matchLabels:
+      app: guestbook
+      tier: frontend
+  subjects:
+  - paths:
+    - /var/www/html
+    events:
+    - modify
+---
+apiVersion: fimcontroller.clustergarage.io/v1alpha1
+kind: FimWatcher
+metadata:
+  name: guestbook-bknd-fim-watcher
+spec:
+  selector:
+    matchLabels:
+      app: redis
+      tier: backend
+  subjects:
+  - paths:
+    - /data
+    events:
+    - create
+    - modify

@@ -63,10 +63,8 @@ spec:
 #### Guestbook example (Kuberetes)
 
 ```
-kubectl apply -f
-https://raw.githubusercontent.com/kubernetes/kubernetes/release-1.10/examples/guestbook/all-in-one/guestbook-all-in-one.yaml
-kubectl apply -f examples/gb-backend-fim-watch.yaml
-kubectl apply -f examples/gb-frontend-fim-watch.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/release-1.10/examples/guestbook/all-in-one/guestbook-all-in-one.yaml
+kubectl apply -f examples/guestbook-fim-watch.yaml
 ```
 
 #### NGiNX example (Kubernetes)
