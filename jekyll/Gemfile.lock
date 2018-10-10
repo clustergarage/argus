@@ -126,6 +126,7 @@ GEM
     jekyll-mentions (1.4.1)
       html-pipeline (~> 2.3)
       jekyll (~> 3.0)
+    jekyll-mermaid (1.0.0)
     jekyll-optional-front-matter (0.3.0)
       jekyll (~> 3.0)
     jekyll-paginate (1.1.0)
@@ -248,6 +249,8 @@ DEPENDENCIES
   jekyll-avatar
   jekyll-code-tabs
   jekyll-feed
+  jekyll-mermaid
+  jekyll-redirect-from
   jekyll-remote-theme
   jekyll-seo-tag
 

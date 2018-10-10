@@ -2,12 +2,12 @@
 - title: Getting Started
   desc: Jump right in and start using the product with minimal requirements.
   icon: play-circle
-  doc: quickstart
+  doc: getting-started
 - title: Technical Guide
   desc: Deep dive of the architecture and how it works in a clustered environment.
   icon: info
-  doc: quickstart
+  doc: overview
 - title: Troubleshooting
   desc: Get help with frequent issues and where to look when all else fails.
   icon: cog
-  doc: quickstart
+  doc: overview

@@ -1,5 +1,6 @@
 ---
 layout: home
+title: File Integrity Monitoring for Kubernetes
 hero:
   title: fim-k8s
   subtitle: File Integrity Monitoring for Kubernetes
@@ -26,4 +27,4 @@ At the time of creating this product, there weren't any other solutions out
 there. We designed the architecture around common Linux kernel functionality to
 ensure well-known practices around inode monitoring. The rest of which was
 making sure it performed well in a clustered environment, and had features that
-security folks and auditors could healthily engage.
+security experts and auditors could healthily engage.
