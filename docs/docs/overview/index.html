@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Overview | fim-k8s</title>
+<meta name="generator" content="Jekyll v3.7.4" />
+<meta property="og:title" content="Overview" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="fim-k8s is a set of custom Kubernetes resources that facilitates filesystem event monitoring on specified paths. It provides a rich set of configurations to run alongside your existing Kubernetes deployments to make it easy to denote audit-ready file integrity monitoring." />
+<meta property="og:description" content="fim-k8s is a set of custom Kubernetes resources that facilitates filesystem event monitoring on specified paths. It provides a rich set of configurations to run alongside your existing Kubernetes deployments to make it easy to denote audit-ready file integrity monitoring." />
+<meta property="og:site_name" content="fim-k8s" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-10T23:20:54-04:00" />
+<script type="application/ld+json">
+{"description":"fim-k8s is a set of custom Kubernetes resources that facilitates filesystem event monitoring on specified paths. It provides a rich set of configurations to run alongside your existing Kubernetes deployments to make it easy to denote audit-ready file integrity monitoring.","dateModified":"2018-10-10T23:20:54-04:00","datePublished":"2018-10-10T23:20:54-04:00","headline":"Overview","mainEntityOfPage":{"@type":"WebPage","@id":"/fim-k8s/docs/overview/"},"@type":"BlogPosting","url":"/fim-k8s/docs/overview/","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <meta property="og:image" content=""/>
+  <link rel="stylesheet" href="/fim-k8s/assets/css/main.css">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/7.0.0/dist/mermaid.css">
+  <link rel="shortcut icon" type="image/png" href="/fim-k8s/assets/img/favicon.png" >
+  <link rel="alternate" type="application/rss+xml" title="fim-k8s" href="/fim-k8s/feed.xml">
+  <script src="/fim-k8s/assets/js/main.js"></script>
+  
+</head>
+
+
+    <body>
+
+    <header class="uk-background-secondary">
+    <div data-uk-sticky="sel-target: .uk-navbar-container; cls-active: uk-navbar-sticky" class="uk-sticky uk-sticky-fixed" style="position: fixed; top: 0px; width: 1904px;">
+        <nav class="uk-navbar-container">
+            <div class="uk-container">
+    <div data-uk-navbar>
+        <div class="uk-navbar-left">
+
+            <a class="uk-navbar-item uk-logo" href="/fim-k8s/">fim-k8s</a>
+
+        </div>
+        <div class="uk-navbar-right">
+            <ul class="uk-navbar-nav uk-visible@m">
+                
+                    
+                    
+                        <li><a href="/fim-k8s/docs" >Documentation</a></li>
+                    
+                
+                    
+                    
+                        <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+                    
+                
+                    
+                    
+                        <li><a href="/fim-k8s/contact" >Contact</a></li>
+                    
+                
+            </ul>
+
+            
+
+            <a class="uk-navbar-toggle uk-hidden@m" href="#offcanvas" data-uk-navbar-toggle-icon data-uk-toggle></a>
+
+        </div>
+    </div>
+</div>
+
+        </nav>
+    </div>
+</header>
+
+
+    
+
+    <div class="uk-section">
+    <div class="uk-container">
+        <div class="uk-grid-large" data-uk-grid>
+
+            <div class="sidebar-fixed-width uk-visible@m">
+                <div class="sidebar-docs uk-position-fixed">
+                    
+                    <h5>Introduction</h5>
+                    <ul class="uk-nav uk-nav-default doc-nav">
+                    
+                      
+                      
+                      <li class="uk-active"><a href="/fim-k8s/docs/overview/">Overview</a></li>
+                    
+                      
+                      
+                      <li class=""><a href="/fim-k8s/docs/getting-started/">Getting Started</a></li>
+                    
+                      
+                      
+                      <li class=""><a href="/fim-k8s/docs/fimwatcher/">Defining a FimWatcher</a></li>
+                    
+                    </ul>
+                    
+                    <h5>Technical Guide</h5>
+                    <ul class="uk-nav uk-nav-default doc-nav">
+                    
+                      
+                      
+                      <li class=""><a href="/fim-k8s/docs/monitoring/">Monitoring Watches</a></li>
+                    
+                      
+                      
+                      <li class=""><a href="/fim-k8s/docs/examples/">Examples and Best Practices</a></li>
+                    
+                    </ul>
+                    
+                    <h5>Troubleshooting</h5>
+                    <ul class="uk-nav uk-nav-default doc-nav">
+                    
+                    </ul>
+                    
+                </div>
+            </div>
+
+            <div class="uk-width-1-1 uk-width-expand@m">
+
+                <article class="uk-article">
+
+                    <h1 class="uk-article-title">Overview</h1>
+
+                    <p class="subtitle uk-text-lead uk-text-muted">Deep dive into the product and its architecture</p>
+
+                    <div class="article-content">
+                        <p><strong>fim-k8s</strong> is a set of custom Kubernetes resources that facilitates filesystem
+event monitoring on specified paths. It provides a rich set of configurations
+to run alongside your existing Kubernetes deployments to make it easy to denote
+audit-ready file integrity monitoring.</p>
+
+<p>In deploying <strong>fim-k8s</strong> into your cluster, a couple of components will be
+initialized. First, the controller listens directly for Kubernetes events and
+is responsible for syncing cluster state with the daemons running on each node
+to make sure specified pods that need to be watched, are. Second, the daemon is
+run on each node to ensure that it can monitor running pods on the same node.
+It is charged with setting up inode watchers via <code class="highlighter-rouge">inotify</code> to allow you to see
+when certain filesystem events happen on the desired paths inside the pod.</p>
+
+<blockquote>
+  <p>It will be up to you to store, monitor, and alert on these logged events using
+your favorite tools of choice.</p>
+</blockquote>
+
+<p>We will provide some common patterns using sets of popular tools further in this
+documentation.</p>
+
+<h2 id="architecture">Architecture</h2>
+
+<script src="https://unpkg.com/mermaid@7.0.0/dist/mermaid.min.js"></script>
+<div class="mermaid">
+graph RL
+    A((procfs)) --&gt;|inotify| B[fimnotify]
+    subgraph daemon
+    C{fimd} --&gt; B
+    B .-&gt;|mqueue| C
+    end
+    D[fim-controller] ==&gt;|gRPC| C
+    C .-&gt; D
+    subgraph controller
+    E(K8s listers<br />K8s informers) --&gt; D
+    F(FimWatcher CRDs) --&gt; D
+    end
+</div>
+
+<h3 id="custom-resource-definition">Custom Resource Definition</h3>
+
+<p>In order to describe the set of pods you want to create a watcher for, what
+paths you are interested in monitoring, and for what events, you’ll soon find
+yourself creating a <strong>FimWatcher</strong> <code class="highlighter-rouge">CustomResourceDefinition</code>. That is, a
+Kubernetes custom type that will be configured in your cluster, that gives a
+specification to define a watcher type with all the fields and flags the
+controller will understand, configure, and pass along to the daemon so it can
+watch appropriately in the fashion you describe.</p>
+
+<h3 id="controller">Controller</h3>
+
+<p><code class="highlighter-rouge">fimcontroller</code> is the glue between the Kubernetes lifecycle and the daemons
+listening for events on the filesystems. It responds to events such as pod
+listers add, update, and delete, making sure that the proper state of the
+daemon that is running on the same node as that pod has the watcher either
+started or not on that daemon.</p>
+
+<p>This controller operates in an idempotent fashion, in such cases that the
+controller pod running is terminated and a new one spins up, it immediately
+receives all the events upon startup that it would have received anyway over
+time; this way we can reconstruct the proper state immediately. When a daemon
+is not gracefully terminated, upon startup of a new daemon pod, we reconcile
+that pod’s current state (nothing) with what we expect it should be, and
+all addition calls should be immediately fired; same as the previous case but
+in reverse.</p>
+
+<p>The other set of types the controller listens for is the <strong>FimWatcher</strong>
+<code class="highlighter-rouge">CustomResourceDefinition</code> described above. This is the definition that you
+will create to define what selector, paths, events, and lots of optional
+flags to create the notion of a file integrity monitor watcher.</p>
+
+<h3 id="daemon">Daemon</h3>
+
+<p>The <strong>fimd</strong> daemon will be deployed on all cluster nodes via a <code class="highlighter-rouge">DaemonSet</code>.
+It starts a gRPC server to communicate back-and-forth with the controller,
+described above. When it receives a message from the controller to create a
+watcher, it takes the desired configuration and spawns a <strong>fimnotify</strong> process
+with a custom set of rules. For example, if one wishes to watch the path
+recursively, this can be configured with an optional flag and will maintain
+a tree of additional paths to watch under the parent.</p>
+
+<script src="https://unpkg.com/mermaid@7.0.0/dist/mermaid.min.js"></script>
+<div class="mermaid">
+sequenceDiagram
+    participant A as fimd
+    participant B as fimnotify
+    participant C as procfs
+    A-&gt;&gt;+B: Creates child processes
+    B-&gt;&gt;C: Creates inotify watchers
+    Note over B,C: Polling for inotify events...
+    loop inotify event
+      C-&gt;&gt;B: Write event to mq
+      opt exit signal
+          B--&gt;C: Stop polling and exit
+      end
+    end
+    Note over A,B: Listening on message queue...
+    loop mq message
+      B-&gt;&gt;A: Print log message
+      opt mq exit msg
+          A-&gt;&gt;-B: Kill fimnotify process
+      end
+    end
+</div>
+
+<p>Once the <strong>fimnotify</strong> process receives an <code class="highlighter-rouge">inotify</code> message that the user
+configured to watch for, it sends that message back to the <strong>fimd</strong> process
+via a message queue and logs it in the cluster pod with any additional custom
+logging configuration. This log can be picked up in the same way you’d watch
+for logs in any other Kubernetes component.</p>
+
+<p>Upon receiving an additional create message, if the watcher already exists, it
+will handle it in an idempotent way, and simply update with the current
+configuration. When receiving a delete message, if the watcher exists, it will
+shut down the processes involved and remove this watcher from the daemon’s
+current state.</p>
+
+<p>There is an additional state check called periodically by the controller that
+reconciles what the daemon knows its state is with what the controller expects
+the current state to be. Any additional creation and deletion methods may be
+called due to any differences. This also allows for handling non-graceful
+terminations of either daemon or controller pods, thus the proper state can
+always be recreated in these cases.</p>
+
+                    </div>
+
+                    <hr class="uk-margin-medium">
+
+                    
+
+
+  
+  
+    <ul class="uk-pagination uk-margin-top">
+          
+
+          
+          
+            
+            
+            <li class="uk-margin-auto-left"><a class="hvr-forward" href="/fim-k8s/docs/getting-started/">Next &rarr;</a></li>
+          
+    </ul>
+    
+
+
+                    <div class="uk-margin-large-top">
+    <h3>What's Next</h3>
+
+    
+    
+    
+
+    <ul class="uk-list">
+    
+
+    
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+        <li><a href="/fim-k8s/docs/fimwatcher/">Defining a FimWatcher</a></li>
+        
+        
+    
+
+    
+
+    
+    
+
+    
+
+    
+        <li><a href="/fim-k8s/docs/getting-started/">Getting Started</a></li>
+        
+        
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+    </ul>
+</div>
+
+                </article>
+
+                <script>
+                    // Table of contents scroll to
+                    UIkit.scroll('#markdown-toc a', {
+                        duration: 400,
+                        offset: 120
+                    });
+                </script>
+
+            </div>
+
+    </div>
+</div>
+
+
+    <div id="offcanvas" data-uk-offcanvas="flip: true; overlay: true">
+    <div class="uk-offcanvas-bar">
+
+        <button class="uk-offcanvas-close" type="button" data-uk-close></button>
+
+        <ul class="uk-nav uk-nav-default">
+            <li><a class="uk-logo uk-margin-small-bottom" href="/fim-k8s/">fim-k8s</a></li>
+            
+            <li><a href="/fim-k8s/docs" >Documentation</a></li>
+            
+            <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+            
+            <li><a href="/fim-k8s/contact" >Contact</a></li>
+            
+        </ul>
+    </div>
+</div>
+
+
+    
+
+    </body>
+
+</html>

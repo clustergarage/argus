@@ -6,26 +6,28 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Quickstart | fim-k8s</title>
+<title>Getting Started | fim-k8s</title>
 <meta name="generator" content="Jekyll v3.7.4" />
-<meta property="og:title" content="Quickstart" />
+<meta property="og:title" content="Getting Started" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Depending on the environment where you wish to run fim-k8s, there may be additional requirements to run the daemon as a privileged container, and the controller to see certain events happening on the cluster." />
-<meta property="og:description" content="Depending on the environment where you wish to run fim-k8s, there may be additional requirements to run the daemon as a privileged container, and the controller to see certain events happening on the cluster." />
+<meta name="description" content="fim-k8s works by configuring a custom Kubernetes resource that defines paths and events that you want to be notified about for your current deployments. This custom resource, in conjunction with a cluster controller running and listening for lifecycle events, is responsible for maintaining a source of truth between the state of the cluster and the daemons listening for filesystem events on each node." />
+<meta property="og:description" content="fim-k8s works by configuring a custom Kubernetes resource that defines paths and events that you want to be notified about for your current deployments. This custom resource, in conjunction with a cluster controller running and listening for lifecycle events, is responsible for maintaining a source of truth between the state of the cluster and the daemons listening for filesystem events on each node." />
 <meta property="og:site_name" content="fim-k8s" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-09-26T22:43:16-04:00" />
+<meta property="article:published_time" content="2018-10-10T23:20:54-04:00" />
 <script type="application/ld+json">
-{"description":"Depending on the environment where you wish to run fim-k8s, there may be additional requirements to run the daemon as a privileged container, and the controller to see certain events happening on the cluster.","mainEntityOfPage":{"@type":"WebPage","@id":"/fim-k8s/docs/quickstart/"},"@type":"BlogPosting","url":"/fim-k8s/docs/quickstart/","headline":"Quickstart","datePublished":"2018-09-26T22:43:16-04:00","dateModified":"2018-09-26T22:43:16-04:00","@context":"http://schema.org"}</script>
+{"description":"fim-k8s works by configuring a custom Kubernetes resource that defines paths and events that you want to be notified about for your current deployments. This custom resource, in conjunction with a cluster controller running and listening for lifecycle events, is responsible for maintaining a source of truth between the state of the cluster and the daemons listening for filesystem events on each node.","dateModified":"2018-10-10T23:20:54-04:00","datePublished":"2018-10-10T23:20:54-04:00","headline":"Getting Started","mainEntityOfPage":{"@type":"WebPage","@id":"/fim-k8s/docs/getting-started/"},"@type":"BlogPosting","url":"/fim-k8s/docs/getting-started/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="og:image" content=""/>
   <link rel="stylesheet" href="/fim-k8s/assets/css/main.css">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/7.0.0/dist/mermaid.css">
   <link rel="shortcut icon" type="image/png" href="/fim-k8s/assets/img/favicon.png" >
   <link rel="alternate" type="application/rss+xml" title="fim-k8s" href="/fim-k8s/feed.xml">
   <script src="/fim-k8s/assets/js/main.js"></script>
   
 </head>
+
 
     <body>
 
@@ -81,16 +83,25 @@
             <div class="sidebar-fixed-width uk-visible@m">
                 <div class="sidebar-docs uk-position-fixed">
                     
-                    <h5>Getting Started</h5>
+                    <h5>Introduction</h5>
                     <ul class="uk-nav uk-nav-default doc-nav">
                     
                       
                       
-                      <li class="uk-active"><a href="/fim-k8s/docs/quickstart/">Quickstart</a></li>
+                      <li class=""><a href="/fim-k8s/docs/overview/">Overview</a></li>
+                    
+                      
+                      
+                      <li class="uk-active"><a href="/fim-k8s/docs/getting-started/">Getting Started</a></li>
                     
                       
                       
                       <li class=""><a href="/fim-k8s/docs/fimwatcher/">Defining a FimWatcher</a></li>
+                    
+                    </ul>
+                    
+                    <h5>Technical Guide</h5>
+                    <ul class="uk-nav uk-nav-default doc-nav">
                     
                       
                       
@@ -99,11 +110,6 @@
                       
                       
                       <li class=""><a href="/fim-k8s/docs/examples/">Examples and Best Practices</a></li>
-                    
-                    </ul>
-                    
-                    <h5>Technical Guide</h5>
-                    <ul class="uk-nav uk-nav-default doc-nav">
                     
                     </ul>
                     
@@ -119,18 +125,27 @@
 
                 <article class="uk-article">
 
-                    <h1 class="uk-article-title">Quickstart</h1>
+                    <h1 class="uk-article-title">Getting Started</h1>
 
-                    <p class="subtitle uk-text-lead uk-text-muted">File Integrity Monitoring for Kubernetes</p>
+                    <p class="subtitle uk-text-lead uk-text-muted">Jump right in and start using the product</p>
 
                     <div class="article-content">
-                        <p>Depending on the environment where you wish to run <code class="highlighter-rouge">fim-k8s</code>, there may be
-additional requirements to run the daemon as a privileged container, and the
-controller to see certain events happening on the cluster.</p>
+                        <p><strong>fim-k8s</strong> works by configuring a custom Kubernetes resource that defines paths
+and events that you want to be notified about for your current deployments.
+This custom resource, in conjunction with a cluster controller running and
+listening for lifecycle events, is responsible for maintaining a source of truth
+between the state of the cluster and the daemons listening for filesystem events
+on each node.</p>
+
+<h2 id="quickstart">Quickstart</h2>
+
+<p>In order to properly run these components, a Kubernetes cluster running v1.8 or
+above is required. Depending on your environment, there may be additional
+requirements to run both the daemon as a privileged container and the controller
+with an appropriate level of access to receive cluster events.</p>
 
 <p>We provide multiple paths of configuration for both vanilla Kubernetes and
-OpenShift, which has additional security measures in place. Components that will
-be deployed are outlined under each section.</p>
+OpenShift, which has additional security measures in place.</p>
 
 <ul uk-tab="">
 
@@ -145,15 +160,26 @@ be deployed are outlined under each section.</p>
 <ul class="uk-switcher uk-margin">
 
 	<li>
-<p>To deploy <code class="highlighter-rouge">fim-k8s</code> on a vanilla Kubernetes environment, simply run an <code class="highlighter-rouge">apply</code>
-on the following:</p>
+<p>To deploy <strong>fim-k8s</strong> on a vanilla Kubernetes environment, simply run an <code class="highlighter-rouge">apply</code>
+on the following hosted configuration:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl apply <span class="nt">-f</span> https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-k8s.yaml
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl apply <span class="nt">-f</span> <span class="se">\</span>
+  https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-k8s.yaml
 </code></pre></div></div>
 
-<p>This will create a <strong>Namespace</strong> <code class="highlighter-rouge">fim</code> under which all the components will be
-housed. The two main components you will be monitoring and logging are the
-<code class="highlighter-rouge">fimcontroller</code> Deployment and <code class="highlighter-rouge">fimd</code> DaemonSet.</p>
+<p>This will create a <code class="highlighter-rouge">Namespace</code> <strong>fim</strong> under which all the components will be
+organized.</p>
+
+<p>Under the namespace is a <code class="highlighter-rouge">ServiceAccount</code> used to run all items of the product;
+this service account will also get a <code class="highlighter-rouge">ClusterRoleBinding</code> with settings that
+allow the controller and daemon to be run with their required privileges.</p>
+
+<p>A <code class="highlighter-rouge">CustomResourceDefinition</code> is included to define a custom <strong>FimWatcher</strong>
+type housing the pod selector, paths, events, and optional flags for the watcher.</p>
+
+<p>Finally, the <strong>fimcontroller</strong> <code class="highlighter-rouge">Deployment</code> and <strong>fimd</strong> <code class="highlighter-rouge">DaemonSet</code> are the
+core of the product. There is a headless <code class="highlighter-rouge">Service</code> used to communicate between
+the controller and all instances of the daemons.</p>
 </li>
 
 	<li>
@@ -161,7 +187,8 @@ housed. The two main components you will be monitoring and logging are the
 install, which requires a few more components to be created. This can be
 done with the following command:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc apply <span class="nt">-f</span> https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift.yaml
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>oc apply <span class="nt">-f</span> <span class="se">\</span>
+  https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift.yaml
 </code></pre></div></div>
 
 <p>This will create an OpenShift <strong>Project</strong> <code class="highlighter-rouge">fim</code> under which all components will be
@@ -173,13 +200,15 @@ housed. The two main components you will be monitoring and logging are the
 <p>To install using a Helm chart, we provide a couple ways to do this. The simplest
 being an archive file included in each release:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm install https://github.com/clustergarage/fim-k8s/releases/download/v0.1.0/fim-k8s-0.1.0.tgz
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm install <span class="se">\</span>
+  https://github.com/clustergarage/fim-k8s/releases/download/v0.1.0/fim-k8s-0.1.0.tgz
 </code></pre></div></div>
 
 <p>The other way is to add a Helm repository to your cluster and
 update/install using these mechanisms:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm repo add clustergarage https://raw.githubusercontent.com/clustergarage/fim-k8s/master/helm/
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm repo add clustergarage <span class="se">\</span>
+  https://raw.githubusercontent.com/clustergarage/fim-k8s/master/helm/
 helm repo update
 helm install clustergarage/fim-k8s
 </code></pre></div></div>
@@ -190,6 +219,17 @@ helm install clustergarage/fim-k8s
 </ul>
 
 <hr />
+
+<p>You can verify that all pieces and parts are running properly by calling:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl -n fim get all
+</code></pre></div></div>
+
+<p>All pods should eventually converge into <code class="highlighter-rouge">Running</code> state. The daemon pods in
+particular should be running on each node that run workloads you wish to be
+notified on. The controller is suggested to run with a single replica, as all
+operations are idempotent to the daemon; it can still function properly with
+greater-than one replica however.</p>
 
 <h2 id="need-help">Need Help?</h2>
 
@@ -206,9 +246,14 @@ Suspendisse a gravida ex.</p>
 
   
   
+
+  
+  
     <ul class="uk-pagination uk-margin-top">
           
-
+            
+            
+            <li><a class="hvr-back" href="/fim-k8s/docs/overview/">&larr; Previous</a></li>
           
           
             
@@ -235,10 +280,6 @@ Suspendisse a gravida ex.</p>
     
 
     
-        <li><a href="/fim-k8s/docs/examples/">Examples and Best Practices</a></li>
-        
-        
-    
 
     
 
@@ -261,18 +302,27 @@ Suspendisse a gravida ex.</p>
     
 
     
-        <li><a href="/fim-k8s/docs/monitoring/">Monitoring Watches</a></li>
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+        <li><a href="/fim-k8s/docs/overview/">Overview</a></li>
         
         
-    
-
-    
-
-    
-    
-
-    
-
     
 
     
