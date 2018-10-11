@@ -30,7 +30,9 @@ sass:
   style: compressed
 remote_theme: clustergarage/docs-theme
 mermaid:
-  src: "https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"
+  src: "https://unpkg.com/mermaid@7.0.0/dist/mermaid.min.js"
+  #src: "https://unpkg.com/mermaid@7.1.0/dist/mermaid.min.js"
+  #src: "https://unpkg.com/mermaid@8.0.0-rc.8/dist/mermaid.min.js"
 plugins:
 - jekyll-avatar
 - jekyll-code-tabs

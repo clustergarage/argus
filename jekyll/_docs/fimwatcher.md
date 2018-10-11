@@ -2,7 +2,7 @@
 layout: doc
 title: Defining a FimWatcher
 subtitle: File Integrity Monitoring for Kubernetes
-tags: fimwatcher
+tags: introduction fimwatcher
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit.

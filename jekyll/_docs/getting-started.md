@@ -1,7 +1,7 @@
 ---
 layout: doc
 title: Getting Started
-subtitle: File Integrity Monitoring for Kubernetes
+subtitle: Jump right in and start using the product
 tags: introduction fimwatcher
 ---
 

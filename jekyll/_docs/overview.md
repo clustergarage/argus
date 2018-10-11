@@ -1,9 +1,9 @@
 ---
 layout: doc
 title: Overview
-subtitle: File Integrity Monitoring for Kubernetes
-redirect_from: /docs
+subtitle: Deep dive into the product and its architecture
 tags: introduction
+redirect_from: /docs
 ---
 
 **fim-k8s** is a set of custom Kubernetes resources that facilitates filesystem
@@ -19,15 +19,17 @@ run on each node to ensure that it can monitor running pods on the same node.
 It is charged with setting up inode watchers via `inotify` to allow you to see
 when certain filesystem events happen on the desired paths inside the pod.
 
-It will be up to you to log, monitor, and track in your favorite tools of choice
-these events that will be printed out. We will provide some patterns to do so on
-popular sets of tools further in this documentation.
+> It will be up to you to store, monitor, and alert on these logged events using
+your favorite tools of choice.
+
+We will provide some common patterns using sets of popular tools further in this
+documentation.
 
 ## Architecture
 
 {% mermaid %}
 graph RL
-    A(procfs) -->|inotify| B[fimnotify]
+    A((procfs)) -->|inotify| B[fimnotify]
     subgraph daemon
     C{fimd} --> B
     B .->|mqueue| C
@@ -52,7 +54,7 @@ watch appropriately in the fashion you describe.
 
 ### Controller
 
-`fimcontroller` is the glue between the Kubernetes lifecycle and the daemons 
+`fimcontroller` is the glue between the Kubernetes lifecycle and the daemons
 listening for events on the filesystems. It responds to events such as pod
 listers add, update, and delete, making sure that the proper state of the
 daemon that is running on the same node as that pod has the watcher either
@@ -84,10 +86,26 @@ recursively, this can be configured with an optional flag and will maintain
 a tree of additional paths to watch under the parent.
 
 {% mermaid %}
-graph LR
-    A(procfs) -->|inotify| B[fimnotify]
-    C{fimd} --> B
-    B .->|mqueue| C
+sequenceDiagram
+    participant A as fimd
+    participant B as fimnotify
+    participant C as procfs
+    A->>+B: Creates child processes
+    B->>C: Creates inotify watchers
+    Note over B,C: Polling for inotify events...
+    loop inotify event
+      C->>B: Write event to mq
+      opt exit signal
+          B-->C: Stop polling and exit
+      end
+    end
+    Note over A,B: Listening on message queue...
+    loop mq message
+      B->>A: Print log message
+      opt mq exit msg
+          A->>-B: Kill fimnotify process
+      end
+    end
 {% endmermaid %}
 
 Once the **fimnotify** process receives an `inotify` message that the user
