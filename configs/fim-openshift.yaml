@@ -87,10 +87,7 @@ kind: SecurityContextConstraints
 metadata:
   name: fim
 allowHostDirVolumePlugin: true
-allowHostIPC: true
-allowHostNetwork: true
 allowHostPID: true
-allowHostPorts: true
 allowPrivilegedContainer: true
 allowedCapabilities:
 - '*'

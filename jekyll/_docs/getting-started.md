@@ -1,7 +1,7 @@
 ---
 layout: doc
 title: Getting Started
-subtitle: Jump right in and start using the product
+subtitle: Installing fim-k8s in your Kubernetes cluster
 tags: introduction fimwatcher
 ---
 
@@ -23,7 +23,6 @@ We provide multiple paths of configuration for both vanilla Kubernetes and
 OpenShift, which has additional security measures in place.
 
 {% codetabs %}
-
 {% codetab Kubernetes %}
 To deploy **fim-k8s** on a vanilla Kubernetes environment, simply run an `apply`
 on the following hosted configuration:
@@ -35,34 +34,25 @@ kubectl apply -f \
 
 This will create a `Namespace` **fim** under which all the components will be
 organized.
-
-Under the namespace is a `ServiceAccount` used to run all items of the product;
-this service account will also get a `ClusterRoleBinding` with settings that
-allow the controller and daemon to be run with their required privileges.
-
-A `CustomResourceDefinition` is included to define a custom **FimWatcher**
-type housing the pod selector, paths, events, and optional flags for the watcher.
-
-Finally, the **fimcontroller** `Deployment` and **fimd** `DaemonSet` are the
-core of the product. There is a headless `Service` used to communicate between
-the controller and all instances of the daemons.
 {% endcodetab %}
-
 {% codetab OpenShift %}
-OpenShift has a more opinionated security model by default. We assume a normal OpenShift
-install, which requires a few more components to be created. This can be
-done with the following command:
+OpenShift has a more opinionated security model by default. We assume a normal
+OpenShift install, which requires a few more components to be created. This can
+be done with the following command:
 
 ```shell
 oc apply -f \
   https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift.yaml
 ```
 
-This will create an OpenShift **Project** `fim` under which all components will be
-housed. The two main components you will be monitoring and logging are the
-`fimcontroller` DeploymentConfig and `fimd` DaemonSet.
+This will create an OpenShift `Project` **fim** under which all components will
+be organized. In addition to creating a `Namespace`, an OpenShift project needs
+various `RoleBindings` for building and pulling images via an `ImageStream` and
+for our `ServiceAccount` to have an admin role reference. OpenShift also
+requires `SecurityContextConstraints` to properly run containers as certain
+users, as a privileged container, and gain access to the host PID namespace and
+volume.
 {% endcodetab %}
-
 {% codetab Helm %}
 To install using a Helm chart, we provide a couple ways to do this. The simplest
 being an archive file included in each release:
@@ -72,8 +62,8 @@ helm install \
   https://github.com/clustergarage/fim-k8s/releases/download/v0.1.0/fim-k8s-0.1.0.tgz
 ```
 
-The other way is to add a Helm repository to your cluster and
-update/install using these mechanisms:
+The other way is to add a Helm repository to your cluster and update/install
+using these mechanisms:
 
 ```shell
 helm repo add clustergarage \
@@ -82,24 +72,29 @@ helm repo update
 helm install clustergarage/fim-k8s
 ```
 
-Lorem ipsum dolor sit amet.
+This will create a `Namespace` **fim** under which all the components will be
+organized.
 {% endcodetab %}
-
 {% endcodetabs %}
 
----
+Under the **fim** namespace is a `ServiceAccount` used to run all items of
+fim-k8s; this service account will also get a `ClusterRoleBinding` with settings
+that allow the controller and daemon to be run with their required privileges.
 
-You can verify that all pieces and parts are running properly by calling:
+A `CustomResourceDefinition` is included to define a custom **FimWatcher**
+type housing the pod selector, paths, events, and optional flags for the watcher.
 
-```
-kubectl -n fim get all
-```
+Finally, the **fimcontroller** `Deployment` and **fimd** `DaemonSet` are the
+core of the product. There is a headless `Service` used to communicate between
+the controller and all instances of the daemons.
+
+> You can verify that it installed properly by calling `kubectl -n fim get all`
 
 All pods should eventually converge into `Running` state. The daemon pods in
 particular should be running on each node that run workloads you wish to be
 notified on. The controller is suggested to run with a single replica, as all
-operations are idempotent to the daemon; it can still function properly with
-greater-than one replica however.
+method calls to the daemon are idempotent; it can still function properly with
+\>1 replicas, however.
 
 ## Need Help?
 

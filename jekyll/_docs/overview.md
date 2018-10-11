@@ -1,7 +1,7 @@
 ---
 layout: doc
 title: Overview
-subtitle: Deep dive into the product and its architecture
+subtitle: Deep dive into fim-k8s and its architecture
 tags: introduction
 redirect_from: /docs
 ---
