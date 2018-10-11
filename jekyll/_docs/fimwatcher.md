@@ -1,22 +1,31 @@
 ---
 layout: doc
 title: Defining a FimWatcher
-subtitle: File Integrity Monitoring for Kubernetes
+subtitle: Watch for important events on your deployments
 tags: introduction fimwatcher
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-Vestibulum quis nibh et nibh facilisis imperdiet. Aliquam faucibus vulputate lorem eu tincidunt.
+Once you have **fim-k8s** installed on your cluster, you are ready to start
+setting up watchers for your deployments. All possible configurations of the
+how, and what, of setting up a FimWatcher on your deployments are described
+below.
 
 #### Topics
 {:.no_toc}
 * TOC
 {:toc}
 
-## Required Definition
+## Required definition
 
-List all event types here. Nullam ultrices diam eget felis laoreet, ac pellentesque est dapibus.
+At a bare minimum, the fields you need to provide are the `selector`, which
+works just like any other label selector in Kubernetes; the `subjects` array
+allows you to define any number of path/event combination to watch.
+
+For example, you have an important path that should never receive any kind
+of modification events. You can set a subject as the example below, in order
+to receive any notification when a `modify` inode event happens at that path
+location. This includes any change to the path itself, as well as children
+inside the path.
 
 ```yaml
 apiVersion: fimcontroller.clustergarage.io/v1alpha1
@@ -34,24 +43,30 @@ spec:
     - /path/to/watch
 ```
 
-List of possible `events`:
+#### List of all possible `events`
+
 - `access` - file was accessed
 - `modify` - file was modified
 - `attrib` - metadata changed; for example: permissions, timestamps, extended
-  attributes, link count, user/group ID
+attributes, link count, user/group ID
 - `open` - file or directory was opened
 - `close` - file opened-for-writing was closed; file or directory not
-  opened-for-writing was closed
+opened-for-writing was closed
 - `create` - file or directory was created in watched directory
 - `delete` - file or directory deleted from watched directory; watched file or
-  directory was itself deleted
+directory was itself deleted
 - `move` - watched file or directory was itself moved; moved to/from events also
-  included
+included
 - `all` - all events above
 
-## Recursively Watching a Directory
+## Recursively watching a directory
 
-Quisque et leo leo. Duis eleifend elit dolor, in malesuada mi eleifend vitae.
+If you're familiar with `inotify` you'd know it only works on a specified path
+and does not watch recursively. We added the ability to do so by passing a flag
+in through the configuration; this will keep a tree of child nodes off the main
+parent path that you pass into the subject `paths`. We make sure to handle any
+possible new addition, deletion or update of a child path, even if the parent
+path is modified, deleted, unmounted, from under us.
 
 ```yaml
   subjects:
@@ -62,9 +77,12 @@ Quisque et leo leo. Duis eleifend elit dolor, in malesuada mi eleifend vitae.
     recursive: true
 ```
 
-## Recursively Watching a Directory with a Maximum Depth
+## Recursively watching a directory with a maximum depth
 
-Quisque et leo leo. Duis eleifend elit dolor, in malesuada mi eleifend vitae.
+In addition to watching recursively, if you only wish to recursively watch at
+a certain number of children below the parent, you can specify a `maxDepth`
+amount in the configuration. After that depth is reached it will stop at that
+leaf level and not go any further.
 
 ```yaml
   subjects:
@@ -76,9 +94,11 @@ Quisque et leo leo. Duis eleifend elit dolor, in malesuada mi eleifend vitae.
     maxDepth: 2
 ```
 
-## Ignoring Specific Paths
+## Ignoring specific paths
 
-Duis mollis ex felis, eu pellentesque magna cursus eget.
+Also in addition to the recursive watch option, if there are specific paths you
+wish to ignore, such as a cache folder, a SCM folder like `.git`, or other
+logical cases, an `ignore` array similar to the `paths` array can be provided.
 
 ```yaml
   subjects:
@@ -91,9 +111,16 @@ Duis mollis ex felis, eu pellentesque magna cursus eget.
     recursive: true
 ```
 
-## Watching Only Directories
+## Watching only directories
 
-Quisque et leo leo. Duis eleifend elit dolor, in malesuada mi eleifend vitae.
+An extra flag can be provided to `inotify` that ensures the watched path is
+specifically a directory type. In the case of modifying that path into a file
+or symlink, it provides a race-free way of ensuring that you are always
+monitoring it as a directory.
+
+In the case of the example below, it would attempt to watch `file.ext` as a
+directory; if this is not an actual directory it will ignore it from any
+listeners and will not receive any updates on that file.
 
 ```yaml
   subjects:
@@ -105,9 +132,11 @@ Quisque et leo leo. Duis eleifend elit dolor, in malesuada mi eleifend vitae.
     onlyDir: true
 ```
 
-## Custom Log Format
+## Custom logging format
 
-Vestibulum quis nibh et nibh facilisis imperdiet. Aliquam faucibus vulputate lorem eu tincidunt.
+If you want to specify your own logging format when a watcher is notified of an
+update, you can do so with the `logFormat` option. This takes a format string
+with specifiers that we will later interpolate with real values.
 
 ```yaml
 apiVersion: fimcontroller.clustergarage.io/v1alpha1
@@ -126,21 +155,19 @@ spec:
     - /path/to/watch
 ```
 
-Default log format is `{event} {ftype} '{path}{sep}{file}' ({pod}:{node})`
+The default log format is `{event} {ftype} '{path}{sep}{file}' ({pod}:{node})`.
 
-List of possible `logFormat` components:
+> Example output using the default format:
+`IN_MODIFY file '/path/to/file.ext' (foo-1-pod:barnode)`
+
+#### List of all possible `logFormat` specifiers
+
 - `pod` - name of the pod
 - `node` - name of the node
 - `event` - inotify event that was observed
 - `path` - name of the directory path
 - `file` - name of the file
 - `ftype` - evaluates to "file" or "directory"
-- `sep` - placeholder for a "/" character to include between the `path` and `file`
-
-Nulla quis magna erat. Etiam mollis sapien at erat tincidunt cursus.
-Pellentesque nisl urna, eleifend ut rutrum eu, tincidunt eget ex. Cras congue
-urna pulvinar risus blandit auctor. Nullam in feugiat odio.  Pellentesque
-lobortis justo id odio imperdiet vehicula. Proin ut purus at ex tempor auctor.
-Etiam vitae diam purus. Quisque ac orci metus. Vestibulum rhoncus felis vel
-fermentum tincidunt.
+- `sep` - placeholder for a "/" character to include (e.g. between the
+`path`/`file` specifiers)
 
