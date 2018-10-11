@@ -88,7 +88,7 @@ Finally, the **fimcontroller** `Deployment` and **fimd** `DaemonSet` are the
 core of the product. There is a headless `Service` used to communicate between
 the controller and all instances of the daemons.
 
-> You can verify that it installed properly by calling `kubectl -n fim get all`
+> You can verify that it installed properly by inspecting `kubectl -n fim get all`
 
 All pods should eventually converge into `Running` state. The daemon pods in
 particular should be running on each node that run workloads you wish to be
@@ -98,6 +98,12 @@ method calls to the daemon are idempotent; it can still function properly with
 
 ## Need Help?
 
-Vestibulum eu tristique dui. Morbi convallis fringilla sapien non congue.
-Suspendisse a gravida ex.
+If you have any issues with any of the steps to get started with running this
+in your cluster, please begin by checking to see if any of the issues you may
+be facing are included in our
+[GitHub issues](https://github.com/clustergarage/fim-k8s/issues). If you
+suspect you may be having problems not recorded there, open a detailed issue
+with all steps and pertinent information about your cluster setup.
 
+If you wish to contact us directly, use the form located on the
+[Contact]({{ site.baseurl }}/contact/) page.
