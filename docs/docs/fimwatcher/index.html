@@ -14,9 +14,9 @@
 <meta property="og:description" content="Once you have fim-k8s installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up a FimWatcher on your deployments are described below." />
 <meta property="og:site_name" content="fim-k8s" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-10-11T11:56:47-04:00" />
+<meta property="article:published_time" content="2018-10-11T12:15:06-04:00" />
 <script type="application/ld+json">
-{"description":"Once you have fim-k8s installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up a FimWatcher on your deployments are described below.","dateModified":"2018-10-11T11:56:47-04:00","datePublished":"2018-10-11T11:56:47-04:00","headline":"Defining a FimWatcher","mainEntityOfPage":{"@type":"WebPage","@id":"/fim-k8s/docs/fimwatcher/"},"@type":"BlogPosting","url":"/fim-k8s/docs/fimwatcher/","@context":"http://schema.org"}</script>
+{"description":"Once you have fim-k8s installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up a FimWatcher on your deployments are described below.","dateModified":"2018-10-11T12:15:06-04:00","datePublished":"2018-10-11T12:15:06-04:00","headline":"Defining a FimWatcher","mainEntityOfPage":{"@type":"WebPage","@id":"/fim-k8s/docs/fimwatcher/"},"@type":"BlogPosting","url":"/fim-k8s/docs/fimwatcher/","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="og:image" content=""/>
@@ -182,18 +182,23 @@ inside the path.</p>
 
 <ul>
   <li><code class="highlighter-rouge">access</code> - file was accessed</li>
-  <li><code class="highlighter-rouge">modify</code> - file was modified</li>
   <li><code class="highlighter-rouge">attrib</code> - metadata changed; for example: permissions, timestamps, extended
 attributes, link count, user/group ID</li>
-  <li><code class="highlighter-rouge">open</code> - file or directory was opened</li>
-  <li><code class="highlighter-rouge">close</code> - file opened-for-writing was closed; file or directory not
-opened-for-writing was closed</li>
+  <li><code class="highlighter-rouge">closewrite</code> - file opened for writing was closed</li>
+  <li><code class="highlighter-rouge">closenowrite</code> - file or directory not opened for writing was closed</li>
+  <li><code class="highlighter-rouge">close</code> - includes <code class="highlighter-rouge">closewrite</code> and <code class="highlighter-rouge">closenowrite</code> events</li>
   <li><code class="highlighter-rouge">create</code> - file or directory was created in watched directory</li>
-  <li><code class="highlighter-rouge">delete</code> - file or directory deleted from watched directory; watched file or
-directory was itself deleted</li>
-  <li><code class="highlighter-rouge">move</code> - watched file or directory was itself moved; moved to/from events also
-included</li>
-  <li><code class="highlighter-rouge">all</code> - all events above</li>
+  <li><code class="highlighter-rouge">delete</code> - file or directory deleted from watched directory</li>
+  <li><code class="highlighter-rouge">deleteself</code> - watched file or directory was itself deleted</li>
+  <li><code class="highlighter-rouge">modify</code> - file was modified</li>
+  <li><code class="highlighter-rouge">moveself</code> - watched file or directory was itself moved</li>
+  <li><code class="highlighter-rouge">movedfrom</code> - generated for the directory containing the old filename when a
+file is renamed</li>
+  <li><code class="highlighter-rouge">movedto</code> - generated for the directory containing the new filename when a
+file is renamed</li>
+  <li><code class="highlighter-rouge">move</code> - includes <code class="highlighter-rouge">moveself</code>, <code class="highlighter-rouge">movedfrom</code>, and <code class="highlighter-rouge">movedto</code> events</li>
+  <li><code class="highlighter-rouge">open</code> - file or directory was opened</li>
+  <li><code class="highlighter-rouge">all</code> - includes all events listed above</li>
 </ul>
 
 <h2 id="recursively-watching-a-directory">Recursively watching a directory</h2>
@@ -291,7 +296,7 @@ with specifiers that we will later interpolate with real values.</p>
 
 <blockquote>
   <p>Example output using the default format:
-<code class="highlighter-rouge">IN_MODIFY file '/path/to/file.ext' (foo-1-pod:barnode)</code></p>
+<code class="highlighter-rouge">MODIFY file '/path/to/file.ext' (foo-1-pod:barnode)</code></p>
 </blockquote>
 
 <h4 id="list-of-all-possible-logformat-specifiers">List of all possible <code class="highlighter-rouge">logFormat</code> specifiers</h4>

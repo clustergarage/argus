@@ -46,18 +46,23 @@ spec:
 #### List of all possible `events`
 
 - `access` - file was accessed
-- `modify` - file was modified
 - `attrib` - metadata changed; for example: permissions, timestamps, extended
-attributes, link count, user/group ID
-- `open` - file or directory was opened
-- `close` - file opened-for-writing was closed; file or directory not
-opened-for-writing was closed
+  attributes, link count, user/group ID
+- `closewrite` - file opened for writing was closed
+- `closenowrite` - file or directory not opened for writing was closed
+- `close` - includes `closewrite` and `closenowrite` events
 - `create` - file or directory was created in watched directory
-- `delete` - file or directory deleted from watched directory; watched file or
-directory was itself deleted
-- `move` - watched file or directory was itself moved; moved to/from events also
-included
-- `all` - all events above
+- `delete` - file or directory deleted from watched directory
+- `deleteself` - watched file or directory was itself deleted
+- `modify` - file was modified
+- `moveself` - watched file or directory was itself moved
+- `movedfrom` - generated for the directory containing the old filename when a
+  file is renamed
+- `movedto` - generated for the directory containing the new filename when a
+  file is renamed
+- `move` - includes `moveself`, `movedfrom`, and `movedto` events
+- `open` - file or directory was opened
+- `all` - includes all events listed above
 
 ## Recursively watching a directory
 
@@ -158,7 +163,7 @@ spec:
 The default log format is `{event} {ftype} '{path}{sep}{file}' ({pod}:{node})`.
 
 > Example output using the default format:
-`IN_MODIFY file '/path/to/file.ext' (foo-1-pod:barnode)`
+`MODIFY file '/path/to/file.ext' (foo-1-pod:barnode)`
 
 #### List of all possible `logFormat` specifiers
 
