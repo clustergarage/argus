@@ -14,7 +14,7 @@ on each node.
 
 ## Quickstart
 
-In order to properly run these components, a Kubernetes cluster running v1.8 or
+In order to properly run these components, a Kubernetes cluster running v1.9 or
 above is required. Depending on your environment, there may be additional
 requirements to run both the daemon as a privileged container and the controller
 with an appropriate level of access to receive cluster events.

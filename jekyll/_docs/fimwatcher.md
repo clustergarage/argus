@@ -45,24 +45,24 @@ spec:
 
 #### List of all possible `events`
 
-- `access` - file was accessed
-- `attrib` - metadata changed; for example: permissions, timestamps, extended
-  attributes, link count, user/group ID
-- `closewrite` - file opened for writing was closed
-- `closenowrite` - file or directory not opened for writing was closed
-- `close` - includes `closewrite` and `closenowrite` events
-- `create` - file or directory was created in watched directory
-- `delete` - file or directory deleted from watched directory
-- `deleteself` - watched file or directory was itself deleted
-- `modify` - file was modified
-- `moveself` - watched file or directory was itself moved
-- `movedfrom` - generated for the directory containing the old filename when a
-  file is renamed
-- `movedto` - generated for the directory containing the new filename when a
-  file is renamed
-- `move` - includes `moveself`, `movedfrom`, and `movedto` events
-- `open` - file or directory was opened
-- `all` - includes all events listed above
+- `access` &mdash; file was accessed
+- `attrib` &mdash; metadata changed; for example: permissions, timestamps,
+  extended attributes, link count, user/group ID
+- `closewrite` &mdash; file opened for writing was closed
+- `closenowrite` &mdash; file or directory not opened for writing was closed
+- `close` &mdash; includes `closewrite` and `closenowrite` events
+- `create` &mdash; file or directory was created in watched directory
+- `delete` &mdash; file or directory deleted from watched directory
+- `deleteself` &mdash; watched file or directory was itself deleted
+- `modify` &mdash; file was modified
+- `moveself` &mdash; watched file or directory was itself moved
+- `movedfrom` &mdash; generated for the directory containing the old filename
+  when a file is renamed
+- `movedto` &mdash; generated for the directory containing the new filename
+  when a file is renamed
+- `move` &mdash; includes `moveself`, `movedfrom`, and `movedto` events
+- `open` &mdash; file or directory was opened
+- `all` &mdash; includes all events listed above
 
 ## Recursively watching a directory
 
@@ -167,12 +167,12 @@ The default log format is `{event} {ftype} '{path}{sep}{file}' ({pod}:{node})`.
 
 #### List of all possible `logFormat` specifiers
 
-- `pod` - name of the pod
-- `node` - name of the node
-- `event` - inotify event that was observed
-- `path` - name of the directory path
-- `file` - name of the file
-- `ftype` - evaluates to "file" or "directory"
-- `sep` - placeholder for a "/" character to include (e.g. between the
+- `pod` &mdash; name of the pod
+- `node` &mdash; name of the node
+- `event` &mdash; inotify event that was observed
+- `path` &mdash; name of the directory path
+- `file` &mdash; name of the file
+- `ftype` &mdash; evaluates to "file" or "directory"
+- `sep` &mdash; placeholder for a "/" character to include (e.g. between the
 `path`/`file` specifiers)
 
