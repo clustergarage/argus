@@ -19,11 +19,11 @@ run on each node to ensure that it can monitor running pods on the same node.
 It is charged with setting up inode watchers via `inotify` to allow you to see
 when certain filesystem events happen on the desired paths inside the pod.
 
-> It will be up to you to store, monitor, and alert on these logged events using
-your favorite tools of choice.
+> It will be up to you to store, monitor, and alert on these logged events
+using your favorite tools of choice.
 
-We will provide some common patterns using sets of popular tools further in this
-documentation.
+We will provide some common patterns using sets of popular tools further in
+this documentation.
 
 ## Architecture
 

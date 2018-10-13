@@ -18,12 +18,15 @@ below.
 ## Required definition
 
 At a bare minimum, the fields you need to provide are the `selector`, which
-works just like any other label selector in Kubernetes; the `subjects` array
-allows you to define any number of path/event combination to watch.
+works just like any other label selector in Kubernetes. `matchLabels` and
+`matchExpressions` are both supported, as described in the [labels and
+selectors](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels)
+documentation. The `subjects` array allows you to define any number of path and
+event combination to watch.
 
-For example, you have an important path that should never receive any kind
-of modification events. You can set a subject as the example below, in order
-to receive any notification when a `modify` inode event happens at that path
+For example, you have an important path that should never receive any kind of
+modification events. You can set a subject as the example below, in order to
+receive any notification when a `modify` inode event happens at that path
 location. This includes any change to the path itself, as well as children
 inside the path.
 
@@ -64,6 +67,14 @@ spec:
 - `open` &mdash; file or directory was opened
 - `all` &mdash; includes all events listed above
 
+#### Limitations
+
+- If watching a directory that is symlinked, you will need to watch the
+  **source** directory, not the destination. A symlink is a special kind of
+  file and does not behave exactly like an actual directory. In the case of
+  watching the destination, you would only receive events on that file but not
+  on any events on any child objects under it.
+
 ## Recursively watching a directory
 
 If you're familiar with `inotify` you'd know it only works on a specified path
@@ -101,9 +112,10 @@ leaf level and not go any further.
 
 ## Ignoring specific paths
 
-Also in addition to the recursive watch option, if there are specific paths you
-wish to ignore, such as a cache folder, a SCM folder like `.git`, or other
-logical cases, an `ignore` array similar to the `paths` array can be provided.
+In addition to the recursive watch option, if there are specific paths you wish
+to ignore, such as a cache or SCM folder, an `ignore` array similar to `paths`
+can be provided. Currently, these ignored paths are a simple direct comparison,
+not a glob or regex check.
 
 ```yaml
   subjects:
@@ -113,6 +125,7 @@ logical cases, an `ignore` array similar to the `paths` array can be provided.
     - /path/to/watch
     ignore:
     - .cache
+    - .git
     recursive: true
 ```
 
