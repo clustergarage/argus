@@ -1,103 +1,51 @@
 # fim-k8s
 
-## Running
+This repository fronts the **fim-k8s** application suite. It includes several
+components that make up the documentation, configuration files linked in the
+docs, and a set of common examples to get you started.
 
-#### Kubernetes
+**tl;dr--** [get started
+here](https://clustergarage.io/fim-k8s/docs/getting-started/)!
 
-```
-kubectl apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-k8s.yaml
-```
+## Purpose
 
-#### OpenShift
+The documentation files that build the [marketing
+site](https://clustergarage.io/fim-k8s/) are hosted and maintained here.
+Configuration files are hosted in order to be linked as raw YAML that can be
+`apply`ed to your running cluster. In addition to those, a suite of common
+examples that allow you to familiarize yourself with how to set up watchers on
+common applications in both vanilla Kubernetes as well as OpenShift variants.
 
-```
-# fimcontroller deployment requires scc: anyuid
-# fimd daemonset requires scc: privileged
+## Configuration Files
 
-oc apply -f https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift.yaml
-```
+Located under:
+- `configs/fim-k8s.yaml` &mdash; for vanilla Kubernetes clusters
+- `configs/fim-openshift.yaml` &mdash; for OpenShift clusters
 
-#### Helm
+Presents the production configuration files to stand it up in your running
+cluster; the steps to use these are summarized in the [getting
+started](https://clustergarage.io/fim-k8s/docs/getting-started/) section of the
+documentation.
 
-```
-# install from tgz archive
-helm install https://github.com/clustergarage/fim-k8s/releases/download/v0.1.0/fim-k8s-0.1.0.tgz
+## Running Examples
 
-# add to repo and install
-helm repo add clustergarage
-https://raw.githubusercontent.com/clustergarage/fim-k8s/master/helm/
-helm repo update
-helm install clustergarage/fim-k8s
-```
+Located under:
+- `examples/*`
 
-## Defining a FimWatcher component
+Provides sample configurations to create and monitor FimWatchers with various
+applications that will be outlined in the [examples and best
+practices](https://clustergarage.io/fim-k8s/docs/examples/) documentation.
 
-```
-apiVersion: fimcontroller.clustergarage.io/v1alpha1
-kind: FimWatcher
-metadata: [...]
-spec:
-  selector:
-    matchLabels:
-      run: myapp
-  subjects:
-  - paths:
-    - /var/log/myapp
-    events:
-    - open
-    - modify
-    ignore:
-    - .git
-    - .cache
-  - paths:
-    - /var/log/financialdata
-    events:
-    - all
-    onlyDir: true
-    recursive: true
-    maxDepth: 2
-```
+## Helm Repository
 
-## Examples
+If using the popular Kubernetes package manager Helm, we maintain and host a
+Helm repository in this area as well.
 
-#### Guestbook example (Kuberetes)
+Located under:
+- `helm/*`
 
-```
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/release-1.10/examples/guestbook/all-in-one/guestbook-all-in-one.yaml
-kubectl apply -f examples/guestbook-fim-watch.yaml
-```
+Further information on how to use the Helm variation of **fim-k8s** is also
+located in the [getting
+started](https://clustergarage.io/fim-k8s/docs/getting-started/) section of the
+documentation.
 
-#### NGiNX example (Kubernetes)
-
-```
-kubectl run nginx --image=nginx
-kubectl apply -f examples/nginx-fim-watch.yaml
-```
-
-#### Django example (OpenShift)
-
-```
-oc new-app python:3.5~https://github.com/openshift/django-ex
-oc apply -f examples/djangoex-fim-watch.yaml
-```
-
-##### Testing/Debugging
-
-```
-# tail logs of controller/daemon
-oc logs -f -n fim fimcontroller.clustergarage.io-[...]
-oc logs -f -n fim fimd.clustergarage.io-[...]
-
-# scale deployment up/down to see watchers get started/stopped
-oc edit dc django-ex
-
-# generate create/modify message
-oc rsh django-ex-[...]
-echo "test" >> /opt/app-root/test.log
-```
-
-#### Sidecar example (OpenShift)
-
-```
-oc apply -f examples/sidecar/
-```
