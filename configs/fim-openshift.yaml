@@ -159,7 +159,7 @@ spec:
     spec:
       containers:
       - name: fimcontroller
-        image: clustergarage/fim-controller
+        image: clustergarage/fim-controller:v0.1.0
         livenessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr", ":5000"]
