@@ -5,10 +5,21 @@ metadata:
 spec:
   group: fimcontroller.clustergarage.io
   version: v1alpha1
+  scope: Namespaced
   names:
     kind: FimWatcher
     singular: fimwatcher
     plural: fimwatchers
     shortNames:
     - fw
-  scope: Namespaced
+  subresources:
+    status: {}
+  additionalPrinterColumns:
+  - name: Observable
+    type: integer
+    description: Number of pods that can be watched
+    JSONPath: .status.observablePods
+  - name: Watched
+    type: integer
+    description: Number of pods currently being watched
+    JSONPath: .status.watchedPods
