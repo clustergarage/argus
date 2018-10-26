@@ -150,6 +150,34 @@ listeners and will not receive any updates on that file.
     onlyDir: true
 ```
 
+## Custom tagging
+
+Custom tags can be added per-subject to allow you to later query specific
+portions of your watchers. These are defined in a YAML-style map and at logging
+time will be condensed into a comma-separated list of `key=value` pairs. In the
+case of the below example, when logging an event, the tags will should up as:
+`foo=bar,lorem=ipsum` that you can later use your favorite logging aggregator
+and query language to target this specific subject.
+
+```yaml
+apiVersion: fimcontroller.clustergarage.io/v1alpha1
+kind: FimWatcher
+metadata:
+  name: mywatcher
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  subjects:
+  - events:
+    - modify
+    paths:
+    - /path/to/watch
+    tags:
+      foo: bar
+      lorem: ipsum
+```
+
 ## Custom logging format
 
 If you want to specify your own logging format when a watcher is notified of an
@@ -173,10 +201,10 @@ spec:
     - /path/to/watch
 ```
 
-The default log format is `{event} {ftype} '{path}{sep}{file}' ({pod}:{node})`.
+The default log format is `{event} {ftype} '{path}{sep}{file}' ({pod}:{node}) {tags}`.
 
 > Example output using the default format:
-`MODIFY file '/path/to/file.ext' (foo-1-pod:barnode)`
+`MODIFY file '/path/to/file.ext' (foo-1-pod:barnode) foo=bar`
 
 #### List of all possible `logFormat` specifiers
 
@@ -186,6 +214,7 @@ The default log format is `{event} {ftype} '{path}{sep}{file}' ({pod}:{node})`.
 - `path` &mdash; name of the directory path
 - `file` &mdash; name of the file
 - `ftype` &mdash; evaluates to "file" or "directory"
+- `tags` &mdash; list of custom tags in key=value comma-separated list
 - `sep` &mdash; placeholder for a "/" character to include (e.g. between the
 `path`/`file` specifiers)
 
