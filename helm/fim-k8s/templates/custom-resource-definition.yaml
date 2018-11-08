@@ -12,6 +12,8 @@ spec:
     plural: fimwatchers
     shortNames:
     - fw
+    categories:
+    - all
   subresources:
     status: {}
   additionalPrinterColumns:

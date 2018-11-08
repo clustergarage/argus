@@ -69,7 +69,14 @@ spec:
     spec:
       containers:
       - name: fimcontroller
-        image: clustergarage/fim-controller:v0.1.0
+        image: clustergarage/fim-controller:v0.2.0
+        command: [
+          "/fimcontroller",
+          "-tls-ca-file", "/usr/lib/ssl/certs/ca.crt",
+          "-tls-cert-file", "/usr/lib/ssl/certs/server.crt",
+          "-tls-key-file", "/usr/lib/ssl/certs/server.key",
+          "-tls-server-name", "localhost"
+        ]
         livenessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr", ":5000"]
@@ -78,6 +85,14 @@ spec:
           exec:
             command: ["/bin/grpc_health_probe", "-addr", ":5000"]
           initialDelaySeconds: 5
+        volumeMounts:
+        - name: fim-config-volume
+          mountPath: /usr/lib/ssl/certs
+          readOnly: true
+      volumes:
+      - name: fim-config-volume
+        configMap:
+          name: fim-config
       serviceAccountName: fim-admin
 ---
 apiVersion: apps/v1
@@ -98,7 +113,13 @@ spec:
     spec:
       containers:
       - name: fimd
-        image: clustergarage/fimd:v0.1.0
+        image: clustergarage/fimd:v0.2.0
+        command: [
+          "/fimd",
+          "-tlscafile", "/usr/lib/ssl/certs/ca.crt",
+          "-tlscertfile", "/usr/lib/ssl/certs/server.crt",
+          "-tlskeyfile", "/usr/lib/ssl/certs/server.key"
+        ]
         ports:
         - name: grpc
           containerPort: 50051
@@ -111,6 +132,9 @@ spec:
             command: ["/bin/grpc_health_probe", "-addr", ":50051"]
           initialDelaySeconds: 5
         volumeMounts:
+        - name: fim-config-volume
+          mountPath: /usr/lib/ssl/certs
+          readOnly: true
         - name: dockerpid
           mountPath: /var/run/docker.pid
         - name: dockersock
@@ -122,6 +146,9 @@ spec:
       hostPID: true
       serviceAccountName: fim-admin
       volumes:
+      - name: fim-config-volume
+        configMap:
+          name: fim-config
       - name: dockerpid
         hostPath:
           path: /var/run/docker.pid
