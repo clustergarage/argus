@@ -1,6 +1,8 @@
 namespace: fim
 serviceAccount: fim-admin
 clusterRoleBinding: fim-admin
+configMap:
+  name: fim-config
 controller:
   name: fimcontroller
   image: clustergarage/fim-controller:v0.1.0

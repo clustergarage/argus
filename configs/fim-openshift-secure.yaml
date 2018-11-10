@@ -179,9 +179,9 @@ spec:
         image: clustergarage/fim-controller:v0.2.0
         command: [
           "/fimcontroller",
-          "-tls-ca-file", "/usr/lib/ssl/certs/ca.crt",
-          "-tls-cert-file", "/usr/lib/ssl/certs/server.crt",
-          "-tls-key-file", "/usr/lib/ssl/certs/server.key",
+          "-tls-ca-file", "/usr/lib/ssl/certs/ca.pem",
+          "-tls-cert-file", "/usr/lib/ssl/certs/cert.pem",
+          "-tls-key-file", "/usr/lib/ssl/certs/key.pem",
           "-tls-server-name", "localhost"
         ]
         livenessProbe:
@@ -198,11 +198,11 @@ spec:
         - name: fim-config-volume
           mountPath: /usr/lib/ssl/certs
           readOnly: true
+      serviceAccountName: fim-admin
       volumes:
       - name: fim-config-volume
         configMap:
           name: fim-config
-      serviceAccountName: fim-admin
   triggers:
   - type: ConfigChange
   - type: ImageChange
@@ -243,9 +243,9 @@ spec:
         image: clustergarage/fimd:v0.2.0
         command: [
           "/fimd",
-          "-tlscafile", "/usr/lib/ssl/certs/ca.crt",
-          "-tlscertfile", "/usr/lib/ssl/certs/server.crt",
-          "-tlskeyfile", "/usr/lib/ssl/certs/server.key"
+          "-tlscafile", "/usr/lib/ssl/certs/ca.pem",
+          "-tlscertfile", "/usr/lib/ssl/certs/cert.pem",
+          "-tlskeyfile", "/usr/lib/ssl/certs/key.pem"
         ]
         ports:
         - name: grpc

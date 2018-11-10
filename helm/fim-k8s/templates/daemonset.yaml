@@ -17,6 +17,14 @@ spec:
       containers:
       - name: {{.Values.daemon.name}}
         image: {{.Values.daemon.image | quote}}
+        {{- if .Values.tls}}
+        command: [
+          "/fimd",
+          "-tlscafile", "/usr/lib/ssl/certs/ca.crt",
+          "-tlscertfile", "/usr/lib/ssl/certs/server.crt",
+          "-tlskeyfile", "/usr/lib/ssl/certs/server.key",
+        ]
+        {{- end}}
         ports:
         - name: {{.Values.daemon.container.portName}}
           containerPort: {{.Values.daemon.container.port}}
@@ -29,6 +37,11 @@ spec:
             command: ["/bin/grpc_health_probe", "-addr", ":{{.Values.daemon.probePort}}"]
           initialDelaySeconds: 5
         volumeMounts:
+        {{- if .Values.tls}}
+        - name: fim-config-volume
+          mountPath: /usr/lib/ssl/certs
+          readOnly: true
+        {{- end}}
         - name: dockerpid
           mountPath: /var/run/docker.pid
         - name: dockersock
@@ -40,6 +53,11 @@ spec:
       hostPID: true
       serviceAccountName: {{.Values.serviceAccount}}
       volumes:
+      {{- if .Values.tls}}
+      - name: fim-config-volume
+        configMap:
+          name: fim-config
+      {{- end}}
       - name: dockerpid
         hostPath:
           path: /var/run/docker.pid

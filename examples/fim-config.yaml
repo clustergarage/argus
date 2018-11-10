@@ -5,7 +5,7 @@ metadata:
   name: fim-config
   namespace: fim
 data:
-  ca.crt: |
+  ca.pem: |
     -----BEGIN CERTIFICATE-----
     MIIDpzCCAo+gAwIBAgIUZvcHeGu0R2AmNnXfjVOEt+p77F0wDQYJKoZIhvcNAQEM
     BQAwYzELMAkGA1UEBhMCVVMxDTALBgNVBAgMBE9oaW8xETAPBgNVBAcMCENvbHVt
@@ -28,7 +28,7 @@ data:
     jQW4inX2n/+yxxFp3f8xLG9gh0FFhNpSh6DwA0S5GoGrOgSE/ZeoDe9EHMSJ5Lll
     OCuLTQ9e8MfVlVgNZntXazXnVPNmNOgeeise
     -----END CERTIFICATE-----
-  server.crt: |
+  cert.pem: |
     -----BEGIN CERTIFICATE-----
     MIIDVjCCAj4CFE+FI82N+qiTyrEvOAJs1rB2K6EfMA0GCSqGSIb3DQEBDAUAMGMx
     CzAJBgNVBAYTAlVTMQ0wCwYDVQQIDARPaGlvMREwDwYDVQQHDAhDb2x1bWJ1czEW
@@ -49,7 +49,7 @@ data:
     KB01VoBnH5qIQpTPhpsuiHGF7ivpJAOLFDra4K4a31G4R9cigQZE4QKL6xPyC0aP
     Aoci5lghy+JEiV1MqB95qzfCFxEpHQIWmfhorK6CcPx7SNhm+HNsrXdi
     -----END CERTIFICATE-----
-  server.key: |
+  key.pem: |
     -----BEGIN RSA PRIVATE KEY-----
     MIIEpQIBAAKCAQEA+J6rI5mSVWBKrmPL4EX8J64tRUeQvC5KX83WjFIovBQd1SSi
     keKfSkfYgW5VyA6NmJglhjVxPGtMIJXV6GW269nIHrZHt4wqPyioavimlyq5t4EA
