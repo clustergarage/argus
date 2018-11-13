@@ -65,7 +65,7 @@ simplest being an archive file included in each release:
 
 ```shell
 helm install \
-  https://github.com/clustergarage/fim-k8s/releases/download/v0.1.0/fim-k8s-0.1.0.tgz
+  https://github.com/clustergarage/fim-k8s/releases/download/v0.2.0/fim-k8s-0.2.0.tgz
 ```
 
 The other way is to add a Helm repository to your cluster and update/install

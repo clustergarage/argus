@@ -5,12 +5,12 @@ configMap:
   name: fim-config
 controller:
   name: fimcontroller
-  image: clustergarage/fim-controller:v0.1.0
+  image: clustergarage/fim-controller:v0.2.0
   replicas: 1
   probePort: 5000
 daemon:
   name: fimd
-  image: clustergarage/fimd:v0.1.0
+  image: clustergarage/fimd:v0.2.0
   probePort: 50051
   container:
     port: 50051

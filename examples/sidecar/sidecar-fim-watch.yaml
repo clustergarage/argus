@@ -3,6 +3,7 @@ apiVersion: fimcontroller.clustergarage.io/v1alpha1
 kind: FimWatcher
 metadata:
   name: sidecar-fim-watcher
+  namespace: jenkins
 spec:
   selector:
     matchLabels:

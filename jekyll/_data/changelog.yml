@@ -1,10 +1,16 @@
 ---
+- title: v0.2.0
+  label: Pre-Release
+  date: 11/11/2018
+  list:
+  - Added option for secure gRPC communication with mTLS to both fimd and
+    fim-controller.
+  - Updated definitions for using insecure or secure options.
 - title: v0.1.0
   label: Pre-Release
   date: 10/10/2018
   list:
-  - Lorem ipsum dolor sit amet consectetur adipiscing
-  - Aenean volutpat maximus sapien nullam eu libero
-  - Aenean nec erat suscipit laoreet dui a viverra
-  - Donec pellentesque leo sed metus pellentesque
-  - Cras sagittis molestie libero sed fermentum metus
+  - Initial functionality of both fimd and fim-controller.
+  - Added preliminary tests for fim-controller.
+  - Definitions for vanilla K8s, OpenShift, and Helm to deploy via fim-k8s.
+  - Documentation hosted out of fim-k8s.
