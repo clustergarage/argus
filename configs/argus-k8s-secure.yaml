@@ -1,41 +1,41 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: fim
+  name: argus
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: fim-admin
-  namespace: fim
+  name: argus-admin
+  namespace: argus
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: fim-admin
+  name: argus-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: fim-admin
-  namespace: fim
+  name: argus-admin
+  namespace: argus
 ---
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
-  name: fimwatchers.fimcontroller.clustergarage.io
+  name: arguswatchers.arguscontroller.clustergarage.io
 spec:
-  group: fimcontroller.clustergarage.io
+  group: arguscontroller.clustergarage.io
   version: v1alpha1
   scope: Namespaced
   names:
-    kind: FimWatcher
-    singular: fimwatcher
-    plural: fimwatchers
+    kind: ArgusWatcher
+    singular: arguswatcher
+    plural: arguswatchers
     shortNames:
-    - fw
+    - aw
     categories:
     - all
   subresources:
@@ -53,25 +53,25 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fimcontroller
-  namespace: fim
+  name: arguscontroller
+  namespace: argus
   labels:
-    controller: fimcontroller
+    controller: arguscontroller
 spec:
   replicas: 1
   selector:
     matchLabels:
-      controller: fimcontroller
+      controller: arguscontroller
   template:
     metadata:
       labels:
-        controller: fimcontroller
+        controller: arguscontroller
     spec:
       containers:
-      - name: fimcontroller
-        image: clustergarage/fim-controller:v0.2.0
+      - name: arguscontroller
+        image: clustergarage/argus-controller:v0.3.0
         command: [
-          "/fimcontroller",
+          "/arguscontroller",
           "-tls-ca-file", "/usr/lib/ssl/certs/ca.pem",
           "-tls-cert-file", "/usr/lib/ssl/certs/cert.pem",
           "-tls-key-file", "/usr/lib/ssl/certs/key.pem",
@@ -86,36 +86,36 @@ spec:
             command: ["/bin/grpc_health_probe", "-addr", ":5000"]
           initialDelaySeconds: 5
         volumeMounts:
-        - name: fim-config-volume
+        - name: argus-config-volume
           mountPath: /usr/lib/ssl/certs
           readOnly: true
-      serviceAccountName: fim-admin
+      serviceAccountName: argus-admin
       volumes:
-      - name: fim-config-volume
+      - name: argus-config-volume
         configMap:
-          name: fim-config
+          name: argus-config
 ---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: fimd
-  namespace: fim
+  name: argusd
+  namespace: argus
   labels:
-    daemon: fimd
+    daemon: argusd
 spec:
   selector:
     matchLabels:
-      daemon: fimd
+      daemon: argusd
   template:
     metadata:
       labels:
-        daemon: fimd
+        daemon: argusd
     spec:
       containers:
-      - name: fimd
-        image: clustergarage/fimd:v0.2.0
+      - name: argusd
+        image: clustergarage/argusd:v0.3.0
         command: [
-          "/fimd",
+          "/argusd",
           "-tlscafile", "/usr/lib/ssl/certs/ca.pem",
           "-tlscertfile", "/usr/lib/ssl/certs/cert.pem",
           "-tlskeyfile", "/usr/lib/ssl/certs/key.pem"
@@ -132,7 +132,7 @@ spec:
             command: ["/bin/grpc_health_probe", "-addr", ":50051"]
           initialDelaySeconds: 5
         volumeMounts:
-        - name: fim-config-volume
+        - name: argus-config-volume
           mountPath: /usr/lib/ssl/certs
           readOnly: true
         - name: dockerpid
@@ -144,11 +144,11 @@ spec:
         securityContext:
           privileged: true
       hostPID: true
-      serviceAccountName: fim-admin
+      serviceAccountName: argus-admin
       volumes:
-      - name: fim-config-volume
+      - name: argus-config-volume
         configMap:
-          name: fim-config
+          name: argus-config
       - name: dockerpid
         hostPath:
           path: /var/run/docker.pid
@@ -162,11 +162,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: fimd-svc
-  namespace: fim
+  name: argusd-svc
+  namespace: argus
 spec:
   selector:
-    daemon: fimd
+    daemon: argusd
   clusterIP: None
   ports:
   - name: grpc

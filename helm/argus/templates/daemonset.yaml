@@ -19,7 +19,7 @@ spec:
         image: {{.Values.daemon.image | quote}}
         {{- if .Values.tls}}
         command: [
-          "/fimd",
+          "/argusd",
           "-tlscafile", "/usr/lib/ssl/certs/ca.crt",
           "-tlscertfile", "/usr/lib/ssl/certs/server.crt",
           "-tlskeyfile", "/usr/lib/ssl/certs/server.key",
@@ -38,7 +38,7 @@ spec:
           initialDelaySeconds: 5
         volumeMounts:
         {{- if .Values.tls}}
-        - name: fim-config-volume
+        - name: argus-config-volume
           mountPath: /usr/lib/ssl/certs
           readOnly: true
         {{- end}}
@@ -54,9 +54,9 @@ spec:
       serviceAccountName: {{.Values.serviceAccount}}
       volumes:
       {{- if .Values.tls}}
-      - name: fim-config-volume
+      - name: argus-config-volume
         configMap:
-          name: fim-config
+          name: argus-config
       {{- end}}
       - name: dockerpid
         hostPath:

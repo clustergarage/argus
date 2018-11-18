@@ -6,23 +6,23 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Changelog | fim-k8s</title>
+<title>Changelog | Argus</title>
 <meta name="generator" content="Jekyll v3.7.4" />
 <meta property="og:title" content="Changelog" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="File Integrity Monitoring for Kubernetes" />
 <meta property="og:description" content="File Integrity Monitoring for Kubernetes" />
-<meta property="og:site_name" content="fim-k8s" />
+<meta property="og:site_name" content="Argus" />
 <script type="application/ld+json">
-{"description":"File Integrity Monitoring for Kubernetes","@type":"WebPage","url":"/fim-k8s/changelog/","headline":"Changelog","@context":"http://schema.org"}</script>
+{"description":"File Integrity Monitoring for Kubernetes","@type":"WebPage","url":"/argus/changelog/","headline":"Changelog","@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="og:image" content=""/>
-  <link rel="stylesheet" href="/fim-k8s/assets/css/main.css">
+  <link rel="stylesheet" href="/argus/assets/css/main.css">
   <link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/7.0.0/dist/mermaid.css">
-  <link rel="shortcut icon" type="image/png" href="/fim-k8s/assets/img/favicon.png" >
-  <link rel="alternate" type="application/rss+xml" title="fim-k8s" href="/fim-k8s/feed.xml">
-  <script src="/fim-k8s/assets/js/main.js"></script>
+  <link rel="shortcut icon" type="image/png" href="/argus/assets/img/favicon.png" >
+  <link rel="alternate" type="application/rss+xml" title="Argus" href="/argus/feed.xml">
+  <script src="/argus/assets/js/main.js"></script>
   
 </head>
 
@@ -36,7 +36,7 @@
     <div data-uk-navbar>
         <div class="uk-navbar-left">
 
-            <a class="uk-navbar-item uk-logo" href="/fim-k8s/">fim-k8s</a>
+            <a class="uk-navbar-item uk-logo" href="/argus/">Argus</a>
 
         </div>
         <div class="uk-navbar-right">
@@ -44,17 +44,17 @@
                 
                     
                     
-                        <li><a href="/fim-k8s/docs" >Documentation</a></li>
+                        <li><a href="/argus/docs" >Documentation</a></li>
                     
                 
                     
                     
-                        <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+                        <li><a href="/argus/changelog" >Changelog</a></li>
                     
                 
                     
                     
-                        <li><a href="/fim-k8s/contact" >Contact</a></li>
+                        <li><a href="/argus/contact" >Contact</a></li>
                     
                 
             </ul>
@@ -82,11 +82,43 @@
             <h1 class="uk-article-title">Changelog</h1>
 
             <div class="article-content">
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                
 
             </div>
 
             <div class="tm-timeline uk-margin-large-top">
+                
+                <div class="tm-timeline-entry">
+                    <div class="tm-timeline-time">
+                        <h5>11/18/2018</h5>
+                    </div>
+                    <div class="tm-timeline-body">
+                        <h3>v0.3.0 <span class="uk-label">Pre-Release</span></h3>
+                        <ul class="uk-list">
+                            
+                            <li>Renamed `fim-k8s` to `Argus`.</li>
+                            
+                            <li>Bugfix in `argusd` including better stability for the distributed nature of creating, updating, and deleting watchers on the fly; especially when events are streaming in.</li>
+                            
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="tm-timeline-entry">
+                    <div class="tm-timeline-time">
+                        <h5>11/11/2018</h5>
+                    </div>
+                    <div class="tm-timeline-body">
+                        <h3>v0.2.0 <span class="uk-label">Pre-Release</span></h3>
+                        <ul class="uk-list">
+                            
+                            <li>Added option for secure gRPC communication with mTLS to both argusd and argus-controller.</li>
+                            
+                            <li>Updated definitions for using insecure or secure options.</li>
+                            
+                        </ul>
+                    </div>
+                </div>
                 
                 <div class="tm-timeline-entry">
                     <div class="tm-timeline-time">
@@ -96,15 +128,13 @@
                         <h3>v0.1.0 <span class="uk-label">Pre-Release</span></h3>
                         <ul class="uk-list">
                             
-                            <li>Lorem ipsum dolor sit amet consectetur adipiscing</li>
+                            <li>Initial functionality of both argusd and argus-controller.</li>
                             
-                            <li>Aenean volutpat maximus sapien nullam eu libero</li>
+                            <li>Added preliminary tests for argus-controller.</li>
                             
-                            <li>Aenean nec erat suscipit laoreet dui a viverra</li>
+                            <li>Definitions for vanilla K8s, OpenShift, and Helm to deploy via argus.</li>
                             
-                            <li>Donec pellentesque leo sed metus pellentesque</li>
-                            
-                            <li>Cras sagittis molestie libero sed fermentum metus</li>
+                            <li>Documentation hosted out of argus.</li>
                             
                         </ul>
                     </div>
@@ -124,13 +154,13 @@
         <button class="uk-offcanvas-close" type="button" data-uk-close></button>
 
         <ul class="uk-nav uk-nav-default">
-            <li><a class="uk-logo uk-margin-small-bottom" href="/fim-k8s/">fim-k8s</a></li>
+            <li><a class="uk-logo uk-margin-small-bottom" href="/argus/">Argus</a></li>
             
-            <li><a href="/fim-k8s/docs" >Documentation</a></li>
+            <li><a href="/argus/docs" >Documentation</a></li>
             
-            <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+            <li><a href="/argus/changelog" >Changelog</a></li>
             
-            <li><a href="/fim-k8s/contact" >Contact</a></li>
+            <li><a href="/argus/contact" >Contact</a></li>
             
         </ul>
     </div>
@@ -146,17 +176,17 @@
                 
                     
                     
-                        <li><a href="/fim-k8s/docs" >Documentation</a></li>
+                        <li><a href="/argus/docs" >Documentation</a></li>
                     
                 
                     
                     
-                        <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+                        <li><a href="/argus/changelog" >Changelog</a></li>
                     
                 
                     
                     
-                        <li><a href="/fim-k8s/contact" >Contact</a></li>
+                        <li><a href="/argus/contact" >Contact</a></li>
                     
                 
             </ul>

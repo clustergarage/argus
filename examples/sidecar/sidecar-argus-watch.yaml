@@ -1,8 +1,8 @@
 ---
-apiVersion: fimcontroller.clustergarage.io/v1alpha1
-kind: FimWatcher
+apiVersion: arguscontroller.clustergarage.io/v1alpha1
+kind: ArgusWatcher
 metadata:
-  name: sidecar-fim-watcher
+  name: sidecar-argus-watcher
   namespace: jenkins
 spec:
   selector:

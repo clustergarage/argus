@@ -1,8 +1,8 @@
 ---
-apiVersion: fimcontroller.clustergarage.io/v1alpha1
-kind: FimWatcher
+apiVersion: arguscontroller.clustergarage.io/v1alpha1
+kind: ArgusWatcher
 metadata:
-  name: guestbook-ftnd-fim-watcher
+  name: guestbook-ftnd-argus-watcher
 spec:
   selector:
     matchLabels:
@@ -14,10 +14,10 @@ spec:
     events:
     - modify
 ---
-apiVersion: fimcontroller.clustergarage.io/v1alpha1
-kind: FimWatcher
+apiVersion: arguscontroller.clustergarage.io/v1alpha1
+kind: ArgusWatcher
 metadata:
-  name: guestbook-bknd-fim-watcher
+  name: guestbook-bknd-argus-watcher
 spec:
   selector:
     matchLabels:

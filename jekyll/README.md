@@ -1,4 +1,4 @@
-# fim-k8s Documentation
+# Argus Documentation
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@
 ```
 bundle
 bundle exec jekyll serve --livereload
-# navigate to localhost:4000
+# navigate to localhost:4000/argus/
 ```
 
 ## Build
@@ -22,5 +22,5 @@ allow by default, we must build it manually.
 bundle exec jekyll build -d ../docs
 ```
 
-This will build it into the repo's /docs folder which GitHub pages hosts from
+This will build it into the repo\'s /docs folder which GitHub pages hosts from
 the master branch.

@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: fim-config
-  namespace: fim
+  name: argus-config
+  namespace: argus
 data:
   ca.pem: |
     -----BEGIN CERTIFICATE-----

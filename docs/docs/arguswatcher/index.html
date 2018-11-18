@@ -6,25 +6,25 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Defining a FimWatcher | fim-k8s</title>
+<title>Defining a ArgusWatcher | Argus</title>
 <meta name="generator" content="Jekyll v3.7.4" />
-<meta property="og:title" content="Defining a FimWatcher" />
+<meta property="og:title" content="Defining a ArgusWatcher" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Once you have fim-k8s installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up a FimWatcher on your deployments are described below." />
-<meta property="og:description" content="Once you have fim-k8s installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up a FimWatcher on your deployments are described below." />
-<meta property="og:site_name" content="fim-k8s" />
+<meta name="description" content="Once you have Argus installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up a ArgusWatcher on your deployments are described below." />
+<meta property="og:description" content="Once you have Argus installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up a ArgusWatcher on your deployments are described below." />
+<meta property="og:site_name" content="Argus" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-11-13T08:19:38-05:00" />
+<meta property="article:published_time" content="2018-11-19T08:55:24-05:00" />
 <script type="application/ld+json">
-{"description":"Once you have fim-k8s installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up a FimWatcher on your deployments are described below.","@type":"BlogPosting","url":"/fim-k8s/docs/fimwatcher/","headline":"Defining a FimWatcher","datePublished":"2018-11-13T08:19:38-05:00","dateModified":"2018-11-13T08:19:38-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/fim-k8s/docs/fimwatcher/"},"@context":"http://schema.org"}</script>
+{"description":"Once you have Argus installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up a ArgusWatcher on your deployments are described below.","@type":"BlogPosting","url":"/argus/docs/arguswatcher/","headline":"Defining a ArgusWatcher","datePublished":"2018-11-19T08:55:24-05:00","dateModified":"2018-11-19T08:55:24-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/argus/docs/arguswatcher/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="og:image" content=""/>
-  <link rel="stylesheet" href="/fim-k8s/assets/css/main.css">
+  <link rel="stylesheet" href="/argus/assets/css/main.css">
   <link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/7.0.0/dist/mermaid.css">
-  <link rel="shortcut icon" type="image/png" href="/fim-k8s/assets/img/favicon.png" >
-  <link rel="alternate" type="application/rss+xml" title="fim-k8s" href="/fim-k8s/feed.xml">
-  <script src="/fim-k8s/assets/js/main.js"></script>
+  <link rel="shortcut icon" type="image/png" href="/argus/assets/img/favicon.png" >
+  <link rel="alternate" type="application/rss+xml" title="Argus" href="/argus/feed.xml">
+  <script src="/argus/assets/js/main.js"></script>
   
 </head>
 
@@ -38,7 +38,7 @@
     <div data-uk-navbar>
         <div class="uk-navbar-left">
 
-            <a class="uk-navbar-item uk-logo" href="/fim-k8s/">fim-k8s</a>
+            <a class="uk-navbar-item uk-logo" href="/argus/">Argus</a>
 
         </div>
         <div class="uk-navbar-right">
@@ -46,17 +46,17 @@
                 
                     
                     
-                        <li><a href="/fim-k8s/docs" >Documentation</a></li>
+                        <li><a href="/argus/docs" >Documentation</a></li>
                     
                 
                     
                     
-                        <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+                        <li><a href="/argus/changelog" >Changelog</a></li>
                     
                 
                     
                     
-                        <li><a href="/fim-k8s/contact" >Contact</a></li>
+                        <li><a href="/argus/contact" >Contact</a></li>
                     
                 
             </ul>
@@ -88,15 +88,15 @@
                     
                       
                       
-                      <li class=""><a href="/fim-k8s/docs/overview/">Overview</a></li>
+                      <li class=""><a href="/argus/docs/overview/">Overview</a></li>
                     
                       
                       
-                      <li class=""><a href="/fim-k8s/docs/getting-started/">Getting Started</a></li>
+                      <li class=""><a href="/argus/docs/getting-started/">Getting Started</a></li>
                     
                       
                       
-                      <li class="uk-active"><a href="/fim-k8s/docs/fimwatcher/">Defining a FimWatcher</a></li>
+                      <li class="uk-active"><a href="/argus/docs/arguswatcher/">Defining a ArgusWatcher</a></li>
                     
                     </ul>
                     
@@ -105,11 +105,11 @@
                     
                       
                       
-                      <li class=""><a href="/fim-k8s/docs/monitoring/">Monitoring Watches</a></li>
+                      <li class=""><a href="/argus/docs/monitoring/">Monitoring Watches</a></li>
                     
                       
                       
-                      <li class=""><a href="/fim-k8s/docs/examples/">Examples and Best Practices</a></li>
+                      <li class=""><a href="/argus/docs/examples/">Examples and Best Practices</a></li>
                     
                     </ul>
                     
@@ -125,14 +125,14 @@
 
                 <article class="uk-article">
 
-                    <h1 class="uk-article-title">Defining a FimWatcher</h1>
+                    <h1 class="uk-article-title">Defining a ArgusWatcher</h1>
 
                     <p class="subtitle uk-text-lead uk-text-muted">Watch for important events on your deployments</p>
 
                     <div class="article-content">
-                        <p>Once you have <strong>fim-k8s</strong> installed on your cluster, you are ready to start
+                        <p>Once you have <strong>Argus</strong> installed on your cluster, you are ready to start
 setting up watchers for your deployments. All possible configurations of the
-how, and what, of setting up a FimWatcher on your deployments are described
+how, and what, of setting up a ArgusWatcher on your deployments are described
 below.</p>
 
 <h4 class="no_toc" id="topics">Topics</h4>
@@ -168,8 +168,8 @@ receive any notification when a <code class="highlighter-rouge">modify</code> in
 location. This includes any change to the path itself, as well as children
 inside the path.</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">fimcontroller.clustergarage.io/v1alpha1</span>
-<span class="na">kind</span><span class="pi">:</span> <span class="s">FimWatcher</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">arguscontroller.clustergarage.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ArgusWatcher</span>
 <span class="na">metadata</span><span class="pi">:</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s">mywatcher</span>
 <span class="na">spec</span><span class="pi">:</span>
@@ -296,8 +296,8 @@ case of the below example, when logging an event, the tags will should up as:
 <code class="highlighter-rouge">foo=bar,lorem=ipsum</code> that you can later use your favorite logging aggregator
 and query language to target this specific subject.</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">fimcontroller.clustergarage.io/v1alpha1</span>
-<span class="na">kind</span><span class="pi">:</span> <span class="s">FimWatcher</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">arguscontroller.clustergarage.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ArgusWatcher</span>
 <span class="na">metadata</span><span class="pi">:</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s">mywatcher</span>
 <span class="na">spec</span><span class="pi">:</span>
@@ -320,8 +320,8 @@ and query language to target this specific subject.</p>
 update, you can do so with the <code class="highlighter-rouge">logFormat</code> option. This takes a format string
 with specifiers that we will later interpolate with real values.</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">fimcontroller.clustergarage.io/v1alpha1</span>
-<span class="na">kind</span><span class="pi">:</span> <span class="s">FimWatcher</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">arguscontroller.clustergarage.io/v1alpha1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">ArgusWatcher</span>
 <span class="na">metadata</span><span class="pi">:</span>
   <span class="na">name</span><span class="pi">:</span> <span class="s">mywatcher</span>
 <span class="na">spec</span><span class="pi">:</span>
@@ -377,12 +377,12 @@ with specifiers that we will later interpolate with real values.</p>
           
             
             
-            <li><a class="hvr-back" href="/fim-k8s/docs/getting-started/">&larr; Previous</a></li>
+            <li><a class="hvr-back" href="/argus/docs/getting-started/">&larr; Previous</a></li>
           
           
             
             
-            <li class="uk-margin-auto-left"><a class="hvr-forward" href="/fim-k8s/docs/monitoring/">Next &rarr;</a></li>
+            <li class="uk-margin-auto-left"><a class="hvr-forward" href="/argus/docs/monitoring/">Next &rarr;</a></li>
           
     </ul>
     
@@ -422,7 +422,7 @@ with specifiers that we will later interpolate with real values.</p>
     
 
     
-        <li><a href="/fim-k8s/docs/getting-started/">Getting Started</a></li>
+        <li><a href="/argus/docs/getting-started/">Getting Started</a></li>
         
         
     
@@ -444,7 +444,7 @@ with specifiers that we will later interpolate with real values.</p>
     
 
     
-        <li><a href="/fim-k8s/docs/overview/">Overview</a></li>
+        <li><a href="/argus/docs/overview/">Overview</a></li>
         
         
     
@@ -475,13 +475,13 @@ with specifiers that we will later interpolate with real values.</p>
         <button class="uk-offcanvas-close" type="button" data-uk-close></button>
 
         <ul class="uk-nav uk-nav-default">
-            <li><a class="uk-logo uk-margin-small-bottom" href="/fim-k8s/">fim-k8s</a></li>
+            <li><a class="uk-logo uk-margin-small-bottom" href="/argus/">Argus</a></li>
             
-            <li><a href="/fim-k8s/docs" >Documentation</a></li>
+            <li><a href="/argus/docs" >Documentation</a></li>
             
-            <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+            <li><a href="/argus/changelog" >Changelog</a></li>
             
-            <li><a href="/fim-k8s/contact" >Contact</a></li>
+            <li><a href="/argus/contact" >Contact</a></li>
             
         </ul>
     </div>

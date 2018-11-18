@@ -3,9 +3,9 @@ apiVersion: project.openshift.io/v1
 kind: Project
 metadata:
   annotations:
-    openshift.io/display-name: "FIM"
+    openshift.io/display-name: "Argus"
     openshift.io/description: "File Integrity Monitoring for Kubernetes"
-  name: fim
+  name: argus
 spec:
   finalizers:
   - openshift.io/origin
@@ -15,77 +15,77 @@ apiVersion: v1
 kind: RoleBinding
 metadata:
   name: admins
-  namespace: fim
+  namespace: argus
 roleRef:
   name: admin
 subjects:
 - kind: User
-  name: fim-admin
+  name: argus-admin
 userNames:
-- fim-admin
+- argus-admin
 ---
 apiVersion: v1
 kind: RoleBinding
 metadata:
   name: system:image-pullers
-  namespace: fim
+  namespace: argus
 groupNames:
-- system:serviceaccounts:fim
+- system:serviceaccounts:argus
 roleRef:
   name: system:image-puller
 subjects:
 - kind: SystemGroup
-  name: system:serviceaccounts:fim
+  name: system:serviceaccounts:argus
 ---
 apiVersion: v1
 kind: RoleBinding
 metadata:
   name: system:image-builders
-  namespace: fim
+  namespace: argus
 roleRef:
   name: system:image-builder
 subjects:
 - kind: ServiceAccount
   name: builder
 userNames:
-- system:serviceaccount:fim:builder
+- system:serviceaccount:argus:builder
 ---
 apiVersion: v1
 kind: RoleBinding
 metadata:
   name: system:deployers
-  namespace: fim
+  namespace: argus
 roleRef:
   name: system:deployer
 subjects:
 - kind: ServiceAccount
   name: deployer
 userNames:
-- system:serviceaccount:fim:deployer
+- system:serviceaccount:argus:deployer
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: fim-admin
-  namespace: fim
+  name: argus-admin
+  namespace: argus
 ---
 apiVersion: authorization.openshift.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: fim-admin
+  name: argus-admin
 roleRef:
   apiGroup: authorization.openshift.io/v1
   kind: ClusterRole
   name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: fim-admin
-  namespace: fim
+  name: argus-admin
+  namespace: argus
 ---
 apiVersion: security.openshift.io/v1
 kind: SecurityContextConstraints
 metadata:
-  name: fim
+  name: argus
 allowHostDirVolumePlugin: true
 allowHostPID: true
 allowPrivilegedContainer: true
@@ -104,24 +104,24 @@ seccompProfiles:
 supplementalGroups:
   type: RunAsAny
 users:
-- system:serviceaccount:fim:fim-admin
+- system:serviceaccount:argus:argus-admin
 volumes:
 - '*'
 ---
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
-  name: fimwatchers.fimcontroller.clustergarage.io
+  name: arguswatchers.arguscontroller.clustergarage.io
 spec:
-  group: fimcontroller.clustergarage.io
+  group: arguscontroller.clustergarage.io
   version: v1alpha1
   scope: Namespaced
   names:
-    kind: FimWatcher
-    singular: fimwatcher
-    plural: fimwatchers
+    kind: ArgusWatcher
+    singular: arguswatcher
+    plural: arguswatchers
     shortNames:
-    - fw
+    - aw
     categories:
     - all
   subresources:
@@ -140,50 +140,39 @@ apiVersion: v1
 kind: ImageStream
 metadata:
   labels:
-    controller: fimcontroller
-  name: fim-controller
-  namespace: fim
+    controller: arguscontroller
+  name: argus-controller
+  namespace: argus
 spec:
   tags:
-  - name: v0.2.0
+  - name: v0.3.0
     from:
       kind: DockerImage
-      name: clustergarage/fim-controller:v0.2.0
-  - name: v0.1.0
-    from:
-      kind: DockerImage
-      name: clustergarage/fim-controller:v0.1.0
+      name: clustergarage/argus-controller:v0.3.0
   - name: latest
     from:
       kind: DockerImage
-      name: clustergarage/fim-controller:latest
+      name: clustergarage/argus-controller:latest
 ---
 apiVersion: v1
 kind: DeploymentConfig
 metadata:
-  name: fimcontroller
-  namespace: fim
+  name: arguscontroller
+  namespace: argus
   labels:
-    controller: fimcontroller
+    controller: arguscontroller
 spec:
   replicas: 1
   selector:
-    controller: fimcontroller
+    controller: arguscontroller
   template:
     metadata:
       labels:
-        controller: fimcontroller
+        controller: arguscontroller
     spec:
       containers:
-      - name: fimcontroller
-        image: clustergarage/fim-controller:v0.2.0
-        command: [
-          "/fimcontroller",
-          "-tls-ca-file", "/usr/lib/ssl/certs/ca.pem",
-          "-tls-cert-file", "/usr/lib/ssl/certs/cert.pem",
-          "-tls-key-file", "/usr/lib/ssl/certs/key.pem",
-          "-tls-server-name", "localhost"
-        ]
+      - name: arguscontroller
+        image: clustergarage/argus-controller:v0.3.0
         livenessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr", ":5000"]
@@ -194,25 +183,17 @@ spec:
           initialDelaySeconds: 5
         securityContext:
           runAsUser: 0
-        volumeMounts:
-        - name: fim-config-volume
-          mountPath: /usr/lib/ssl/certs
-          readOnly: true
-      serviceAccountName: fim-admin
-      volumes:
-      - name: fim-config-volume
-        configMap:
-          name: fim-config
+      serviceAccountName: argus-admin
   triggers:
   - type: ConfigChange
   - type: ImageChange
     imageChangeParams:
       automatic: true
       containerNames:
-      - fimcontroller
+      - arguscontroller
       from:
         kind: ImageStreamTag
-        name: fim-controller:v0.2.0
+        name: argus-controller:v0.3.0
   strategy:
     type: Rolling
     rollingParams:
@@ -225,28 +206,22 @@ spec:
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: fimd
-  namespace: fim
+  name: argusd
+  namespace: argus
   labels:
-    daemon: fimd
+    daemon: argusd
 spec:
   selector:
     matchLabels:
-      daemon: fimd
+      daemon: argusd
   template:
     metadata:
       labels:
-        daemon: fimd
+        daemon: argusd
     spec:
       containers:
-      - name: fimd
-        image: clustergarage/fimd:v0.2.0
-        command: [
-          "/fimd",
-          "-tlscafile", "/usr/lib/ssl/certs/ca.pem",
-          "-tlscertfile", "/usr/lib/ssl/certs/cert.pem",
-          "-tlskeyfile", "/usr/lib/ssl/certs/key.pem"
-        ]
+      - name: argusd
+        image: clustergarage/argusd:v0.3.0
         ports:
         - name: grpc
           containerPort: 50051
@@ -259,9 +234,6 @@ spec:
             command: ["/bin/grpc_health_probe", "-addr", ":50051"]
           initialDelaySeconds: 5
         volumeMounts:
-        - name: fim-config-volume
-          mountPath: /usr/lib/ssl/certs
-          readOnly: true
         - name: dockerpid
           mountPath: /var/run/docker.pid
         - name: dockersock
@@ -270,20 +242,9 @@ spec:
           mountPath: /sys/fs/cgroup
         securityContext:
           privileged: true
-        resources:
-          limits:
-            cpu: 500m
-            memory: 200Mi
-          requests:
-            cpu: 500m
-            memory: 200Mi
       hostPID: true
-      qosClass: Guaranteed
-      serviceAccountName: fim-admin
+      serviceAccountName: argus-admin
       volumes:
-      - name: fim-config-volume
-        configMap:
-          name: fim-config
       - name: dockerpid
         hostPath:
           path: /var/run/docker.pid
@@ -297,11 +258,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: fimd-svc
-  namespace: fim
+  name: argusd-svc
+  namespace: argus
 spec:
   selector:
-    daemon: fimd
+    daemon: argusd
   clusterIP: None
   ports:
   - name: grpc

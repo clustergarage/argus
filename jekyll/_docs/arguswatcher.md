@@ -1,13 +1,13 @@
 ---
 layout: doc
-title: Defining a FimWatcher
+title: Defining a ArgusWatcher
 subtitle: Watch for important events on your deployments
-tags: introduction fimwatcher
+tags: introduction arguswatcher
 ---
 
-Once you have **fim-k8s** installed on your cluster, you are ready to start
+Once you have **Argus** installed on your cluster, you are ready to start
 setting up watchers for your deployments. All possible configurations of the
-how, and what, of setting up a FimWatcher on your deployments are described
+how, and what, of setting up a ArgusWatcher on your deployments are described
 below.
 
 #### Topics
@@ -31,8 +31,8 @@ location. This includes any change to the path itself, as well as children
 inside the path.
 
 ```yaml
-apiVersion: fimcontroller.clustergarage.io/v1alpha1
-kind: FimWatcher
+apiVersion: arguscontroller.clustergarage.io/v1alpha1
+kind: ArgusWatcher
 metadata:
   name: mywatcher
 spec:
@@ -160,8 +160,8 @@ case of the below example, when logging an event, the tags will should up as:
 and query language to target this specific subject.
 
 ```yaml
-apiVersion: fimcontroller.clustergarage.io/v1alpha1
-kind: FimWatcher
+apiVersion: arguscontroller.clustergarage.io/v1alpha1
+kind: ArgusWatcher
 metadata:
   name: mywatcher
 spec:
@@ -185,8 +185,8 @@ update, you can do so with the `logFormat` option. This takes a format string
 with specifiers that we will later interpolate with real values.
 
 ```yaml
-apiVersion: fimcontroller.clustergarage.io/v1alpha1
-kind: FimWatcher
+apiVersion: arguscontroller.clustergarage.io/v1alpha1
+kind: ArgusWatcher
 metadata:
   name: mywatcher
 spec:

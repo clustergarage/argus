@@ -1,17 +1,17 @@
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
-  name: fimwatchers.fimcontroller.clustergarage.io
+  name: arguswatchers.arguscontroller.clustergarage.io
 spec:
-  group: fimcontroller.clustergarage.io
+  group: arguscontroller.clustergarage.io
   version: v1alpha1
   scope: Namespaced
   names:
-    kind: FimWatcher
-    singular: fimwatcher
-    plural: fimwatchers
+    kind: ArgusWatcher
+    singular: arguswatcher
+    plural: arguswatchers
     shortNames:
-    - fw
+    - aw
     categories:
     - all
   subresources:

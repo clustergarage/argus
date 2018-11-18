@@ -20,7 +20,7 @@ spec:
         image: {{.Values.controller.image | quote}}
         {{- if .Values.tls}}
         command: [
-          "/fimcontroller",
+          "/arguscontroller",
           "-tls-ca-file", "/usr/lib/ssl/certs/ca.crt",
           "-tls-cert-file", "/usr/lib/ssl/certs/server.crt",
           "-tls-key-file", "/usr/lib/ssl/certs/server.key",
@@ -37,14 +37,14 @@ spec:
           initialDelaySeconds: 5
         {{- if .Values.tls}}
         volumeMounts:
-        - name: fim-config-volume
+        - name: argus-config-volume
           mountPath: /usr/lib/ssl/certs
           readOnly: true
         {{- end}}
       serviceAccountName: {{.Values.serviceAccount}}
       {{- if .Values.tls}}
       volumes:
-      - name: fim-config-volume
+      - name: argus-config-volume
         configMap:
-          name: fim-config
+          name: argus-config
       {{- end}}

@@ -1,11 +1,11 @@
 ---
 layout: doc
 title: Getting Started
-subtitle: Installing fim-k8s in your Kubernetes cluster
-tags: introduction fimwatcher
+subtitle: Installing Argus in your Kubernetes cluster
+tags: introduction arguswatcher
 ---
 
-**fim-k8s** works by configuring a custom Kubernetes resource that defines
+**Argus** works by configuring a custom Kubernetes resource that defines
 paths and events that you want to be notified about for your current
 deployments. This custom resource, in conjunction with a cluster controller
 running and listening for lifecycle events, is responsible for maintaining a
@@ -30,15 +30,15 @@ OpenShift, which has additional security measures in place.
 
 {% codetabs %}
 {% codetab Kubernetes %}
-To deploy **fim-k8s** on a vanilla Kubernetes environment, simply run an
+To deploy **Argus** on a vanilla Kubernetes environment, simply run an
 `apply` on the following hosted configuration:
 
 ```shell
 kubectl apply -f \
-  https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-k8s.yaml
+  https://raw.githubusercontent.com/clustergarage/argus/master/configs/argus-k8s.yaml
 ```
 
-This will create a `Namespace` **fim** under which all the components will be
+This will create a `Namespace` **argus** under which all the components will be
 organized.
 {% endcodetab %}
 {% codetab OpenShift %}
@@ -48,10 +48,10 @@ be done with the following command:
 
 ```shell
 oc apply -f \
-  https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift.yaml
+  https://raw.githubusercontent.com/clustergarage/argus/master/configs/argus-openshift.yaml
 ```
 
-This will create an OpenShift `Project` **fim** under which all components will
+This will create an OpenShift `Project` **argus** under which all components will
 be organized. In addition to creating a `Namespace`, an OpenShift project needs
 various `RoleBindings` for building and pulling images via an `ImageStream` and
 for our `ServiceAccount` to have an admin role reference. OpenShift also
@@ -65,7 +65,7 @@ simplest being an archive file included in each release:
 
 ```shell
 helm install \
-  https://github.com/clustergarage/fim-k8s/releases/download/v0.2.0/fim-k8s-0.2.0.tgz
+  https://github.com/clustergarage/argus/releases/download/v0.3.0/argus-0.3.0.tgz
 ```
 
 The other way is to add a Helm repository to your cluster and update/install
@@ -73,30 +73,30 @@ using these mechanisms:
 
 ```shell
 helm repo add clustergarage \
-  https://raw.githubusercontent.com/clustergarage/fim-k8s/master/helm/
+  https://raw.githubusercontent.com/clustergarage/argus/master/helm/
 helm repo update
-helm install clustergarage/fim-k8s
+helm install clustergarage/argus
 ```
 
-This will create a `Namespace` **fim** under which all the components will be
+This will create a `Namespace` **argus** under which all the components will be
 organized.
 {% endcodetab %}
 {% endcodetabs %}
 
-Under the **fim** namespace is a `ServiceAccount` used to run all items of
-fim-k8s; this service account will also get a `ClusterRoleBinding` with
+Under the **argus** namespace is a `ServiceAccount` used to run all items of
+**Argus**; this service account will also get a `ClusterRoleBinding` with
 settings that allow the controller and daemon to be run with their required
 privileges.
 
-A `CustomResourceDefinition` is included to define a custom **FimWatcher**
+A `CustomResourceDefinition` is included to define a custom **ArgusWatcher**
 type housing the pod selector, paths, events, and optional flags for the
 watcher.
 
-Finally, the **fimcontroller** `Deployment` and **fimd** `DaemonSet` are the
+Finally, the **arguscontroller** `Deployment` and **argusd** `DaemonSet` are the
 core of the product. There is a headless `Service` used to communicate between
 the controller and all instances of the daemons.
 
-> You can verify that it installed properly by inspecting `kubectl -n fim get
+> You can verify that it installed properly by inspecting `kubectl -n argus get
 all`
 
 All pods should eventually converge into `Running` state. The daemon pods in
@@ -105,7 +105,7 @@ notified on. The controller is suggested to run with a single replica, as all
 method calls to the daemon are idempotent; it can still function properly with
 \>1 replicas, however.
 
-## Using Secure TLS
+## Secure Communication
 
 To secure the gRPC communication between controller and daemon, we provide
 secure variations of each configurations described above.
@@ -118,30 +118,30 @@ as a client so has additional TLS flags that can be passed in.
 {% codetabs %}
 {% codetab Kubernetes %}
 With your SSL certificates, create a **ConfigMap** with keys as described in
-the [examples/ folder](https://raw.githubusercontent.com/clustergarage/fim-k8s/master/examples/fim-config.yaml).
+the [examples/ folder](https://raw.githubusercontent.com/clustergarage/argus/master/examples/argus-config.yaml).
 This includes a `ca.pem` for root CA certificate, `cert.pem` and `key.pem` for
 certificate/private keys. Apply the **ConfigMap** and the secure variation of
 the configuration files.
 
 ```shell
 kubectl apply -f \
-  https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-k8s-secure.yaml
+  https://raw.githubusercontent.com/clustergarage/argus/master/configs/argus-k8s-secure.yaml
 # add your keys to a ConfigMap
-kubectl apply -f fim-config.yaml
+kubectl apply -f argus-config.yaml
 ```
 {% endcodetab %}
 {% codetab OpenShift %}
 With your SSL certificates, create a **ConfigMap** with keys as described in
-the [examples/ folder](https://raw.githubusercontent.com/clustergarage/fim-k8s/master/examples/fim-config.yaml).
+the [examples/ folder](https://raw.githubusercontent.com/clustergarage/argus/master/examples/argus-config.yaml).
 This includes a `ca.pem` for root CA certificate, `cert.pem` and `key.pem` for
 certificate/private keys. Apply the **ConfigMap** and the secure variation of
 the configuration files.
 
 ```shell
 oc apply -f \
-  https://raw.githubusercontent.com/clustergarage/fim-k8s/master/configs/fim-openshift-secure.yaml
+  https://raw.githubusercontent.com/clustergarage/argus/master/configs/argus-openshift-secure.yaml
 # add your keys to a ConfigMap
-oc apply -f fim-config.yaml
+oc apply -f argus-config.yaml
 ```
 {% endcodetab %}
 {% codetab Helm %}
@@ -151,9 +151,9 @@ inside the chart directory itself. Until this feature is added to Helm, we have
 to do some hacky bits first.
 
 ```shell
-# download clustergarage/fim-k8s helm chart locally
-cp -r /path/to/ssl/certs /path/to/fim-k8s/
-helm install ./fim-k8s --set tls=true
+# download clustergarage/argus helm chart locally
+cp -r /path/to/ssl/certs /path/to/argus/
+helm install ./argus --set tls=true
 ```
 {% endcodetab %}
 {% endcodetabs %}
@@ -163,7 +163,7 @@ helm install ./fim-k8s --set tls=true
 If you have any issues with any of the steps to get started with running this
 in your cluster, please begin by checking to see if any of the issues you may
 be facing are included in our
-[GitHub issues](https://github.com/clustergarage/fim-k8s/issues). If you
+[GitHub issues](https://github.com/clustergarage/argus/issues). If you
 suspect you may be having problems not recorded there, open a detailed issue
 with all steps and pertinent information about your cluster setup.
 

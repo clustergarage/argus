@@ -2,7 +2,7 @@
 layout: home
 title: File Integrity Monitoring for Kubernetes
 hero:
-  title: fim-k8s
+  title: Argus
   subtitle: File Integrity Monitoring for Kubernetes
   search: false
 categories:
@@ -10,7 +10,7 @@ categories:
   title: Browse Topics
   subtitle: Let's not complicate things, just start reading...
 section:
-  title: Why would I use fim-k8s?
+  title: Why would I use Argus?
   subtitle: |
     To pass your audits in a brave new world using a familiar, undefeatable
     solution.

@@ -1,10 +1,10 @@
-title: fim-k8s
+title: Argus
 description: File Integrity Monitoring for Kubernetes
-baseurl: /fim-k8s
+baseurl: /argus
 permalink: /:title/
 brand:
   #image: logo.svg # upload logo to /assets/img/ folder
-  text: fim-k8s
+  text: Argus
 collections:
   docs:
     output: true

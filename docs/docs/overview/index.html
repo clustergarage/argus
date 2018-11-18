@@ -6,25 +6,25 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Begin Jekyll SEO tag v2.5.0 -->
-<title>Overview | fim-k8s</title>
+<title>Overview | Argus</title>
 <meta name="generator" content="Jekyll v3.7.4" />
 <meta property="og:title" content="Overview" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="fim-k8s is a set of custom Kubernetes resources that facilitates filesystem event monitoring on specified paths. It provides a rich set of configurations to run alongside your existing Kubernetes deployments to make it easy to denote audit-ready file integrity monitoring." />
-<meta property="og:description" content="fim-k8s is a set of custom Kubernetes resources that facilitates filesystem event monitoring on specified paths. It provides a rich set of configurations to run alongside your existing Kubernetes deployments to make it easy to denote audit-ready file integrity monitoring." />
-<meta property="og:site_name" content="fim-k8s" />
+<meta name="description" content="Argus is a set of custom Kubernetes resources that facilitates filesystem event monitoring on specified paths. It provides a rich set of configurations to run alongside your existing Kubernetes deployments to make it easy to denote audit-ready file integrity monitoring." />
+<meta property="og:description" content="Argus is a set of custom Kubernetes resources that facilitates filesystem event monitoring on specified paths. It provides a rich set of configurations to run alongside your existing Kubernetes deployments to make it easy to denote audit-ready file integrity monitoring." />
+<meta property="og:site_name" content="Argus" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-11-13T08:19:38-05:00" />
+<meta property="article:published_time" content="2018-11-19T08:55:24-05:00" />
 <script type="application/ld+json">
-{"description":"fim-k8s is a set of custom Kubernetes resources that facilitates filesystem event monitoring on specified paths. It provides a rich set of configurations to run alongside your existing Kubernetes deployments to make it easy to denote audit-ready file integrity monitoring.","@type":"BlogPosting","url":"/fim-k8s/docs/overview/","headline":"Overview","datePublished":"2018-11-13T08:19:38-05:00","dateModified":"2018-11-13T08:19:38-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/fim-k8s/docs/overview/"},"@context":"http://schema.org"}</script>
+{"description":"Argus is a set of custom Kubernetes resources that facilitates filesystem event monitoring on specified paths. It provides a rich set of configurations to run alongside your existing Kubernetes deployments to make it easy to denote audit-ready file integrity monitoring.","@type":"BlogPosting","url":"/argus/docs/overview/","headline":"Overview","datePublished":"2018-11-19T08:55:24-05:00","dateModified":"2018-11-19T08:55:24-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/argus/docs/overview/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="og:image" content=""/>
-  <link rel="stylesheet" href="/fim-k8s/assets/css/main.css">
+  <link rel="stylesheet" href="/argus/assets/css/main.css">
   <link rel="stylesheet" href="https://cdn.rawgit.com/knsv/mermaid/7.0.0/dist/mermaid.css">
-  <link rel="shortcut icon" type="image/png" href="/fim-k8s/assets/img/favicon.png" >
-  <link rel="alternate" type="application/rss+xml" title="fim-k8s" href="/fim-k8s/feed.xml">
-  <script src="/fim-k8s/assets/js/main.js"></script>
+  <link rel="shortcut icon" type="image/png" href="/argus/assets/img/favicon.png" >
+  <link rel="alternate" type="application/rss+xml" title="Argus" href="/argus/feed.xml">
+  <script src="/argus/assets/js/main.js"></script>
   
 </head>
 
@@ -38,7 +38,7 @@
     <div data-uk-navbar>
         <div class="uk-navbar-left">
 
-            <a class="uk-navbar-item uk-logo" href="/fim-k8s/">fim-k8s</a>
+            <a class="uk-navbar-item uk-logo" href="/argus/">Argus</a>
 
         </div>
         <div class="uk-navbar-right">
@@ -46,17 +46,17 @@
                 
                     
                     
-                        <li><a href="/fim-k8s/docs" >Documentation</a></li>
+                        <li><a href="/argus/docs" >Documentation</a></li>
                     
                 
                     
                     
-                        <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+                        <li><a href="/argus/changelog" >Changelog</a></li>
                     
                 
                     
                     
-                        <li><a href="/fim-k8s/contact" >Contact</a></li>
+                        <li><a href="/argus/contact" >Contact</a></li>
                     
                 
             </ul>
@@ -88,15 +88,15 @@
                     
                       
                       
-                      <li class="uk-active"><a href="/fim-k8s/docs/overview/">Overview</a></li>
+                      <li class="uk-active"><a href="/argus/docs/overview/">Overview</a></li>
                     
                       
                       
-                      <li class=""><a href="/fim-k8s/docs/getting-started/">Getting Started</a></li>
+                      <li class=""><a href="/argus/docs/getting-started/">Getting Started</a></li>
                     
                       
                       
-                      <li class=""><a href="/fim-k8s/docs/fimwatcher/">Defining a FimWatcher</a></li>
+                      <li class=""><a href="/argus/docs/arguswatcher/">Defining a ArgusWatcher</a></li>
                     
                     </ul>
                     
@@ -105,11 +105,11 @@
                     
                       
                       
-                      <li class=""><a href="/fim-k8s/docs/monitoring/">Monitoring Watches</a></li>
+                      <li class=""><a href="/argus/docs/monitoring/">Monitoring Watches</a></li>
                     
                       
                       
-                      <li class=""><a href="/fim-k8s/docs/examples/">Examples and Best Practices</a></li>
+                      <li class=""><a href="/argus/docs/examples/">Examples and Best Practices</a></li>
                     
                     </ul>
                     
@@ -127,15 +127,15 @@
 
                     <h1 class="uk-article-title">Overview</h1>
 
-                    <p class="subtitle uk-text-lead uk-text-muted">Deep dive into fim-k8s and its architecture</p>
+                    <p class="subtitle uk-text-lead uk-text-muted">Deep dive into Argus and its architecture</p>
 
                     <div class="article-content">
-                        <p><strong>fim-k8s</strong> is a set of custom Kubernetes resources that facilitates filesystem
+                        <p><strong>Argus</strong> is a set of custom Kubernetes resources that facilitates filesystem
 event monitoring on specified paths. It provides a rich set of configurations
 to run alongside your existing Kubernetes deployments to make it easy to denote
 audit-ready file integrity monitoring.</p>
 
-<p>In deploying <strong>fim-k8s</strong> into your cluster, a couple of components will be
+<p>In deploying <strong>Argus</strong> into your cluster, a couple of components will be
 initialized. First, the controller listens directly for Kubernetes events and
 is responsible for syncing cluster state with the daemons running on each node
 to make sure specified pods that need to be watched, are. Second, the daemon is
@@ -156,16 +156,16 @@ this documentation.</p>
 <script src="https://unpkg.com/mermaid@7.0.0/dist/mermaid.min.js"></script>
 <div class="mermaid">
 graph RL
-    A((procfs)) --&gt;|inotify| B[fimnotify]
+    A((procfs)) --&gt;|inotify| B[argusnotify]
     subgraph daemon
-    C{fimd} --&gt; B
+    C{argusd} --&gt; B
     B .-&gt;|mqueue| C
     end
-    D[fim-controller] ==&gt;|gRPC| C
+    D[argus-controller] ==&gt;|gRPC| C
     C .-&gt; D
     subgraph controller
     E(K8s listers<br />K8s informers) --&gt; D
-    F(FimWatcher CRDs) --&gt; D
+    F(ArgusWatcher CRDs) --&gt; D
     end
 </div>
 
@@ -173,7 +173,7 @@ graph RL
 
 <p>In order to describe the set of pods you want to create a watcher for, what
 paths you are interested in monitoring, and for what events, you’ll soon find
-yourself creating a <strong>FimWatcher</strong> <code class="highlighter-rouge">CustomResourceDefinition</code>. That is, a
+yourself creating a <strong>ArgusWatcher</strong> <code class="highlighter-rouge">CustomResourceDefinition</code>. That is, a
 Kubernetes custom type that will be configured in your cluster, that gives a
 specification to define a watcher type with all the fields and flags the
 controller will understand, configure, and pass along to the daemon so it can
@@ -181,9 +181,9 @@ watch appropriately in the fashion you describe.</p>
 
 <h3 id="controller">Controller</h3>
 
-<p><code class="highlighter-rouge">fimcontroller</code> is the glue between the Kubernetes lifecycle and the daemons
-listening for events on the filesystems. It responds to events such as pod
-listers add, update, and delete, making sure that the proper state of the
+<p><strong>argus-controller</strong> is the glue between the Kubernetes lifecycle and the
+daemons listening for events on the filesystems. It responds to events such as
+pod listers add, update, and delete, making sure that the proper state of the
 daemon that is running on the same node as that pod has the watcher either
 started or not on that daemon.</p>
 
@@ -196,26 +196,26 @@ that pod’s current state (nothing) with what we expect it should be, and
 all addition calls should be immediately fired; same as the previous case but
 in reverse.</p>
 
-<p>The other set of types the controller listens for is the <strong>FimWatcher</strong>
+<p>The other set of types the controller listens for is the <strong>ArgusWatcher</strong>
 <code class="highlighter-rouge">CustomResourceDefinition</code> described above. This is the definition that you
 will create to define what selector, paths, events, and lots of optional
 flags to create the notion of a file integrity monitor watcher.</p>
 
 <h3 id="daemon">Daemon</h3>
 
-<p>The <strong>fimd</strong> daemon will be deployed on all cluster nodes via a <code class="highlighter-rouge">DaemonSet</code>.
+<p>The <strong>argusd</strong> daemon will be deployed on all cluster nodes via a <code class="highlighter-rouge">DaemonSet</code>.
 It starts a gRPC server to communicate back-and-forth with the controller,
 described above. When it receives a message from the controller to create a
-watcher, it takes the desired configuration and spawns a <strong>fimnotify</strong> process
-with a custom set of rules. For example, if one wishes to watch the path
-recursively, this can be configured with an optional flag and will maintain
-a tree of additional paths to watch under the parent.</p>
+watcher, it takes the desired configuration and spawns a <strong>argusnotify</strong>
+process with a custom set of rules. For example, if one wishes to watch the
+path recursively, this can be configured with an optional flag and will
+maintain a tree of additional paths to watch under the parent.</p>
 
 <script src="https://unpkg.com/mermaid@7.0.0/dist/mermaid.min.js"></script>
 <div class="mermaid">
 sequenceDiagram
-    participant A as fimd
-    participant B as fimnotify
+    participant A as argusd
+    participant B as argusnotify
     participant C as procfs
     A-&gt;&gt;+B: Creates child processes
     B-&gt;&gt;C: Creates inotify watchers
@@ -230,13 +230,13 @@ sequenceDiagram
     loop mq message
       B-&gt;&gt;A: Print log message
       opt mq exit msg
-          A-&gt;&gt;-B: Kill fimnotify process
+          A-&gt;&gt;-B: Kill argusnotify process
       end
     end
 </div>
 
-<p>Once the <strong>fimnotify</strong> process receives an <code class="highlighter-rouge">inotify</code> message that the user
-configured to watch for, it sends that message back to the <strong>fimd</strong> process
+<p>Once the <strong>argusnotify</strong> process receives an <code class="highlighter-rouge">inotify</code> message that the user
+configured to watch for, it sends that message back to the <strong>argusd</strong> process
 via a message queue and logs it in the cluster pod with any additional custom
 logging configuration. This log can be picked up in the same way you’d watch
 for logs in any other Kubernetes component.</p>
@@ -270,7 +270,7 @@ always be recreated in these cases.</p>
           
             
             
-            <li class="uk-margin-auto-left"><a class="hvr-forward" href="/fim-k8s/docs/getting-started/">Next &rarr;</a></li>
+            <li class="uk-margin-auto-left"><a class="hvr-forward" href="/argus/docs/getting-started/">Next &rarr;</a></li>
           
     </ul>
     
@@ -292,16 +292,7 @@ always be recreated in these cases.</p>
     
 
     
-
-    
-
-    
-    
-
-    
-
-    
-        <li><a href="/fim-k8s/docs/fimwatcher/">Defining a FimWatcher</a></li>
+        <li><a href="/argus/docs/arguswatcher/">Defining a ArgusWatcher</a></li>
         
         
     
@@ -314,7 +305,16 @@ always be recreated in these cases.</p>
     
 
     
-        <li><a href="/fim-k8s/docs/getting-started/">Getting Started</a></li>
+
+    
+
+    
+    
+
+    
+
+    
+        <li><a href="/argus/docs/getting-started/">Getting Started</a></li>
         
         
     
@@ -363,13 +363,13 @@ always be recreated in these cases.</p>
         <button class="uk-offcanvas-close" type="button" data-uk-close></button>
 
         <ul class="uk-nav uk-nav-default">
-            <li><a class="uk-logo uk-margin-small-bottom" href="/fim-k8s/">fim-k8s</a></li>
+            <li><a class="uk-logo uk-margin-small-bottom" href="/argus/">Argus</a></li>
             
-            <li><a href="/fim-k8s/docs" >Documentation</a></li>
+            <li><a href="/argus/docs" >Documentation</a></li>
             
-            <li><a href="/fim-k8s/changelog" >Changelog</a></li>
+            <li><a href="/argus/changelog" >Changelog</a></li>
             
-            <li><a href="/fim-k8s/contact" >Contact</a></li>
+            <li><a href="/argus/contact" >Contact</a></li>
             
         </ul>
     </div>

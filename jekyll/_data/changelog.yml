@@ -1,16 +1,24 @@
 ---
+- title: v0.3.0
+  label: Pre-Release
+  date: 11/18/2018
+  list:
+  - Renamed `fim-k8s` to `Argus`.
+  - Bugfix in `argusd` including better stability for the distributed nature
+    of creating, updating, and deleting watchers on the fly; especially when
+    events are streaming in.
 - title: v0.2.0
   label: Pre-Release
   date: 11/11/2018
   list:
-  - Added option for secure gRPC communication with mTLS to both fimd and
-    fim-controller.
+  - Added option for secure gRPC communication with mTLS to both argusd and
+    argus-controller.
   - Updated definitions for using insecure or secure options.
 - title: v0.1.0
   label: Pre-Release
   date: 10/10/2018
   list:
-  - Initial functionality of both fimd and fim-controller.
-  - Added preliminary tests for fim-controller.
-  - Definitions for vanilla K8s, OpenShift, and Helm to deploy via fim-k8s.
-  - Documentation hosted out of fim-k8s.
+  - Initial functionality of both argusd and argus-controller.
+  - Added preliminary tests for argus-controller.
+  - Definitions for vanilla K8s, OpenShift, and Helm to deploy via argus.
+  - Documentation hosted out of argus.

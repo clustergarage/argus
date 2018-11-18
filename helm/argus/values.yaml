@@ -1,0 +1,20 @@
+namespace: argus
+serviceAccount: argus-admin
+clusterRoleBinding: argus-admin
+configMap:
+  name: argus-config
+controller:
+  name: arguscontroller
+  image: clustergarage/argus-controller:v0.3.0
+  replicas: 1
+  probePort: 5000
+daemon:
+  name: argusd
+  image: clustergarage/argusd:v0.3.0
+  probePort: 50051
+  container:
+    port: 50051
+    portName: grpc
+  svc:
+    name: argusd-svc
+    portName: grpc
