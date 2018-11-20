@@ -1,13 +1,9 @@
 ---
 layout: doc
-title: Examples and Best Practices
-subtitle: File Integrity Monitoring for Kubernetes
-tags: foo bar baz
+title: Examples
+subtitle: Test Argus with some example deployments
+tags: examples
 ---
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
-Vestibulum quis nibh et nibh facilisis imperdiet. Aliquam faucibus vulputate lorem eu tincidunt.
 
 #### Topics
 {:.no_toc}
@@ -15,8 +11,6 @@ Vestibulum quis nibh et nibh facilisis imperdiet. Aliquam faucibus vulputate lor
 {:toc}
 
 ## Kubernetes &mdash; NGiNX Example
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ```shell
 kubectl run nginx --image=nginx
@@ -26,8 +20,6 @@ kubectl apply -f \
 
 ## OpenShift &mdash; Django Example
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-
 ```shell
 oc new-app python:3.5~https://github.com/openshift/django-ex
 oc apply -f \
@@ -35,8 +27,6 @@ oc apply -f \
 ```
 
 ## OpenShift &mdash; Jenkins Sidecar Example
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 
 ```shell
 oc apply -f \

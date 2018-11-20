@@ -70,6 +70,9 @@ spec:
       containers:
       - name: arguscontroller
         image: clustergarage/argus-controller:v0.3.0
+        ports:
+        - name: prometheus
+          containerPort: 2112
         command: [
           "/arguscontroller",
           "-tls-ca-file", "/usr/lib/ssl/certs/ca.pem",
@@ -94,6 +97,22 @@ spec:
       - name: argus-config-volume
         configMap:
           name: argus-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argus-prometheus
+  namespace: argus
+  labels:
+    controller: arguscontroller
+spec:
+  selector:
+    controller: arguscontroller
+  ports:
+  - name: prometheus
+    protocol: TCP
+    port: 2112
+    targetPort: prometheus
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -164,6 +183,8 @@ kind: Service
 metadata:
   name: argusd-svc
   namespace: argus
+  labels:
+    daemon: argusd
 spec:
   selector:
     daemon: argusd

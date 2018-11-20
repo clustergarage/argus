@@ -70,6 +70,9 @@ spec:
       containers:
       - name: arguscontroller
         image: clustergarage/argus-controller:v0.3.0
+        ports:
+        - name: prometheus
+          containerPort: 2112
         livenessProbe:
           exec:
             command: ["/bin/grpc_health_probe", "-addr", ":5000"]
@@ -79,6 +82,23 @@ spec:
             command: ["/bin/grpc_health_probe", "-addr", ":5000"]
           initialDelaySeconds: 5
       serviceAccountName: argus-admin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argus-prometheus
+  namespace: argus
+  labels:
+    controller: arguscontroller
+spec:
+  selector:
+    controller: arguscontroller
+  clusterIP: None
+  ports:
+  - name: prometheus
+    protocol: TCP
+    port: 2112
+    targetPort: prometheus
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -137,6 +157,8 @@ kind: Service
 metadata:
   name: argusd-svc
   namespace: argus
+  labels:
+    daemon: argusd
 spec:
   selector:
     daemon: argusd

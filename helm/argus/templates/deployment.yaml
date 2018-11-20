@@ -18,6 +18,9 @@ spec:
       containers:
       - name: {{.Values.controller.name}}
         image: {{.Values.controller.image | quote}}
+        ports:
+        - name: {{.Values.controller.prometheus.name}}
+          containerPort: {{.Values.controller.prometheus.port}}
         {{- if .Values.tls}}
         command: [
           "/arguscontroller",
@@ -48,3 +51,18 @@ spec:
         configMap:
           name: argus-config
       {{- end}}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.controller.prometheus.name}}
+  namespace: {{.Values.namespace}}
+  labels:
+    controller: {{.Values.controller.name}}
+spec:
+  selector:
+    controller: {{.Values.controller.name}}
+  ports:
+  - name: {{.Values.controller.prometheus.portName}}
+    port: {{.Values.controller.prometheus.port}}
+    targetPort: {{.Values.controller.prometheus.portName}}

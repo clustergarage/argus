@@ -8,6 +8,10 @@ controller:
   image: clustergarage/argus-controller:v0.3.0
   replicas: 1
   probePort: 5000
+  prometheus:
+    name: argus-prometheus
+    portName: prometheus
+    port: 2112
 daemon:
   name: argusd
   image: clustergarage/argusd:v0.3.0
