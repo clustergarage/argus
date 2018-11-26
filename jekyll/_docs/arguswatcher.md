@@ -1,13 +1,13 @@
 ---
 layout: doc
-title: Defining a ArgusWatcher
+title: Defining an ArgusWatcher
 subtitle: Watch for important events on your deployments
 tags: introduction arguswatcher
 ---
 
 Once you have **Argus** installed on your cluster, you are ready to start
 setting up watchers for your deployments. All possible configurations of the
-how, and what, of setting up a ArgusWatcher on your deployments are described
+how, and what, of setting up an ArgusWatcher on your deployments are described
 below.
 
 #### Topics

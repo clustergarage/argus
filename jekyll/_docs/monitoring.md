@@ -8,14 +8,18 @@ tags: monitoring arguswatcher
 Once you have [ArgusWatchers]({{ site.baseurl }}/docs/arguswatcher/) defined,
 you're ready to start monitoring for notify events; perhaps you'll even want to
 set up alerts on high priority events. We provide out-of-the-box metrics
-handling with [Prometheus](https://prometheus.io) so you'll be able to receive
-time-series data that you can immediately monitor. Ultimately, it will be up to
+handling with [Prometheus](https://prometheus.io) so you'll be able to receive time-series data that you can immediately monitor. Ultimately, it will be up to
 you to use your logging framework of choice to monitor the way you're used to
 doing.
 
-## Prometheus
+#### Topics
+{:.no_toc}
+* TOC
+{:toc}
 
-When running a master Prometheus server, to add the scraper that
+## Monitoring with Prometheus
+
+When running a master Prometheus server, in order to add the scraper that
 **arguscontroller** exposes, you will need to add the following definition to
 your `prometheus.yml` config:
 
@@ -31,23 +35,41 @@ After events are collected you will be able to see metrics streaming in around
 a couple specifications:
 
 ```shell
-# Argus metrics
-# - arguswatcher
-# - event
-# - nodeName
+# Argus metrics (labels = arguswatcher, event, nodeName)
 argus_events_total{arguswatcher="mywatcher",...}
 
-# gRPC metrics
-# - grpc_method
-# - grpc_service
-# - grpc_type
+# gRPC metrics (labels = grpc_method, grpc_service, grpc_type)
 grpc_client_handled_total{grpc_service="argus.Argusd"...}
 grpc_client_msg_received_total{grpc_service="argus.Argusd"...}
 grpc_client_msg_sent_total{grpc_service="argus.Argusd"...}
 grpc_client_started_total{grpc_service="argus.Argusd"...}
 ```
 
-The metric `argus_events_total` is what you'll be building your dashboards
-from, as well as alerting on specific events as they occur. The gRPC-related
-metrics are exposed to measure the performance between daemon and controller.
+The metric `argus_events_total` is what you'll be using to build your dashboards
+and alerting on priority events as they occur. The gRPC-related metrics are
+exposed to measure the performance between daemon and controller.
 
+### Alerting
+
+If watching for changes on a critical section of your filesystem that should not
+receive any kind of event, one could set up an alert with Prometheus and
+[Alertmanager](https://prometheus.io/docs/alerting/alertmanager). This could be
+accomplished using the `increase()` function, for example:
+
+```yaml
+alert: PageOnModify
+expr: increase(argus_events_total{arguswatcher="mywatcher",event="modify"}[1m]) > 0
+labels:
+  severity: page
+...
+```
+
+## Grafana Dashboards
+
+With Prometheus as a data source in your Grafana deployment and once
+Prometheus starts scraping the `argus-prometheus` endpoint as a scrape target,
+you will be able to start using these collected metrics to build dashboards in
+Grafana.
+
+We will provide some ready-to-go templates for Argus dashboards at a later
+time...

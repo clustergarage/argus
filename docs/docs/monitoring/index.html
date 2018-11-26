@@ -14,9 +14,9 @@
 <meta property="og:description" content="Once you have ArgusWatchers defined, you’re ready to start monitoring for notify events; perhaps you’ll even want to set up alerts on high priority events. We provide out-of-the-box metrics handling with Prometheus so you’ll be able to receive time-series data that you can immediately monitor. Ultimately, it will be up to you to use your logging framework of choice to monitor the way you’re used to doing." />
 <meta property="og:site_name" content="Argus" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-11-19T21:55:48-05:00" />
+<meta property="article:published_time" content="2018-11-26T15:09:48-05:00" />
 <script type="application/ld+json">
-{"description":"Once you have ArgusWatchers defined, you’re ready to start monitoring for notify events; perhaps you’ll even want to set up alerts on high priority events. We provide out-of-the-box metrics handling with Prometheus so you’ll be able to receive time-series data that you can immediately monitor. Ultimately, it will be up to you to use your logging framework of choice to monitor the way you’re used to doing.","@type":"BlogPosting","url":"/argus/docs/monitoring/","headline":"Monitoring Watches","datePublished":"2018-11-19T21:55:48-05:00","dateModified":"2018-11-19T21:55:48-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/argus/docs/monitoring/"},"@context":"http://schema.org"}</script>
+{"description":"Once you have ArgusWatchers defined, you’re ready to start monitoring for notify events; perhaps you’ll even want to set up alerts on high priority events. We provide out-of-the-box metrics handling with Prometheus so you’ll be able to receive time-series data that you can immediately monitor. Ultimately, it will be up to you to use your logging framework of choice to monitor the way you’re used to doing.","@type":"BlogPosting","url":"/argus/docs/monitoring/","headline":"Monitoring Watches","datePublished":"2018-11-26T15:09:48-05:00","dateModified":"2018-11-26T15:09:48-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/argus/docs/monitoring/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="og:image" content=""/>
@@ -96,7 +96,7 @@
                     
                       
                       
-                      <li class=""><a href="/argus/docs/arguswatcher/">Defining a ArgusWatcher</a></li>
+                      <li class=""><a href="/argus/docs/arguswatcher/">Defining an ArgusWatcher</a></li>
                     
                     </ul>
                     
@@ -127,20 +127,28 @@
 
                     <h1 class="uk-article-title">Monitoring Watches</h1>
 
-                    <p class="subtitle uk-text-lead uk-text-muted">File Integrity Monitoring for Kubernetes</p>
+                    <p class="subtitle uk-text-lead uk-text-muted">Set up monitoring and alerts of watchers</p>
 
                     <div class="article-content">
                         <p>Once you have <a href="/argus/docs/arguswatcher/">ArgusWatchers</a> defined,
 you’re ready to start monitoring for notify events; perhaps you’ll even want to
 set up alerts on high priority events. We provide out-of-the-box metrics
-handling with <a href="https://prometheus.io">Prometheus</a> so you’ll be able to receive
-time-series data that you can immediately monitor. Ultimately, it will be up to
+handling with <a href="https://prometheus.io">Prometheus</a> so you’ll be able to receive time-series data that you can immediately monitor. Ultimately, it will be up to
 you to use your logging framework of choice to monitor the way you’re used to
 doing.</p>
 
-<h2 id="prometheus">Prometheus</h2>
+<h4 class="no_toc" id="topics">Topics</h4>
+<ul id="markdown-toc">
+  <li><a href="#monitoring-with-prometheus" id="markdown-toc-monitoring-with-prometheus">Monitoring with Prometheus</a>    <ul>
+      <li><a href="#alerting" id="markdown-toc-alerting">Alerting</a></li>
+    </ul>
+  </li>
+  <li><a href="#grafana-dashboards" id="markdown-toc-grafana-dashboards">Grafana Dashboards</a></li>
+</ul>
 
-<p>When running a master Prometheus server, to add the scraper that
+<h2 id="monitoring-with-prometheus">Monitoring with Prometheus</h2>
+
+<p>When running a master Prometheus server, in order to add the scraper that
 <strong>arguscontroller</strong> exposes, you will need to add the following definition to
 your <code class="highlighter-rouge">prometheus.yml</code> config:</p>
 
@@ -154,26 +162,43 @@ your <code class="highlighter-rouge">prometheus.yml</code> config:</p>
 <p>After events are collected you will be able to see metrics streaming in around
 a couple specifications:</p>
 
-<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Argus metrics</span>
-<span class="c"># - arguswatcher</span>
-<span class="c"># - event</span>
-<span class="c"># - nodeName</span>
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Argus metrics (labels = arguswatcher, event, nodeName)</span>
 argus_events_total<span class="o">{</span><span class="nv">arguswatcher</span><span class="o">=</span><span class="s2">"mywatcher"</span>,...<span class="o">}</span>
 
-<span class="c"># gRPC metrics</span>
-<span class="c"># - grpc_method</span>
-<span class="c"># - grpc_service</span>
-<span class="c"># - grpc_type</span>
+<span class="c"># gRPC metrics (labels = grpc_method, grpc_service, grpc_type)</span>
 grpc_client_handled_total<span class="o">{</span><span class="nv">grpc_service</span><span class="o">=</span><span class="s2">"argus.Argusd"</span>...<span class="o">}</span>
 grpc_client_msg_received_total<span class="o">{</span><span class="nv">grpc_service</span><span class="o">=</span><span class="s2">"argus.Argusd"</span>...<span class="o">}</span>
 grpc_client_msg_sent_total<span class="o">{</span><span class="nv">grpc_service</span><span class="o">=</span><span class="s2">"argus.Argusd"</span>...<span class="o">}</span>
 grpc_client_started_total<span class="o">{</span><span class="nv">grpc_service</span><span class="o">=</span><span class="s2">"argus.Argusd"</span>...<span class="o">}</span>
 </code></pre></div></div>
 
-<p>The metric <code class="highlighter-rouge">argus_events_total</code> is what you’ll be building your dashboards
-from, as well as alerting on specific events as they occur. The gRPC-related
-metrics are exposed to measure the performance between daemon and controller.</p>
+<p>The metric <code class="highlighter-rouge">argus_events_total</code> is what you’ll be using to build your dashboards
+and alerting on priority events as they occur. The gRPC-related metrics are
+exposed to measure the performance between daemon and controller.</p>
 
+<h3 id="alerting">Alerting</h3>
+
+<p>If watching for changes on a critical section of your filesystem that should not
+receive any kind of event, one could set up an alert with Prometheus and
+<a href="https://prometheus.io/docs/alerting/alertmanager">Alertmanager</a>. This could be
+accomplished using the <code class="highlighter-rouge">increase()</code> function, for example:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">alert</span><span class="pi">:</span> <span class="s">PageOnModify</span>
+<span class="na">expr</span><span class="pi">:</span> <span class="s">increase(argus_events_total{arguswatcher="mywatcher",event="modify"}[1m]) &gt; 0</span>
+<span class="na">labels</span><span class="pi">:</span>
+  <span class="na">severity</span><span class="pi">:</span> <span class="s">page</span>
+<span class="nn">...</span>
+</code></pre></div></div>
+
+<h2 id="grafana-dashboards">Grafana Dashboards</h2>
+
+<p>With Prometheus as a data source in your Grafana deployment and once
+Prometheus starts scraping the <code class="highlighter-rouge">argus-prometheus</code> endpoint as a scrape target,
+you will be able to start using these collected metrics to build dashboards in
+Grafana.</p>
+
+<p>We will provide some ready-to-go templates for Argus dashboards at a later
+time…</p>
 
                     </div>
 
@@ -224,7 +249,7 @@ metrics are exposed to measure the performance between daemon and controller.</p
     
 
     
-        <li><a href="/argus/docs/arguswatcher/">Defining a ArgusWatcher</a></li>
+        <li><a href="/argus/docs/arguswatcher/">Defining an ArgusWatcher</a></li>
         
         
     
@@ -267,10 +292,6 @@ metrics are exposed to measure the performance between daemon and controller.</p
 
     
 
-    
-        <li><a href="/argus/docs/overview/">Overview</a></li>
-        
-        
     
 
     
