@@ -7,15 +7,27 @@ tags: monitoring arguswatcher
 
 Once you have [ArgusWatchers]({{ site.baseurl }}/docs/arguswatcher/) defined,
 you're ready to start monitoring for notify events; perhaps you'll even want to
-set up alerts on high priority events. We provide out-of-the-box metrics
-handling with [Prometheus](https://prometheus.io) so you'll be able to receive time-series data that you can immediately monitor. Ultimately, it will be up to
-you to use your logging framework of choice to monitor the way you're used to
-doing.
+set up alerts on high priority events. There are generic logfiles included in
+both apps, and we provide out-of-the-box metrics handling with
+[Prometheus](https://prometheus.io) so you'll be able to receive time-series
+data that you can immediately monitor. Ultimately, it will be up to you to use
+your logging framework of choice to monitor the way you're used to doing.
 
 #### Topics
 {:.no_toc}
 * TOC
 {:toc}
+
+## Logfiles
+
+Using the `glog` logging framework that most Kubernetes-related projects also
+leverage, you can locate logfiles in both **argusd** and **arguscontroller**
+containers at `/tmp/argusd.INFO` and `/tmp/arguscontroller.INFO`. The
+**argusd** logs will show actual `inotify` events that were reported as they
+happened, where **arguscontroller** log will only include Kubernetes
+controller-related log messages such as receiving new watchers, connecting the
+controller to daemons via gRPC, and pods being created, deleted, and updated
+that a watcher cares about.
 
 ## Monitoring with Prometheus
 
