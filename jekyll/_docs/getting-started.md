@@ -17,13 +17,29 @@ filesystem events on each node.
 * TOC
 {:toc}
 
-## Quickstart
+## Prerequisites
 
-In order to properly run these components, a Kubernetes cluster running v1.9 or
-above is required. Depending on your environment, there may be additional
-requirements to run both the daemon as a privileged container and the
-controller with an appropriate level of access to receive cluster events. A
-multi-tenancy environment will likely not allow for this kind of entitlement.
+In order to properly run these components, a Kubernetes cluster running
+**v1.9** or above is required. Depending on your environment, there may be
+additional requirements to run both the daemon as a privileged container and
+the controller with an appropriate level of access to receive cluster events.
+
+Since procfs `/proc/[pid]` subdirectories are owned by the effective user and
+group of the process, we require escalated privileges so the daemon can watch
+for filesystem events of any process running in your cluster, directly on the
+host.
+
+In addition, if using Docker as your container runtime, we will need to volume
+mount the `docker.pid`, `docker.sock`, and sysfs `cgroup` paths inside the
+daemon container so it can determine the PID from a container ID. Other
+container runtimes make this a bit easier to find the PID, so if not using
+Docker, you can feel free to remove these from the configs.
+
+If running in a multi-tenant environment, you certainly will **not** be able to
+have the kind of escalated privileges needed to gain access to the host
+filesystem, for obvious reasons.
+
+## Quickstart
 
 We provide multiple paths of configuration for both vanilla Kubernetes and
 OpenShift, which has additional security measures in place.
@@ -51,13 +67,13 @@ oc apply -f \
   https://raw.githubusercontent.com/clustergarage/argus/master/configs/argus-openshift.yaml
 ```
 
-This will create an OpenShift `Project` **argus** under which all components will
-be organized. In addition to creating a `Namespace`, an OpenShift project needs
-various `RoleBindings` for building and pulling images via an `ImageStream` and
-for our `ServiceAccount` to have an admin role reference. OpenShift also
-requires `SecurityContextConstraints` to properly run containers as certain
-users, as a privileged container, and gain access to the host PID namespace and
-volume.
+This will create an OpenShift `Project` **argus** under which all components
+will be organized. In addition to creating a `Namespace`, an OpenShift project
+needs various `RoleBindings` for building and pulling images via an
+`ImageStream` and for our `ServiceAccount` to have an admin role reference.
+OpenShift also requires `SecurityContextConstraints` to properly run containers
+as certain users, as a privileged container, and gain access to the host PID
+namespace and volume.
 {% endcodetab %}
 {% codetab Helm %}
 To install using a Helm chart, we provide a couple ways to do this. The
@@ -92,9 +108,9 @@ A `CustomResourceDefinition` is included to define a custom **ArgusWatcher**
 type housing the pod selector, paths, events, and optional flags for the
 watcher.
 
-Finally, the **arguscontroller** `Deployment` and **argusd** `DaemonSet` are the
-core of the product. There is a headless `Service` used to communicate between
-the controller and all instances of the daemons.
+Finally, the **arguscontroller** `Deployment` and **argusd** `DaemonSet` are
+the core of the product. There is a headless `Service` used to communicate
+between the controller and all instances of the daemons.
 
 > You can verify that it installed properly by inspecting `kubectl -n argus get
 all`
@@ -110,14 +126,14 @@ method calls to the daemon are idempotent; it can still function properly with
 To secure the gRPC communication between controller and daemon, we provide
 secure variations of each configurations described above.
 
-You must provide your own certificates, which won't be described in this
+You must provide **your own** certificates, which won't be described in this
 documentation. The daemon will be spun up with a certificate/private key pair
 and an optional CA certificate as the gRPC server(s); the controller will act
 as a client so has additional TLS flags that can be passed in.
 
 {% codetabs %}
 {% codetab Kubernetes %}
-With your SSL certificates, create a **ConfigMap** with keys as described in
+With your SSL certificates, create a **ConfigMap** with keys as demonstrated in
 the [examples/ folder](https://raw.githubusercontent.com/clustergarage/argus/master/examples/argus-config.yaml).
 This includes a `ca.pem` for root CA certificate, `cert.pem` and `key.pem` for
 certificate/private keys. Apply the **ConfigMap** and the secure variation of
@@ -131,7 +147,7 @@ kubectl apply -f argus-config.yaml
 ```
 {% endcodetab %}
 {% codetab OpenShift %}
-With your SSL certificates, create a **ConfigMap** with keys as described in
+With your SSL certificates, create a **ConfigMap** with keys as demonstrated in
 the [examples/ folder](https://raw.githubusercontent.com/clustergarage/argus/master/examples/argus-config.yaml).
 This includes a `ca.pem` for root CA certificate, `cert.pem` and `key.pem` for
 certificate/private keys. Apply the **ConfigMap** and the secure variation of
@@ -157,6 +173,15 @@ helm install ./argus --set tls=true
 ```
 {% endcodetab %}
 {% endcodetabs %}
+
+## Caveats
+
+`argusd` should be scheduled out on all nodes that can handle compute that you
+would want to monitor. If your nodes have any
+[taints](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/),
+then there will need to be an explicit tolerance set on the **DaemonSet** in
+order for these pods to be run on them. It will be up to you to add the
+appropriate tolerance to the configuration.
 
 ## Need Help?
 

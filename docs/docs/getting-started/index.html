@@ -14,9 +14,9 @@
 <meta property="og:description" content="Argus works by configuring a custom Kubernetes resource that defines paths and events that you want to be notified about for your current deployments. This custom resource, in conjunction with a cluster controller running and listening for lifecycle events, is responsible for maintaining a source of truth between the state of the cluster and the daemons listening for filesystem events on each node." />
 <meta property="og:site_name" content="Argus" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-11-26T15:09:48-05:00" />
+<meta property="article:published_time" content="2018-11-28T15:21:03-05:00" />
 <script type="application/ld+json">
-{"description":"Argus works by configuring a custom Kubernetes resource that defines paths and events that you want to be notified about for your current deployments. This custom resource, in conjunction with a cluster controller running and listening for lifecycle events, is responsible for maintaining a source of truth between the state of the cluster and the daemons listening for filesystem events on each node.","@type":"BlogPosting","url":"/argus/docs/getting-started/","headline":"Getting Started","datePublished":"2018-11-26T15:09:48-05:00","dateModified":"2018-11-26T15:09:48-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/argus/docs/getting-started/"},"@context":"http://schema.org"}</script>
+{"description":"Argus works by configuring a custom Kubernetes resource that defines paths and events that you want to be notified about for your current deployments. This custom resource, in conjunction with a cluster controller running and listening for lifecycle events, is responsible for maintaining a source of truth between the state of the cluster and the daemons listening for filesystem events on each node.","@type":"BlogPosting","url":"/argus/docs/getting-started/","headline":"Getting Started","datePublished":"2018-11-28T15:21:03-05:00","dateModified":"2018-11-28T15:21:03-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/argus/docs/getting-started/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="og:image" content=""/>
@@ -113,11 +113,6 @@
                     
                     </ul>
                     
-                    <h5>Troubleshooting</h5>
-                    <ul class="uk-nav uk-nav-default doc-nav">
-                    
-                    </ul>
-                    
                 </div>
             </div>
 
@@ -139,18 +134,36 @@ filesystem events on each node.</p>
 
 <h4 class="no_toc" id="topics">Topics</h4>
 <ul id="markdown-toc">
+  <li><a href="#prerequisites" id="markdown-toc-prerequisites">Prerequisites</a></li>
   <li><a href="#quickstart" id="markdown-toc-quickstart">Quickstart</a></li>
   <li><a href="#secure-communication" id="markdown-toc-secure-communication">Secure Communication</a></li>
+  <li><a href="#caveats" id="markdown-toc-caveats">Caveats</a></li>
   <li><a href="#need-help" id="markdown-toc-need-help">Need Help?</a></li>
 </ul>
 
-<h2 id="quickstart">Quickstart</h2>
+<h2 id="prerequisites">Prerequisites</h2>
 
-<p>In order to properly run these components, a Kubernetes cluster running v1.9 or
-above is required. Depending on your environment, there may be additional
-requirements to run both the daemon as a privileged container and the
-controller with an appropriate level of access to receive cluster events. A
-multi-tenancy environment will likely not allow for this kind of entitlement.</p>
+<p>In order to properly run these components, a Kubernetes cluster running
+<strong>v1.9</strong> or above is required. Depending on your environment, there may be
+additional requirements to run both the daemon as a privileged container and
+the controller with an appropriate level of access to receive cluster events.</p>
+
+<p>Since procfs <code class="highlighter-rouge">/proc/[pid]</code> subdirectories are owned by the effective user and
+group of the process, we require escalated privileges so the daemon can watch
+for filesystem events of any process running in your cluster, directly on the
+host.</p>
+
+<p>In addition, if using Docker as your container runtime, we will need to volume
+mount the <code class="highlighter-rouge">docker.pid</code>, <code class="highlighter-rouge">docker.sock</code>, and sysfs <code class="highlighter-rouge">cgroup</code> paths inside the
+daemon container so it can determine the PID from a container ID. Other
+container runtimes make this a bit easier to find the PID, so if not using
+Docker, you can feel free to remove these from the configs.</p>
+
+<p>If running in a multi-tenant environment, you certainly will <strong>not</strong> be able to
+have the kind of escalated privileges needed to gain access to the host
+filesystem, for obvious reasons.</p>
+
+<h2 id="quickstart">Quickstart</h2>
 
 <p>We provide multiple paths of configuration for both vanilla Kubernetes and
 OpenShift, which has additional security measures in place.</p>
@@ -188,13 +201,13 @@ be done with the following command:</p>
   https://raw.githubusercontent.com/clustergarage/argus/master/configs/argus-openshift.yaml
 </code></pre></div></div>
 
-<p>This will create an OpenShift <code class="highlighter-rouge">Project</code> <strong>argus</strong> under which all components will
-be organized. In addition to creating a <code class="highlighter-rouge">Namespace</code>, an OpenShift project needs
-various <code class="highlighter-rouge">RoleBindings</code> for building and pulling images via an <code class="highlighter-rouge">ImageStream</code> and
-for our <code class="highlighter-rouge">ServiceAccount</code> to have an admin role reference. OpenShift also
-requires <code class="highlighter-rouge">SecurityContextConstraints</code> to properly run containers as certain
-users, as a privileged container, and gain access to the host PID namespace and
-volume.</p>
+<p>This will create an OpenShift <code class="highlighter-rouge">Project</code> <strong>argus</strong> under which all components
+will be organized. In addition to creating a <code class="highlighter-rouge">Namespace</code>, an OpenShift project
+needs various <code class="highlighter-rouge">RoleBindings</code> for building and pulling images via an
+<code class="highlighter-rouge">ImageStream</code> and for our <code class="highlighter-rouge">ServiceAccount</code> to have an admin role reference.
+OpenShift also requires <code class="highlighter-rouge">SecurityContextConstraints</code> to properly run containers
+as certain users, as a privileged container, and gain access to the host PID
+namespace and volume.</p>
 </li>
 
 	<li>
@@ -229,9 +242,9 @@ privileges.</p>
 type housing the pod selector, paths, events, and optional flags for the
 watcher.</p>
 
-<p>Finally, the <strong>arguscontroller</strong> <code class="highlighter-rouge">Deployment</code> and <strong>argusd</strong> <code class="highlighter-rouge">DaemonSet</code> are the
-core of the product. There is a headless <code class="highlighter-rouge">Service</code> used to communicate between
-the controller and all instances of the daemons.</p>
+<p>Finally, the <strong>arguscontroller</strong> <code class="highlighter-rouge">Deployment</code> and <strong>argusd</strong> <code class="highlighter-rouge">DaemonSet</code> are
+the core of the product. There is a headless <code class="highlighter-rouge">Service</code> used to communicate
+between the controller and all instances of the daemons.</p>
 
 <blockquote>
   <p>You can verify that it installed properly by inspecting <code class="highlighter-rouge">kubectl -n argus get
@@ -249,7 +262,7 @@ method calls to the daemon are idempotent; it can still function properly with
 <p>To secure the gRPC communication between controller and daemon, we provide
 secure variations of each configurations described above.</p>
 
-<p>You must provide your own certificates, which won’t be described in this
+<p>You must provide <strong>your own</strong> certificates, which won’t be described in this
 documentation. The daemon will be spun up with a certificate/private key pair
 and an optional CA certificate as the gRPC server(s); the controller will act
 as a client so has additional TLS flags that can be passed in.</p>
@@ -267,7 +280,7 @@ as a client so has additional TLS flags that can be passed in.</p>
 <ul class="uk-switcher uk-margin">
 
 	<li>
-<p>With your SSL certificates, create a <strong>ConfigMap</strong> with keys as described in
+<p>With your SSL certificates, create a <strong>ConfigMap</strong> with keys as demonstrated in
 the <a href="https://raw.githubusercontent.com/clustergarage/argus/master/examples/argus-config.yaml">examples/ folder</a>.
 This includes a <code class="highlighter-rouge">ca.pem</code> for root CA certificate, <code class="highlighter-rouge">cert.pem</code> and <code class="highlighter-rouge">key.pem</code> for
 certificate/private keys. Apply the <strong>ConfigMap</strong> and the secure variation of
@@ -281,7 +294,7 @@ kubectl apply <span class="nt">-f</span> argus-config.yaml
 </li>
 
 	<li>
-<p>With your SSL certificates, create a <strong>ConfigMap</strong> with keys as described in
+<p>With your SSL certificates, create a <strong>ConfigMap</strong> with keys as demonstrated in
 the <a href="https://raw.githubusercontent.com/clustergarage/argus/master/examples/argus-config.yaml">examples/ folder</a>.
 This includes a <code class="highlighter-rouge">ca.pem</code> for root CA certificate, <code class="highlighter-rouge">cert.pem</code> and <code class="highlighter-rouge">key.pem</code> for
 certificate/private keys. Apply the <strong>ConfigMap</strong> and the secure variation of
@@ -307,6 +320,15 @@ helm install ./argus <span class="nt">--set</span> <span class="nv">tls</span><s
 </li>
 
 </ul>
+
+<h2 id="caveats">Caveats</h2>
+
+<p><code class="highlighter-rouge">argusd</code> should be scheduled out on all nodes that can handle compute that you
+would want to monitor. If your nodes have any
+<a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">taints</a>,
+then there will need to be an explicit tolerance set on the <strong>DaemonSet</strong> in
+order for these pods to be run on them. It will be up to you to add the
+appropriate tolerance to the configuration.</p>
 
 <h2 id="need-help">Need Help?</h2>
 
