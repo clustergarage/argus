@@ -5,7 +5,7 @@ subtitle: Set up monitoring and alerts of watchers
 tags: monitoring arguswatcher
 ---
 
-Once you have [ArgusWatchers]({{ site.baseurl }}/docs/arguswatcher/) defined,
+Once you have [ArgusWatchers]({{site.baseurl}}/docs/arguswatcher/) defined,
 you're ready to start monitoring for notify events; perhaps you'll even want to
 set up alerts on high priority events. There are generic logfiles included in
 both apps, and we provide out-of-the-box metrics handling with

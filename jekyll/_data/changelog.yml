@@ -15,7 +15,7 @@
     argus-controller.
   - Updated definitions for using insecure or secure options.
 - title: v0.1.0
-  label: Release
+  label: Pre-Release
   date: 10/10/2018
   list:
   - Initial functionality of both argusd and argus-controller.

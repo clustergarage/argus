@@ -199,4 +199,4 @@ suspect you may be having problems not recorded there, open a detailed issue
 with all steps and pertinent information about your cluster setup.
 
 If you wish to contact us directly, use the form located on the
-[Contact]({{ site.baseurl }}/contact/) page.
+[Contact]({{site.baseurl}}/contact/) page.

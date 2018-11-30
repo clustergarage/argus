@@ -9,16 +9,14 @@ spec:
     matchLabels:
       app: jenkins
   subjects:
-  - events:
-    - modify
-    paths:
+  - paths:
     - /var/lib/jenkins/password
     - /var/lib/jenkins/secret.key
     - /var/lib/jenkins/secrets
     - /etc/nginx
-  - events:
-    - open
-    paths:
+    events:
+    - modify
+  - paths:
     - /var/lib/jenkins
     ignore:
     - .groovy
@@ -26,4 +24,8 @@ spec:
     - .pki
     - plugins
     - war
+    events:
+    - open
     recursive: true
+    tags:
+      foo: bar
