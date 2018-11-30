@@ -9,7 +9,7 @@ redirect_from: /docs
 **Argus** is a set of custom Kubernetes resources that facilitates filesystem
 event monitoring on specified paths. It provides a rich set of configurations
 to run alongside your existing Kubernetes deployments to make it easy to denote
-audit-ready file integrity monitoring.
+assessment-ready file integrity monitoring.
 
 In deploying **Argus** into your cluster, a couple of components will be
 initialized. First, the controller listens directly for Kubernetes events and

@@ -10,7 +10,18 @@ tags: examples
 * TOC
 {:toc}
 
-## Kubernetes &mdash; NGiNX Example
+## Kubernetes
+
+### Guestbook Example
+
+```shell
+kubectl apply -f \
+  https://raw.githubusercontent.com/kubernetes/kubernetes/release-1.10/examples/guestbook/all-in-one/guestbook-all-in-one.yaml
+kubectl apply -f \
+  https://raw.githubusercontent.com/clustergarage/argus/master/examples/guestbook-argus-watch.yaml
+```
+
+### NGiNX Example
 
 ```shell
 kubectl run nginx --image=nginx
@@ -18,7 +29,9 @@ kubectl apply -f \
   https://raw.githubusercontent.com/clustergarage/argus/master/examples/nginx-argus-watch.yaml
 ```
 
-## OpenShift &mdash; Django Example
+## OpenShift
+
+### Django Example
 
 ```shell
 oc new-app python:3.5~https://github.com/openshift/django-ex
@@ -26,7 +39,7 @@ oc apply -f \
   https://raw.githubusercontent.com/clustergarage/argus/master/examples/djangoex-argus-watch.yaml
 ```
 
-## OpenShift &mdash; Jenkins Sidecar Example
+### Jenkins Sidecar Example
 
 ```shell
 oc apply -f \

@@ -1,6 +1,6 @@
 ---
 - title: v0.3.0
-  label: Pre-Release
+  label: Latest Release
   date: 11/18/2018
   list:
   - Renamed `fim-k8s` to `Argus`.
@@ -8,14 +8,14 @@
     of creating, updating, and deleting watchers on the fly; especially when
     events are streaming in.
 - title: v0.2.0
-  label: Pre-Release
+  label: Release
   date: 11/11/2018
   list:
   - Added option for secure gRPC communication with mTLS to both argusd and
     argus-controller.
   - Updated definitions for using insecure or secure options.
 - title: v0.1.0
-  label: Pre-Release
+  label: Release
   date: 10/10/2018
   list:
   - Initial functionality of both argusd and argus-controller.

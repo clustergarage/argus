@@ -9,6 +9,7 @@ spec:
       run: nginx
   subjects:
   - paths:
-    - /var/log/nginx
+    - /etc/nginx
+    - /etc/init.d/nginx
     events:
     - modify

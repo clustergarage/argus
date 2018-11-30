@@ -4,13 +4,9 @@ title: Got Questions?
 permalink: /contact/
 formspree:
   email: brett@clustergarage.io
-  redirect: /thanks/
 ---
 
-##### Morbi varius in accumsan blandit, elit ligula velit, luctus mattis ante nulla nulla.
+##### Fill out the form below to submit your question.
 
-Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-
-{% comment %}
-{% include map.html latitude="40.0292084" longitude="-83.0227733" zoom="17" %}
-{% endcomment %}
+If you wish to reach us regarding a technical issue, please visit our Argus
+[GitHub issues](https://github.com/clustergarage/argus/issues).

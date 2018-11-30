@@ -22,7 +22,8 @@ authors:
     name: ClusterGarage
     github: clustergarage
 footer:
-  copyright: Lorem ipsum dolor <a href="">sit amet</a> consectetur adipiscing elit
+  copyright: |
+    Copyright &copy; 2018 <a href="https://clustergarage.io">ClusterGarage</a> | <a href="https://github.com/clustergarage/argus">Argus</a> .
 #google_analytics:
 markdown: kramdown
 highlighter: rouge

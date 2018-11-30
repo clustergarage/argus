@@ -174,7 +174,7 @@ helm install ./argus --set tls=true
 {% endcodetab %}
 {% endcodetabs %}
 
-## Caveats
+## Limitations and Caveats
 
 `argusd` should be scheduled out on all nodes that can handle compute that you
 would want to monitor. If your nodes have any
@@ -182,6 +182,12 @@ would want to monitor. If your nodes have any
 then there will need to be an explicit tolerance set on the **DaemonSet** in
 order for these pods to be run on them. It will be up to you to add the
 appropriate tolerance to the configuration.
+
+Certain images (such as the official **nginx**) will symlink to special devices
+such as `/var/log/nginx/access.log -> /dev/stdout`. These devices are streams
+which are symlinks to pseudo-terminals on the system and are not files that can
+be monitored by `inotify`. For the same reason, they are also not candidates for
+the practice of file integrity monitoring.
 
 ## Need Help?
 

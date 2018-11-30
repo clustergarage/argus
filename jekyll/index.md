@@ -12,11 +12,11 @@ categories:
 section:
   title: Why would I use Argus?
   subtitle: |
-    To pass your audits in a brave new world using a familiar, undefeatable
-    solution.
+    Gain insight into directory and file changes for apps in your Kubernetes
+    cluster; be confident come assessment time.
 cta:
   title: Didn't find an answer to your question?
-  subtitle: (Words are hard.) We'd like to hear your input.
+  subtitle: We'd like to hear your input.
   button_text: Contact Us
   button_url: /contact/
 ---
@@ -27,4 +27,4 @@ At the time of creating this product, there weren't any other solutions out
 there. We designed the architecture around common Linux kernel functionality to
 ensure well-known practices around inode monitoring. The rest of which was
 making sure it performed well in a clustered environment, and had features that
-security experts and auditors could healthily engage.
+security experts and assessors could healthily engage on.

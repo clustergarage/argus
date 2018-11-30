@@ -1,13 +1,16 @@
 ---
 - title: Getting Started
-  desc: Jump right in and start using the product with minimal requirements.
+  desc: |
+    Jump right in and start using the product with minimal requirements.
   icon: play-circle
   doc: getting-started
-- title: Technical Guide
-  desc: Deep dive of the architecture and how it works in a clustered environment.
-  icon: info
-  doc: overview
-- title: Troubleshooting
-  desc: Get help with frequent issues and where to look when all else fails.
+- title: Defining Watchers
+  desc: |
+    Full list of features and options that can be defined for an ArgusWatcher.
   icon: cog
+  doc: arguswatcher
+- title: Technical Guide
+  desc: |
+    Deep dive of the architecture and how it works in a clustered environment.
+  icon: info
   doc: overview
