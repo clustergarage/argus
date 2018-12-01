@@ -1,6 +1,14 @@
 ---
-- title: v0.3.0
+- title: v0.4.0
   label: Latest Release
+  date: 12/01/2018
+  list:
+  - Updated `securityContext` definitions to only include required capabilities
+    (`SYS_ADMIN` and `SYS_PTRACE`).
+  - Updated OpenShift `SecurityContextConstraints` definitions to only include
+    required capabilities, remove privileged requirements.
+- title: v0.3.0
+  label: Release
   date: 11/18/2018
   list:
   - Renamed `fim-k8s` to `Argus`.

@@ -42,14 +42,13 @@ spec:
           mountPath: /usr/lib/ssl/certs
           readOnly: true
         {{- end}}
-        - name: dockerpid
-          mountPath: /var/run/docker.pid
-        - name: dockersock
-          mountPath: /var/run/docker.sock
         - name: sysfscgroup
           mountPath: /sys/fs/cgroup
         securityContext:
-          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+            - SYS_PTRACE
       hostPID: true
       serviceAccountName: {{.Values.serviceAccount}}
       volumes:
@@ -58,12 +57,6 @@ spec:
         configMap:
           name: argus-config
       {{- end}}
-      - name: dockerpid
-        hostPath:
-          path: /var/run/docker.pid
-      - name: dockersock
-        hostPath:
-          path: /var/run/docker.sock
       - name: sysfscgroup
         hostPath:
           path: /sys/fs/cgroup

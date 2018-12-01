@@ -21,19 +21,13 @@ filesystem events on each node.
 
 In order to properly run these components, a Kubernetes cluster running
 **v1.9** or above is required. Depending on your environment, there may be
-additional requirements to run both the daemon as a privileged container and
-the controller with an appropriate level of access to receive cluster events.
+additional requirements to run both the daemon with Linux capabilities and the
+controller with an appropriate level of access to receive cluster events.
 
 Since procfs `/proc/[pid]` subdirectories are owned by the effective user and
 group of the process, we require escalated privileges so the daemon can watch
 for filesystem events of any process running in your cluster, directly on the
 host.
-
-In addition, if using Docker as your container runtime, we will need to volume
-mount the `docker.pid`, `docker.sock`, and sysfs `cgroup` paths inside the
-daemon container so it can determine the PID from a container ID. Other
-container runtimes make this a bit easier to find the PID, so if not using
-Docker, you can feel free to remove these from the configs.
 
 If running in a multi-tenant environment, you certainly will **not** be able to
 have the kind of escalated privileges needed to gain access to the host
@@ -72,7 +66,7 @@ will be organized. In addition to creating a `Namespace`, an OpenShift project
 needs various `RoleBindings` for building and pulling images via an
 `ImageStream` and for our `ServiceAccount` to have an admin role reference.
 OpenShift also requires `SecurityContextConstraints` to properly run containers
-as certain users, as a privileged container, and gain access to the host PID
+as certain users, with Linux capabilities, and gain access to the host PID
 namespace and volume.
 {% endcodetab %}
 {% codetab Helm %}
@@ -81,7 +75,7 @@ simplest being an archive file included in each release:
 
 ```shell
 helm install \
-  https://github.com/clustergarage/argus/releases/download/v0.3.0/argus-0.3.0.tgz
+  https://github.com/clustergarage/argus/releases/download/v0.4.0/argus-0.4.0.tgz
 ```
 
 The other way is to add a Helm repository to your cluster and update/install

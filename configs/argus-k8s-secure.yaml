@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
       - name: arguscontroller
-        image: clustergarage/argus-controller:v0.3.0
+        image: clustergarage/argus-controller:v0.4.0
         ports:
         - name: prometheus
           containerPort: 2112
@@ -132,7 +132,7 @@ spec:
     spec:
       containers:
       - name: argusd
-        image: clustergarage/argusd:v0.3.0
+        image: clustergarage/argusd:v0.4.0
         command: [
           "/argusd",
           "-tlscafile", "/usr/lib/ssl/certs/ca.pem",
@@ -154,26 +154,19 @@ spec:
         - name: argus-config-volume
           mountPath: /usr/lib/ssl/certs
           readOnly: true
-        - name: dockerpid
-          mountPath: /var/run/docker.pid
-        - name: dockersock
-          mountPath: /var/run/docker.sock
         - name: sysfscgroup
           mountPath: /sys/fs/cgroup
         securityContext:
-          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+            - SYS_PTRACE
       hostPID: true
       serviceAccountName: argus-admin
       volumes:
       - name: argus-config-volume
         configMap:
           name: argus-config
-      - name: dockerpid
-        hostPath:
-          path: /var/run/docker.pid
-      - name: dockersock
-        hostPath:
-          path: /var/run/docker.sock
       - name: sysfscgroup
         hostPath:
           path: /sys/fs/cgroup

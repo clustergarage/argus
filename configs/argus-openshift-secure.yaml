@@ -88,13 +88,12 @@ metadata:
   name: argus
 allowHostDirVolumePlugin: true
 allowHostPID: true
-allowPrivilegedContainer: true
 allowedCapabilities:
-- '*'
+- SYS_ADMIN
+- SYS_PTRACE
 fsGroup:
   type: RunAsAny
 readOnlyRootFilesystem: false
-requiredDropCapabilities: null
 runAsUser:
   type: RunAsAny
 seLinuxContext:
@@ -145,10 +144,10 @@ metadata:
   namespace: argus
 spec:
   tags:
-  - name: v0.3.0
+  - name: v0.4.0
     from:
       kind: DockerImage
-      name: clustergarage/argus-controller:v0.3.0
+      name: clustergarage/argus-controller:v0.4.0
   - name: latest
     from:
       kind: DockerImage
@@ -172,7 +171,7 @@ spec:
     spec:
       containers:
       - name: arguscontroller
-        image: clustergarage/argus-controller:v0.3.0
+        image: clustergarage/argus-controller:v0.4.0
         ports:
         - name: prometheus
           containerPort: 2112
@@ -211,7 +210,7 @@ spec:
       - arguscontroller
       from:
         kind: ImageStreamTag
-        name: argus-controller:v0.3.0
+        name: argus-controller:v0.4.0
   strategy:
     type: Rolling
     rollingParams:
@@ -256,7 +255,7 @@ spec:
     spec:
       containers:
       - name: argusd
-        image: clustergarage/argusd:v0.3.0
+        image: clustergarage/argusd:v0.4.0
         command: [
           "/argusd",
           "-tlscafile", "/usr/lib/ssl/certs/ca.pem",
@@ -278,14 +277,13 @@ spec:
         - name: argus-config-volume
           mountPath: /usr/lib/ssl/certs
           readOnly: true
-        - name: dockerpid
-          mountPath: /var/run/docker.pid
-        - name: dockersock
-          mountPath: /var/run/docker.sock
         - name: sysfscgroup
           mountPath: /sys/fs/cgroup
         securityContext:
-          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+            - SYS_PTRACE
         resources:
           limits:
             cpu: 500m
@@ -300,12 +298,6 @@ spec:
       - name: argus-config-volume
         configMap:
           name: argus-config
-      - name: dockerpid
-        hostPath:
-          path: /var/run/docker.pid
-      - name: dockersock
-        hostPath:
-          path: /var/run/docker.sock
       - name: sysfscgroup
         hostPath:
           path: /sys/fs/cgroup

@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
       - name: arguscontroller
-        image: clustergarage/argus-controller:v0.3.0
+        image: clustergarage/argus-controller:v0.4.0
         ports:
         - name: prometheus
           containerPort: 2112
@@ -118,7 +118,7 @@ spec:
     spec:
       containers:
       - name: argusd
-        image: clustergarage/argusd:v0.3.0
+        image: clustergarage/argusd:v0.4.0
         ports:
         - name: grpc
           containerPort: 50051
@@ -131,23 +131,16 @@ spec:
             command: ["/bin/grpc_health_probe", "-addr", ":50051"]
           initialDelaySeconds: 5
         volumeMounts:
-        - name: dockerpid
-          mountPath: /var/run/docker.pid
-        - name: dockersock
-          mountPath: /var/run/docker.sock
         - name: sysfscgroup
           mountPath: /sys/fs/cgroup
         securityContext:
-          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+            - SYS_PTRACE
       hostPID: true
       serviceAccountName: argus-admin
       volumes:
-      - name: dockerpid
-        hostPath:
-          path: /var/run/docker.pid
-      - name: dockersock
-        hostPath:
-          path: /var/run/docker.sock
       - name: sysfscgroup
         hostPath:
           path: /sys/fs/cgroup

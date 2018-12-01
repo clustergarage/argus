@@ -14,9 +14,9 @@
 <meta property="og:description" content="Argus works by configuring a custom Kubernetes resource that defines paths and events that you want to be notified about for your current deployments. This custom resource, in conjunction with a cluster controller running and listening for lifecycle events, is responsible for maintaining a source of truth between the state of the cluster and the daemons listening for filesystem events on each node." />
 <meta property="og:site_name" content="Argus" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-11-30T16:26:38-05:00" />
+<meta property="article:published_time" content="2018-12-01T17:29:00-05:00" />
 <script type="application/ld+json">
-{"description":"Argus works by configuring a custom Kubernetes resource that defines paths and events that you want to be notified about for your current deployments. This custom resource, in conjunction with a cluster controller running and listening for lifecycle events, is responsible for maintaining a source of truth between the state of the cluster and the daemons listening for filesystem events on each node.","@type":"BlogPosting","url":"/argus/docs/getting-started/","headline":"Getting Started","datePublished":"2018-11-30T16:26:38-05:00","dateModified":"2018-11-30T16:26:38-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/argus/docs/getting-started/"},"@context":"http://schema.org"}</script>
+{"description":"Argus works by configuring a custom Kubernetes resource that defines paths and events that you want to be notified about for your current deployments. This custom resource, in conjunction with a cluster controller running and listening for lifecycle events, is responsible for maintaining a source of truth between the state of the cluster and the daemons listening for filesystem events on each node.","@type":"BlogPosting","url":"/argus/docs/getting-started/","headline":"Getting Started","datePublished":"2018-12-01T17:29:00-05:00","dateModified":"2018-12-01T17:29:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/argus/docs/getting-started/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="og:image" content=""/>
@@ -145,19 +145,13 @@ filesystem events on each node.</p>
 
 <p>In order to properly run these components, a Kubernetes cluster running
 <strong>v1.9</strong> or above is required. Depending on your environment, there may be
-additional requirements to run both the daemon as a privileged container and
-the controller with an appropriate level of access to receive cluster events.</p>
+additional requirements to run both the daemon with Linux capabilities and the
+controller with an appropriate level of access to receive cluster events.</p>
 
 <p>Since procfs <code class="highlighter-rouge">/proc/[pid]</code> subdirectories are owned by the effective user and
 group of the process, we require escalated privileges so the daemon can watch
 for filesystem events of any process running in your cluster, directly on the
 host.</p>
-
-<p>In addition, if using Docker as your container runtime, we will need to volume
-mount the <code class="highlighter-rouge">docker.pid</code>, <code class="highlighter-rouge">docker.sock</code>, and sysfs <code class="highlighter-rouge">cgroup</code> paths inside the
-daemon container so it can determine the PID from a container ID. Other
-container runtimes make this a bit easier to find the PID, so if not using
-Docker, you can feel free to remove these from the configs.</p>
 
 <p>If running in a multi-tenant environment, you certainly will <strong>not</strong> be able to
 have the kind of escalated privileges needed to gain access to the host
@@ -206,7 +200,7 @@ will be organized. In addition to creating a <code class="highlighter-rouge">Nam
 needs various <code class="highlighter-rouge">RoleBindings</code> for building and pulling images via an
 <code class="highlighter-rouge">ImageStream</code> and for our <code class="highlighter-rouge">ServiceAccount</code> to have an admin role reference.
 OpenShift also requires <code class="highlighter-rouge">SecurityContextConstraints</code> to properly run containers
-as certain users, as a privileged container, and gain access to the host PID
+as certain users, with Linux capabilities, and gain access to the host PID
 namespace and volume.</p>
 </li>
 
@@ -215,7 +209,7 @@ namespace and volume.</p>
 simplest being an archive file included in each release:</p>
 
 <div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm install <span class="se">\</span>
-  https://github.com/clustergarage/argus/releases/download/v0.3.0/argus-0.3.0.tgz
+  https://github.com/clustergarage/argus/releases/download/v0.4.0/argus-0.4.0.tgz
 </code></pre></div></div>
 
 <p>The other way is to add a Helm repository to your cluster and update/install
