@@ -5,12 +5,12 @@ subtitle: Installing Argus in your Kubernetes cluster
 tags: introduction arguswatcher
 ---
 
-**Argus** works by configuring a custom Kubernetes resource that defines
-paths and events that you want to be notified about for your current
-deployments. This custom resource, in conjunction with a cluster controller
-running and listening for lifecycle events, is responsible for maintaining a
-source of truth between the state of the cluster and the daemons listening for
-filesystem events on each node.
+**Argus** works by configuring a custom Kubernetes resource that defines paths
+and events that you want to be notified about for your current deployments.
+This custom resource, in conjunction with a cluster controller running and
+listening for lifecycle events, is responsible for maintaining a source of
+truth between the state of the cluster and the daemons listening for filesystem
+events on each node.
 
 #### Topics
 {:.no_toc}
@@ -25,7 +25,7 @@ additional requirements to run both the daemon with Linux capabilities and the
 controller with an appropriate level of access to receive cluster events.
 
 Since procfs `/proc/[pid]` subdirectories are owned by the effective user and
-group of the process, we require escalated privileges so the daemon can watch
+group of the process, we require escalated capabilities so the daemon can watch
 for filesystem events of any process running in your cluster, directly on the
 host.
 
@@ -40,8 +40,8 @@ OpenShift, which has additional security measures in place.
 
 {% codetabs %}
 {% codetab Kubernetes %}
-To deploy **Argus** on a vanilla Kubernetes environment, simply run an
-`apply` on the following hosted configuration:
+To deploy **Argus** on a vanilla Kubernetes environment, simply run an `apply`
+on the following hosted configuration:
 
 ```shell
 kubectl apply -f \
@@ -180,8 +180,8 @@ appropriate tolerance to the configuration.
 Certain images (such as the official **nginx**) will symlink to special devices
 such as `/var/log/nginx/access.log -> /dev/stdout`. These devices are streams
 which are symlinks to pseudo-terminals on the system and are not files that can
-be monitored by `inotify`. For the same reason, they are also not candidates for
-the practice of file integrity monitoring.
+be monitored by `inotify`. For the same reason, they are also not candidates
+for the practice of file integrity monitoring.
 
 ## Need Help?
 

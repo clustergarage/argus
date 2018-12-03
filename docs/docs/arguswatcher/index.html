@@ -14,9 +14,9 @@
 <meta property="og:description" content="Once you have Argus installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up an ArgusWatcher on your deployments are described below." />
 <meta property="og:site_name" content="Argus" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2018-12-01T17:29:00-05:00" />
+<meta property="article:published_time" content="2018-12-03T11:03:10-05:00" />
 <script type="application/ld+json">
-{"description":"Once you have Argus installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up an ArgusWatcher on your deployments are described below.","@type":"BlogPosting","url":"/argus/docs/arguswatcher/","headline":"Defining an ArgusWatcher","datePublished":"2018-12-01T17:29:00-05:00","dateModified":"2018-12-01T17:29:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/argus/docs/arguswatcher/"},"@context":"http://schema.org"}</script>
+{"description":"Once you have Argus installed on your cluster, you are ready to start setting up watchers for your deployments. All possible configurations of the how, and what, of setting up an ArgusWatcher on your deployments are described below.","@type":"BlogPosting","url":"/argus/docs/arguswatcher/","headline":"Defining an ArgusWatcher","datePublished":"2018-12-03T11:03:10-05:00","dateModified":"2018-12-03T11:03:10-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"/argus/docs/arguswatcher/"},"@context":"http://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <meta property="og:image" content=""/>
@@ -172,10 +172,10 @@ inside the path.</p>
     <span class="na">matchLabels</span><span class="pi">:</span>
       <span class="na">app</span><span class="pi">:</span> <span class="s">myapp</span>
   <span class="na">subjects</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">events</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">modify</span>
-    <span class="na">paths</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">paths</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">/path/to/watch</span>
+    <span class="na">events</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">modify</span>
 </code></pre></div></div>
 
 <h4 id="list-of-all-possible-events">List of all possible <code class="highlighter-rouge">events</code></h4>
@@ -221,10 +221,10 @@ possible new addition, deletion or update of a child path, even if the parent
 path is modified, deleted, unmounted, from under us.</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">subjects</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">events</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">modify</span>
-    <span class="na">paths</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">paths</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">/path/to/watch</span>
+    <span class="na">events</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">modify</span>
     <span class="na">recursive</span><span class="pi">:</span> <span class="no">true</span>
 </code></pre></div></div>
 
@@ -236,10 +236,10 @@ amount in the configuration. After that depth is reached it will stop at that
 leaf level and not go any further.</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">subjects</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">events</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">modify</span>
-    <span class="na">paths</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">paths</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">/path/to/watch</span>
+    <span class="na">events</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">modify</span>
     <span class="na">recursive</span><span class="pi">:</span> <span class="no">true</span>
     <span class="na">maxDepth</span><span class="pi">:</span> <span class="s">2</span>
 </code></pre></div></div>
@@ -252,13 +252,13 @@ can be provided. Currently, these ignored paths are a simple direct comparison,
 not a glob or regex check.</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">subjects</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">events</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">modify</span>
-    <span class="na">paths</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">paths</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">/path/to/watch</span>
     <span class="na">ignore</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">.cache</span>
     <span class="pi">-</span> <span class="s">.git</span>
+    <span class="na">events</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">modify</span>
     <span class="na">recursive</span><span class="pi">:</span> <span class="no">true</span>
 </code></pre></div></div>
 
@@ -274,11 +274,11 @@ directory; if this is not an actual directory it will ignore it from any
 listeners and will not receive any updates on that file.</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">subjects</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">events</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">modify</span>
-    <span class="na">paths</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">paths</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">/path/to/watch</span>
     <span class="pi">-</span> <span class="s">/file.ext</span>
+    <span class="na">events</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">modify</span>
     <span class="na">onlyDir</span><span class="pi">:</span> <span class="no">true</span>
 </code></pre></div></div>
 
@@ -300,10 +300,10 @@ and query language to target this specific subject.</p>
     <span class="na">matchLabels</span><span class="pi">:</span>
       <span class="na">app</span><span class="pi">:</span> <span class="s">myapp</span>
   <span class="na">subjects</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">events</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">modify</span>
-    <span class="na">paths</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">paths</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">/path/to/watch</span>
+    <span class="na">events</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">modify</span>
     <span class="na">tags</span><span class="pi">:</span>
       <span class="na">foo</span><span class="pi">:</span> <span class="s">bar</span>
       <span class="na">lorem</span><span class="pi">:</span> <span class="s">ipsum</span>
@@ -325,10 +325,10 @@ with specifiers that we will later interpolate with real values.</p>
       <span class="na">app</span><span class="pi">:</span> <span class="s">myapp</span>
   <span class="na">logFormat</span><span class="pi">:</span> <span class="s2">"</span><span class="s">event</span><span class="nv"> </span><span class="s">=</span><span class="nv"> </span><span class="s">{event};</span><span class="nv"> </span><span class="s">path</span><span class="nv"> </span><span class="s">=</span><span class="nv"> </span><span class="s">{path};</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">=</span><span class="nv"> </span><span class="s">{file}"</span>
   <span class="na">subjects</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">events</span><span class="pi">:</span>
-    <span class="pi">-</span> <span class="s">modify</span>
-    <span class="na">paths</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">paths</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="s">/path/to/watch</span>
+    <span class="na">events</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">modify</span>
 </code></pre></div></div>
 
 <p>The default log format is <code class="highlighter-rouge">{event} {ftype} '{path}{sep}{file}' ({pod}:{node}) {tags}</code>.</p>

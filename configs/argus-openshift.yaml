@@ -261,6 +261,7 @@ spec:
             - SYS_ADMIN
             - SYS_PTRACE
       hostPID: true
+      qosClass: Guaranteed
       serviceAccountName: argus-admin
       volumes:
       - name: sysfscgroup

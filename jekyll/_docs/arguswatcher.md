@@ -40,10 +40,10 @@ spec:
     matchLabels:
       app: myapp
   subjects:
-  - events:
-    - modify
-    paths:
+  - paths:
     - /path/to/watch
+    events:
+    - modify
 ```
 
 #### List of all possible `events`
@@ -86,10 +86,10 @@ path is modified, deleted, unmounted, from under us.
 
 ```yaml
   subjects:
-  - events:
-    - modify
-    paths:
+  - paths:
     - /path/to/watch
+    events:
+    - modify
     recursive: true
 ```
 
@@ -102,10 +102,10 @@ leaf level and not go any further.
 
 ```yaml
   subjects:
-  - events:
-    - modify
-    paths:
+  - paths:
     - /path/to/watch
+    events:
+    - modify
     recursive: true
     maxDepth: 2
 ```
@@ -119,13 +119,13 @@ not a glob or regex check.
 
 ```yaml
   subjects:
-  - events:
-    - modify
-    paths:
+  - paths:
     - /path/to/watch
     ignore:
     - .cache
     - .git
+    events:
+    - modify
     recursive: true
 ```
 
@@ -142,11 +142,11 @@ listeners and will not receive any updates on that file.
 
 ```yaml
   subjects:
-  - events:
-    - modify
-    paths:
+  - paths:
     - /path/to/watch
     - /file.ext
+    events:
+    - modify
     onlyDir: true
 ```
 
@@ -169,10 +169,10 @@ spec:
     matchLabels:
       app: myapp
   subjects:
-  - events:
-    - modify
-    paths:
+  - paths:
     - /path/to/watch
+    events:
+    - modify
     tags:
       foo: bar
       lorem: ipsum
@@ -195,10 +195,10 @@ spec:
       app: myapp
   logFormat: "event = {event}; path = {path}; file = {file}"
   subjects:
-  - events:
-    - modify
-    paths:
+  - paths:
     - /path/to/watch
+    events:
+    - modify
 ```
 
 The default log format is `{event} {ftype} '{path}{sep}{file}' ({pod}:{node}) {tags}`.
