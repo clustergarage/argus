@@ -32,7 +32,7 @@ graph RL
     A((procfs)) -->|inotify| B[argusnotify]
     subgraph daemon
     C{argusd} --> B
-    B .->|mqueue| C
+    B .->|logfn| C
     end
     D[argus-controller] ==>|gRPC| C
     C .-> D
