@@ -138,7 +138,7 @@ monitoring it as a directory.
 
 In the case of the example below, it would attempt to watch `file.ext` as a
 directory; if this is not an actual directory it will ignore it from any
-listeners and will not receive any updates on that file.
+listeners and will not receive any events on that file.
 
 ```yaml
   subjects:
@@ -149,6 +149,32 @@ listeners and will not receive any updates on that file.
     - modify
     onlyDir: true
 ```
+
+## Following move events of subject paths
+
+By default, when a directory you specify to watch is moved outside the current
+tree's view, an `IN_MOVE_SELF` event is fired, but the watch descriptor will
+no longer be able to receive new events on it. In order to follow these kinds
+of moves, and attempt to locate where the directory moved it via its inode
+value, a flag can be specified to do so.
+
+This only applies to paths specified in the subject definition. If you wish to
+receive these kinds of events on child directories, the `recursive` flag is the
+appropriate way to do that.
+
+```yaml
+  subjects:
+  - paths:
+    - /path/to/watch
+    events:
+    - modify
+    followMove: true
+```
+
+On receiving an `IN_MOVE_SELF` with this flag specified, when `/path/to/watch`
+is then located by its inode value, the watcher will be updated in-place to
+match the new location. If this is being watched recursively, it will make sure
+it is still being done so in this new location.
 
 ## Custom tagging
 
