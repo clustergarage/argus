@@ -1,6 +1,12 @@
 ---
-- title: v0.4.0
+- title: v0.5.0
   label: Latest Release
+  date: 12/18/2018
+  list:
+  - Added flag to follow move events on specified subject paths, in order to
+    continue watching them even if they're moved out of the current tree view.
+- title: v0.4.0
+  label: Release
   date: 12/01/2018
   list:
   - Updated `securityContext` definitions to only include required capabilities
