@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
       - name: arguscontroller
-        image: clustergarage/argus-controller:v0.4.0
+        image: clustergarage/argus-controller:v0.5.0
         ports:
         - name: prometheus
           containerPort: 2112
@@ -132,7 +132,7 @@ spec:
     spec:
       containers:
       - name: argusd
-        image: clustergarage/argusd:v0.4.0
+        image: clustergarage/argusd:v0.5.0
         command: [
           "/argusd",
           "-tlscafile", "/usr/lib/ssl/certs/ca.pem",

@@ -144,10 +144,10 @@ metadata:
   namespace: argus
 spec:
   tags:
-  - name: v0.4.0
+  - name: v0.5.0
     from:
       kind: DockerImage
-      name: clustergarage/argus-controller:v0.4.0
+      name: clustergarage/argus-controller:v0.5.0
   - name: latest
     from:
       kind: DockerImage
@@ -171,7 +171,7 @@ spec:
     spec:
       containers:
       - name: arguscontroller
-        image: clustergarage/argus-controller:v0.4.0
+        image: clustergarage/argus-controller:v0.5.0
         ports:
         - name: prometheus
           containerPort: 2112
@@ -195,7 +195,7 @@ spec:
       - arguscontroller
       from:
         kind: ImageStreamTag
-        name: argus-controller:v0.4.0
+        name: argus-controller:v0.5.0
   strategy:
     type: Rolling
     rollingParams:
@@ -240,7 +240,7 @@ spec:
     spec:
       containers:
       - name: argusd
-        image: clustergarage/argusd:v0.4.0
+        image: clustergarage/argusd:v0.5.0
         ports:
         - name: grpc
           containerPort: 50051
