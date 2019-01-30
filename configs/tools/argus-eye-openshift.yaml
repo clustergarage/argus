@@ -1,0 +1,83 @@
+---
+apiVersion: v1
+kind: ImageStream
+metadata:
+  labels:
+    app: argus-eye
+  name: argus-eye
+  namespace: argus
+spec:
+  tags:
+  - name: v0.1.0
+    from:
+      kind: DockerImage
+      name: clustergarage/argus-eye:v0.1.0
+  - name: latest
+    from:
+      kind: DockerImage
+      name: clustergarage/argus-eye:latest
+---
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: argus-eye
+  namespace: argus
+  labels:
+    app: argus-eye
+spec:
+  replicas: 1
+  selector:
+    app: argus-eye
+  template:
+    metadata:
+      labels:
+        app: argus-eye
+    spec:
+      containers:
+      - name: argus-eye
+        image: clustergarage/argus-eye:v0.1.0
+        ports:
+        - name: node
+          containerPort: 3000
+        volumeMounts:
+        - name: dockersock
+          mountPath: /var/run/docker.sock
+        securityContext:
+          capabilities:
+            add:
+            - SYS_ADMIN
+            - SYS_PTRACE
+      hostPID: true
+      qosClass: Guaranteed
+      serviceAccountName: argus-admin
+      volumes:
+      - name: dockersock
+        hostPath:
+          path: /var/run/docker.sock
+  triggers:
+  - type: ConfigChange
+  - type: ImageChange
+    imageChangeParams:
+      automatic: true
+      containerNames:
+      - argus-eye
+      from:
+        kind: ImageStreamTag
+        name: argus-eye:v0.1.0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argus-eye
+  namespace: argus
+  labels:
+    app: argus-eye
+spec:
+  selector:
+    app: argus-eye
+  clusterIP: None
+  ports:
+  - name: node
+    protocol: TCP
+    port: 3000
+    targetPort: node

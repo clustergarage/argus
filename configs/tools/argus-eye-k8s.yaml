@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: argus-eye
+  namespace: argus
+  labels:
+    app: argus-eye
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: argus-eye
+  template:
+    metadata:
+      labels:
+        app: argus-eye
+    spec:
+      containers:
+      - name: argus-eye
+        image: clustergarage/argus-eye:v0.1.0
+        ports:
+        - name: node
+          containerPort: 3000
+        volumeMounts:
+        - name: dockersock
+          mountPath: /var/run/docker.sock
+        securityContext:
+          capabilities:
+            add:
+            - SYS_ADMIN
+            - SYS_PTRACE
+      hostPID: true
+      serviceAccountName: argus-admin
+      volumes:
+      - name: dockersock
+        hostPath:
+          path: /var/run/docker.sock
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: argus-eye
+  namespace: argus
+  labels:
+    app: argus-eye
+spec:
+  selector:
+    app: argus-eye
+  clusterIP: None
+  ports:
+  - name: node
+    protocol: TCP
+    port: 3000
+    targetPort: node
