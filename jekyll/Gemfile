@@ -2,11 +2,6 @@ source "https://rubygems.org"
 
 group :jekyll_plugins do
   gem "github-pages"
-  gem "jekyll-avatar"
   gem "jekyll-code-tabs"
-  gem "jekyll-feed"
   gem "jekyll-mermaid"
-  gem "jekyll-redirect-from"
-  gem "jekyll-remote-theme"
-  gem "jekyll-seo-tag"
 end
